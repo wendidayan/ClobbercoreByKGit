@@ -214,7 +214,7 @@
                         @foreach ($thriftDeals as $product)
                             <div class="col item">
                                 <div class="card">
-                                    <div class="card-body"><a href="ProductView.html"><img class="img-fluid" src="{{ asset($product->image) }}" alt="{{ $product->name }}"></a>
+                                    <div class="card-body"><a href="{{ route('product.view', $product->id) }}"><img class="img-fluid" src="{{ asset($product->image) }}" alt="{{ $product->name }}"></a>
                                         <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">{{ $product->name }}</h4>
                                         <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱{{ $product->price }}</span></p>
                                         <div class="row text-center d-flex justify-content-between buy-add-button">
@@ -360,12 +360,14 @@
                 </div><button class="btn scroll-btn prev-btn" type="button" onclick="scrollGallery(-1)" style="width: 40px;height: 40px;"><i class="fa fa-chevron-left"></i></button>
                 <div id="newArrivals" class="new-arrivals-wrapper py-4 py-xl-5 mt-0 pt-4">
                 @foreach ( $newArrivals as $product)   
-                <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);font-family:'Open Sans', sans-serif;"><img src="assets/img/1.png">
+                <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);font-family:'Open Sans', sans-serif;"> 
+                    <a href="{{ route('product.view', $product->id) }}" style="text-decoration: none; color:inherit;"><img src="assets/img/1.png">
                         <p class="product-title" style="text-align:left;">{{ $product->name }}</p>
                         <div class="row text-center d-flex justify-content-between buy-add-button" style="margin-right:-5px;margin-left:-5px;">
                             <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:28px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);">Mine</a></button></div>
                             <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;background:#d7ac4b;border-style:none;width:90%;height:28px;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);font-size:12px;">Add to Cart</a></button></div>
                         </div>
+                    </a>
                     </div>@endforeach
                     <!--
                     <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);"><img src="assets/img/1.png">
@@ -486,245 +488,16 @@
                         <div class="row gx-2 gy-2 row-cols-1 row-cols-md-2 row-cols-xl-5 photos" data-bss-baguettebox="">
                         @foreach ( $allProducts as $product)  
                             <div class="col item">
+                            <a href="{{ route('product.view', $product->id) }}" style="text-decoration: none; color: inherit;">
                                 <div class="card">
                                     <div class="card-body"><img class="img-fluid" src="assets/img/1.png">
                                         <h4 class="card-title" style="font-size:16px;margin-top:12px;margin-bottom:12px;">{{ $product->name }}</h4>
                                         <h3 style="font-size:18px;font-weight:bold;color:#d7ac4b;">₱&nbsp;<span id="price">{{ $product->price }}</span></h3>
                                     </div>
                                 </div>
-                            </div>@endforeach
-                        <!--    <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/6.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-14">100</span></h3>
-                                    </div>
-                                </div>
+                                </a>
                             </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/2.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-4">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/7.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-5">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/2.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-13">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/5.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-3">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/1.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-6">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/3.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-12">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/2.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-29">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/1.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-28">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/3.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-27">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/7.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-26">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/6.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-25">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/4.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-24">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/3.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-23">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/5.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-22">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/7.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-21">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/1.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-20">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/4.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-19">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/2.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-18">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/4.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-17">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/2.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-16">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/4.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-15">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/7.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-2">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/2.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-7">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/2.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-8">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/1.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-11">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/6.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-10">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/7.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-1">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/5.png">
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;margin-bottom: 12px;">Product Descrip</h4>
-                                        <h3 style="font-size: 18px;font-weight: bold;color: #d7ac4b;">₱&nbsp;<span id="price-9">100</span></h3>
-                                    </div>
-                                </div>
-                            </div>-->
+                            @endforeach
                         </div>
                     </div>
                 </section>

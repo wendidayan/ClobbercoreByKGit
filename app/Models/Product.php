@@ -11,6 +11,16 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'category', 'price', 'is_thrift_deal', 'is_new_arrival', 'image', 'description'
+        'name', 'category_id', 'subcategory_id', 'price', 'is_thrift_deal', 'is_new_arrival',
+        'image', 'description', 'color', 'size', 'style', 'condition', 'material'
     ];
+
+    public function category() {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function subcategory() {
+        return $this->belongsTo(Subcategory::class);
+    }
+
 }

@@ -22,6 +22,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('/auth/google/call-back', [AuthController::class, 'handleGoogleCallback']);
 
+//Shopping Page after Log In
+Route::get('/ShoppingPage', [ProductController::class, 'index'])->name('ShoppingPage');
+
+Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.view');
+
 
 
 
@@ -31,4 +36,4 @@ Route::get('/dashboard', function () {
 
 
 
-Route::get('/ShoppingPage', [ProductController::class, 'index'])->name('ShoppingPage');
+
