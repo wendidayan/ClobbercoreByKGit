@@ -1,0 +1,62 @@
+/* Login Css */
+
+.left {
+  flex: 1;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.right {
+  flex: 1;
+  background: url('../../assets/img/maincover576.png') no-repeat center center/cover;
+  position: relative;
+}
+
+@media (min-width: 1400px) {
+  body {
+    width: 100%;
+    height: 100vh;
+  }
+}
+
+@media (min-width: 1200px) {
+  body {
+    background: url("../../assets/img/plastic1200.png") center / cover no-repeat;
+    width: 100%;
+    height: 100vh;
+  }
+}
+
+@media (min-width: 992px) {
+  body {
+    background: url("../../assets/img/plastic992.png") center / cover no-repeat;
+    width: 100%;
+    height: 100vh;
+  }
+}
+
+@media (min-width: 768px) {
+  body {
+    background: url("../../assets/img/plastic768.png") center / cover no-repeat;
+    width: 100%;
+    height: 100vh;
+  }
+}
+
+@media (min-width: 576px) {
+  body {
+    background: url("../../assets/img/plastic.png") center / cover no-repeat;
+    width: 100%;
+    height: 100vh;
+  }
+}
+
+@media (min-width: 300px) {
+  body {
+    background: url("../../assets/img/plastic360.png") center / cover no-repeat;
+    width: 100%;
+  }
+}
+
