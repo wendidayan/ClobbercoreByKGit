@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 
 // Default Route (Landing Page)
 Route::get('/', function () {
@@ -29,11 +30,60 @@ Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.v
 
 
 
+/*
+Route::get('/get-filters', [CategoryController::class, 'getFilters'])->name('get.filters');
+Route::get('/get-products', [ProductController::class, 'getProducts'])->name('get.products');
+Route::get('/get-subcategories/{category_id}', [CategoryController::class, 'getSubcategories'])->name('get.subcategories');
 
-Route::get('/dashboard', function () {
-    return view('dashboard'); // Ensure a 'dashboard.blade.php' exists in resources/views
-})->name('dashboard');
+*/
 
 
+
+
+Route::get('/Homepage', function () {
+    return view('Homepage'); // Ensure a 'dashboard.blade.php' exists in resources/views
+})->name('Homepage');
+
+
+Route::get('/Collections', function () {
+    return view('Collections'); // Ensure a 'dashboard.blade.php' exists in resources/views
+})->name('Collections');
+
+Route::get('/PlaceOrder', function () {
+    return view('PlaceOrder'); // Ensure a 'dashboard.blade.php' exists in resources/views
+})->name('PlaceOrder');
+
+Route::get('/ToPay', function () {
+    return view('ToPay'); // Ensure a 'dashboard.blade.php' exists in resources/views
+})->name('ToPay');
+
+Route::get('/UserProfile', function () {
+    return view('UserProfile'); // Ensure a 'dashboard.blade.php' exists in resources/views
+})->name('UserProfile');
+
+
+
+
+
+Route::get('/Clothing', [ProductController::class, 'Clothing'])->name('Clothing');
+
+Route::get('/apply-filters', [ProductController::class, 'applyFilters']);
+Route::get('/get-subcategories', [ProductController::class, 'getSubcategories']);
+
+
+
+
+
+
+
+
+
+
+
+
+Route::get('/categories/{type}', [ProductController::class, 'getCategoriesByType']);
+Route::get('/subcategories/{categoryId}', [ProductController::class, 'getSubcategoriesByCategory']);
+Route::get('/products/filters', [ProductController::class, 'getFilters']);
+Route::get('/products/filter', [ProductController::class, 'getFilteredProducts']);
 
 
