@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>EcommerceFinalNaTalaga (Backup 1741367607420)</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700,800&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,700,800&amp;display=swap">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
 </head>
 
 <body style="background: #f5f5f5;">
@@ -68,6 +68,8 @@
                     </select></div>
             </div>
         </div>
+
+
         <div class="container checkout-container mt-4" style="background: var(--bs-white);border-radius: 3px;">
             <div class="order-container">
                 <div class="label-section" style="border-right-color: 37,;border-bottom-color: 41);border-left-color: 37,;">
@@ -78,31 +80,31 @@
                         <h5 style="color: var(--bs-secondary);">Unit Price</h5>
                     </div>
                 </div>
-                <div class="product-order"><img class="object-fit-cover" src="assets/img/6.png" style="width: 80px;height: 80px;">
+
+                @foreach ($orders as $order)
+                @foreach ($order->orderItems as $item)
+                <div class="product-order"><img class="object-fit-cover" src="{{ asset($item->product->image) }}" style="width: 80px;height: 80px;">
                     <div class="order-info"></div>
-                    <p>NIVEA Face Cleanser MicellAIR Acne Care, Mak...</p>
-                    <h5>₱&nbsp;<span>0</span></h5>
+                    <p>{{ $item->product->name }}</p>
+                    <h5>₱&nbsp;<span>{{ number_format($item->price, 2) }}</span></h5>
                 </div>
-                <div class="product-order"><img class="object-fit-cover" src="assets/img/about360.png" style="width: 80px;height: 80px;">
-                    <div class="order-info"></div>
-                    <p>NIVEA Face Cleanser MicellAIR Acne Care, Mak...</p>
-                    <h5>₱&nbsp;<span>0</span></h5>
-                </div>
-                <div class="product-order"><img class="object-fit-cover" src="assets/img/maincover360.png" style="width: 80px;height: 80px;">
-                    <div class="order-info"></div>
-                    <p>NIVEA Face Cleanser MicellAIR Acne Care, Mak...</p>
-                    <h5>₱&nbsp;<span>0</span></h5>
-                </div>
+                @endforeach
+                @endforeach
+
+
+
                 <div class="divider"></div>
                 <div class="shipping">
                     <p style="color: rgb(51, 51, 51);">Shipping Option: Standard Local - ₱<span>36</span></p>
                 </div>
                 <div class="d-flex justify-content-end align-items-center totalamount gap-5">
-                    <h4>Order Total (2 item):&nbsp;</h4>
-                    <h2>₱ 230</h2>
+                    <h4>Order Total ({{ $orders->sum(fn($o) => $o->orderItems->count()) }} item):&nbsp;</h4>
+                    <h2>₱ {{ number_format($orders->sum('total_price'), 2) }}</h2>
                 </div>
             </div>
         </div>
+
+        
         <div class="container checkout-container mt-4" style="background: var(--bs-white);border-radius: 3px;">
             <div class="final-placeorder">
                 <div class="d-flex justify-content-between voucher-card" style="margin: 0px 0px 15px;padding: 0px 0px 10px;border-top-color: #ddd;border-bottom: 1.5px dashed #ddd ;">
@@ -119,18 +121,24 @@
                 <div class="sub-info mb-3" style="border-top: 1px dashed #ddd ;">
                     <div class="d-flex justify-content-end gap-5" style="border-top-color: rgb(51,51,51);">
                         <h6 style="font-size: 14px;color: rgb(108,117,125);">Merchandise Subtotal&nbsp;</h6>
-                        <h6>₱ 0</h6>
+                        <h6>₱ {{ number_format($orders->sum('total_price'), 2) }}</h6>
                     </div>
                     <div class="d-flex justify-content-end gap-5">
                         <h6 style="font-size: 14px;color: rgb(108,117,125);">Shipping Subtotal</h6>
-                        <h6>₱ 0</h6>
+                        <h6>₱ 36</h6>
                     </div>
                     <div class="d-flex justify-content-end align-items-center gap-5">
                         <h6 style="font-size: 14px;color: rgb(108,117,125);">Total Payment:&nbsp;</h6>
-                        <h6 style="border-top-width: 4px;font-size: 24px;font-weight: bold;color: red;">₱0</h6>
+                        <h6 style="border-top-width: 4px;font-size: 24px;font-weight: bold;color: red;">₱{{ number_format($orders->sum('total_price') + 36, 2) }}</h6>
                     </div>
                 </div>
-                <div class="d-flex justify-content-end"><a class="btn checkout-btn" role="button" style="border-radius: 3px;" href="#">Place Order</a></div>
+                <form action="{{ route('paymongo.checkout') }}" method="POST">
+                @csrf
+                <input type="hidden" name="amount" value="{{ $orders->sum('total_price') + 36 }}">
+                <div class="d-flex justify-content-end">
+                    <button class="btn checkout-btn" type="submit" style="border-radius: 3px;">Place Order</button>
+                </div>
+            </form>
             </div>
         </div>
     </div>

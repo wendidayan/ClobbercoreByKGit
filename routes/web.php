@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 
 // Default Route (Landing Page)
 Route::get('/', function () {
@@ -25,17 +27,24 @@ Route::get('/auth/google/call-back', [AuthController::class, 'handleGoogleCallba
 
 //Shopping Page after Log In
 Route::get('/ShoppingPage', [ProductController::class, 'index'])->name('ShoppingPage');
-
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.view');
 
+//Filter for Specific Products
+Route::get('/Clothing', [ProductController::class, 'Clothing'])->name('Clothing');
+Route::get('/apply-filters', [ProductController::class, 'applyFilters']);
+Route::get('/get-subcategories', [ProductController::class, 'getSubcategories']);
+
+Route::get('/ToPay', [OrderController::class, 'checkout'])->middleware('auth')->name('ToPay');
+
+Route::post('/paymongo/checkout', [PaymentController::class, 'createPaymentIntent'])->name('paymongo.checkout');
+Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
+Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
 
-/*
-Route::get('/get-filters', [CategoryController::class, 'getFilters'])->name('get.filters');
-Route::get('/get-products', [ProductController::class, 'getProducts'])->name('get.products');
-Route::get('/get-subcategories/{category_id}', [CategoryController::class, 'getSubcategories'])->name('get.subcategories');
+Route::post('/order/mine', [OrderController::class, 'mine'])->name('order.mine');
+Route::get('/order/topay', [OrderController::class, 'toPay'])->name('order.topay');
 
-*/
+
 
 
 
@@ -53,9 +62,9 @@ Route::get('/PlaceOrder', function () {
     return view('PlaceOrder'); // Ensure a 'dashboard.blade.php' exists in resources/views
 })->name('PlaceOrder');
 
-Route::get('/ToPay', function () {
-    return view('ToPay'); // Ensure a 'dashboard.blade.php' exists in resources/views
-})->name('ToPay');
+//Route::get('/ToPay', function () {
+ //   return view('ToPay'); // Ensure a 'dashboard.blade.php' exists in resources/views
+//})->name('ToPay');
 
 Route::get('/UserProfile', function () {
     return view('UserProfile'); // Ensure a 'dashboard.blade.php' exists in resources/views
@@ -65,10 +74,7 @@ Route::get('/UserProfile', function () {
 
 
 
-Route::get('/Clothing', [ProductController::class, 'Clothing'])->name('Clothing');
 
-Route::get('/apply-filters', [ProductController::class, 'applyFilters']);
-Route::get('/get-subcategories', [ProductController::class, 'getSubcategories']);
 
 
 

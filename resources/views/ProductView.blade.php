@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-12 col-lg-6 mb-4 mt-4">
-                <p class="text-muted">Category:&nbsp;<a class="text-decoration-none" href="#"> {{ $product->category->name }}&gt;  {{ $product->category->name }}  {{ $product->subcategory->name }}</a></p>
+                <p class="text-muted">Category:&nbsp;<a class="text-decoration-none" href="#"> {{ $product->category->name }}&gt; {{ $product->subcategory->name }}</a></p>
                 <h3 class="mb-3">{{ $product->name }}</h3>
                 <h2 class="fw-bold mb-3" style="font-weight:bold;">₱&nbsp;<span>{{ $product->price }}</span></h2>
                 <ul class="list-unstyled mb-3">
@@ -60,7 +60,18 @@
                 <p class="fw-bold text-success mt-3 mb-3">Only 1 piece available</p>
                 <div class="row text-center d-flex justify-content-between buy-add-button mt-5">
                     <div class="col" style="padding:0px 0px;height:50px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;background:rgba(215,172,75,0.14);width:90%;height:50px;border-style:solid;border-color:#d7ac4b;"><a class="text-decoration-none" href="#" style="color:#d7ac4b;font-size:14px;">Add To Cart&nbsp;</a></button></div>
-                    <div class="col-6" style="padding:0px 0px;height:50px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:50px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);font-size:14px;">Mine</a></button></div>
+                    <div class="col-6" style="padding:0px 0px;height:50px;">
+                    <form action="{{ route('order.mine') }}" method="POST">
+    @csrf
+    <input type="hidden" name="product_id" value="{{ $product->id }}">
+    <input type="hidden" name="price" value="{{ $product->price }}">
+    <input type="hidden" name="quantity" value="1"> <!-- Assuming 1 piece only -->
+    <button class="btn btn-primary" type="submit" style="font-size:12px;padding:5px 10px;width:90%;height:50px;background:#d7ac4b;border-style:none;">
+        <span style="color:var(--bs-light);font-size:14px;">Mine</span>
+    </button>
+</form>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -78,7 +89,7 @@
                             <div class="d-flex spec1">
                                 <h3 style="font-size: 14px;color: var(--bs-gray);">Category&nbsp;</h3>
                                 <div>
-                                    <h3 style="font-size:14px;"> {{ $product->category->name }} &gt;  {{ $product->category->name }}  {{ $product->subcategory->name }}</h3>
+                                    <h3 style="font-size:14px;"> {{ $product->category->name }} &gt; {{ $product->subcategory->name }}</h3>
                                 </div>
                             </div>
                         </div>

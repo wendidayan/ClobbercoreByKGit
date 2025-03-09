@@ -41,4 +41,10 @@ return [
     'redirect' => 'http://127.0.0.1:8000/auth/google/call-back',
     ],
 
+    'paymongo' => [
+        'secret' => env('PAYMONGO_SECRET_KEY'),
+        'public' => env('PAYMONGO_PUBLIC_KEY'),
+        'base_url' => 'https://api.paymongo.com/v1',
+    ],
+
 ];

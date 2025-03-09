@@ -53,9 +53,9 @@ class ProductController extends Controller
 
     public function applyFilters(Request $request)
     {
-        \Log::info('Filters applied:', $request->all()); // Log incoming request
+        \Log::info('Filters applied:', $request->all()); 
     
-        $query = Product::with('category', 'subcategory'); // Ensure relationships are loaded
+        $query = Product::with('category', 'subcategory'); 
     
         // Apply filters
         if ($request->category) {

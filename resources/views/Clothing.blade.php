@@ -48,8 +48,8 @@
                         <optgroup label="Select Category">
                             <option value="">Select Category</option>
                             @foreach($categories as $category)
-            <option value="{{ $category->id }}">{{ $category->name }}</option>
-        @endforeach
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
                         </optgroup>
                     </select><select id="filterSubcategory-2" class="form-select">
                         <optgroup label="Select Category">
@@ -59,19 +59,19 @@
                         <optgroup label="Select Size">
                             <option value="">Select Size</option>
                             @foreach($sizes as $size)
-            <option value="{{ $size->size }}">{{ $size->size }}</option>
-        @endforeach
+                            <option value="{{ $size->size }}">{{ $size->size }}</option>
+                            @endforeach
                         </optgroup>
                     </select><select class="form-select" id="filterColor">
                         <optgroup label="Select Color">
                             <option value="">Select Color</option>
                             @foreach($colors as $color)
-            <option value="{{ $color->color }}">{{ $color->color }}</option>
-        @endforeach
+                                <option value="{{ $color->color }}">{{ $color->color }}</option>
+                            @endforeach
                         </optgroup>
                     </select><button class="btn btn-primary" id="applyFilters" type="submit" style="background: var(--bs-white);border: 1px solid #d7ac4b;">Apply Filters</button></div>
 
-                    <div id="productList">   </div>
+                    <div id="productList"></div>
       
                     <div class="product-container new-arrival show">
                     <section id="new-arrival">
@@ -248,95 +248,93 @@
     <script src="assets/js/my-profileJS.js"></script>
     <script src="assets/js/my-purchaseTab.js"></script>
     <script src="assets/js/tabfunction.js"></script>
-
-
     
     <script>
-// Apply Filters
-document.getElementById('applyFilters').addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent default button behavior
+        // Apply Filters
+        document.getElementById('applyFilters').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default button behavior
 
-    let category = document.getElementById('filterCategory-1').value;
-    let subcategory = document.getElementById('filterSubcategory-2').value;
-    let size = document.getElementById('filterSize').value;
-    let color = document.getElementById('filterColor').value;
+            let category = document.getElementById('filterCategory-1').value;
+            let subcategory = document.getElementById('filterSubcategory-2').value;
+            let size = document.getElementById('filterSize').value;
+            let color = document.getElementById('filterColor').value;
 
-    // Construct query string
-    const queryString = new URLSearchParams({
-        category: category,
-        subcategory: subcategory,
-        size: size,
-        color: color
-    }).toString();
+            // Construct query string
+            const queryString = new URLSearchParams({
+                category: category,
+                subcategory: subcategory,
+                size: size,
+                color: color
+            }).toString();
 
-    fetch(`/apply-filters?${queryString}`)
-    .then(response => response.json())
-    .then(data => {
-        let products = data.products;
-        let productListHtml = `
-            <div class="container mt-0 pt-0">
-                <section class="photo-gallery py-4 py-xl-5 mt-0 pt-4" style="padding: 50px 0px;">
-                    <div class="container" style="font-family: 'Open Sans', sans-serif;padding: 0px;">
-                        <div class="row gx-2 gy-2 row-cols-1 row-cols-md-2 row-cols-xl-5 photos" data-bss-baguettebox="">`;
-
-        if (products.length > 0) {
-            products.forEach(product => {
-                productListHtml += `
-                    <div class="col item">
-                        <div class="card">
-                            <div class="card-body">
-                                <a href="/product/view/${product.id}">
-                                    <img class="img-fluid" src="${product.image}" alt="${product.name}">
-                                </a>
-                                <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">${product.name}</h4>
-                                <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱${product.price}</span></p>
-                                <div class="row text-center d-flex justify-content-between buy-add-button">
-                                    <div class="col" style="padding: 0px 0px;">
-                                        <button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;">
-                                            <a class="text-decoration-none" href="#" style="color: var(--bs-light);">Buy Now</a>
-                                        </button>
-                                    </div>
-                                    <div class="col" style="padding: 0px 0px;">
-                                        <button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;">
-                                            <a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>`;
-            });
-        } else {
-            productListHtml += `<p class="text-center">No products found with the selected filters.</p>`;
-        }
-
-        productListHtml += `</div></div></section></div>`;
-
-        document.getElementById('productList').innerHTML = productListHtml;
-    })
-    .catch(error => console.error('Error:', error));
-});
-
-// Dynamically Load Subcategories Based on Category Selection
-document.getElementById('filterCategory-1').addEventListener('change', function() {
-    let categoryId = this.value;
-
-    if (categoryId) {
-        fetch(`/get-subcategories?category_id=${categoryId}`)
+            fetch(`/apply-filters?${queryString}`)
             .then(response => response.json())
             .then(data => {
-                let subcategoryDropdown = document.getElementById('filterSubcategory-2');
-                subcategoryDropdown.innerHTML = '<option value="">Select Subcategory</option>';
+                let products = data.products;
+                let productListHtml = `
+                    <div class="container mt-0 pt-0">
+                        <section class="photo-gallery py-4 py-xl-5 mt-0 pt-4" style="padding: 50px 0px;">
+                            <div class="container" style="font-family: 'Open Sans', sans-serif;padding: 0px;">
+                                <div class="row gx-2 gy-2 row-cols-1 row-cols-md-2 row-cols-xl-5 photos" data-bss-baguettebox="">`;
 
-                data.subcategories.forEach(subcategory => {
-                    subcategoryDropdown.innerHTML += `<option value="${subcategory.id}">${subcategory.name}</option>`;
-                });
+                if (products.length > 0) {
+                    products.forEach(product => {
+                        productListHtml += `
+                            <div class="col item">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <a href="/product/view/${product.id}">
+                                            <img class="img-fluid" src="${product.image}" alt="${product.name}">
+                                        </a>
+                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">${product.name}</h4>
+                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱${product.price}</span></p>
+                                        <div class="row text-center d-flex justify-content-between buy-add-button">
+                                            <div class="col" style="padding: 0px 0px;">
+                                                <button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;">
+                                                    <a class="text-decoration-none" href="#" style="color: var(--bs-light);">Buy Now</a>
+                                                </button>
+                                            </div>
+                                            <div class="col" style="padding: 0px 0px;">
+                                                <button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;">
+                                                    <a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                    });
+                } else {
+                    productListHtml += `<p class="text-center">No products found with the selected filters.</p>`;
+                }
+
+                productListHtml += `</div></div></section></div>`;
+
+                document.getElementById('productList').innerHTML = productListHtml;
             })
             .catch(error => console.error('Error:', error));
-    }
-});
-</script>
+        });
+
+        // Dynamically Load Subcategories Based on Category Selection
+        document.getElementById('filterCategory-1').addEventListener('change', function() {
+            let categoryId = this.value;
+
+            if (categoryId) {
+                fetch(`/get-subcategories?category_id=${categoryId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let subcategoryDropdown = document.getElementById('filterSubcategory-2');
+                        subcategoryDropdown.innerHTML = '<option value="">Select Subcategory</option>';
+
+                        data.subcategories.forEach(subcategory => {
+                            subcategoryDropdown.innerHTML += `<option value="${subcategory.id}">${subcategory.name}</option>`;
+                        });
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        });
+    </script>
+
 
 </body>
-
 </html>

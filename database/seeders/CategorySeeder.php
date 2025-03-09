@@ -14,9 +14,9 @@ class CategorySeeder extends Seeder
      */
     public function run() {
         $categories = [
-            'Men\'s' => ['Shirts', 'Shoes', 'Bags'],
-            'Women\'s' => ['Dresses', 'Shoes', 'Handbags'],
-            'Kids' => ['Toys', 'Clothes', 'Shoes']
+            'Men\'s' => ['Men\'s Shirts', 'Men\'s Shoes', 'Men\'s Bags'],
+            'Women\'s' => ['Women\'s Shirts', 'Women\'s Shoes', 'Wonen\'s Bags'],
+            'Kids' => ['Kids Shirts', 'Kids Shoes', 'Kids Bags']
         ];
     
         foreach ($categories as $categoryName => $subcategories) {
