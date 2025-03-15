@@ -6,6 +6,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\CartController;
+
 
 // Default Route (Landing Page)
 Route::get('/', function () {
@@ -34,17 +36,38 @@ Route::get('/Clothing', [ProductController::class, 'Clothing'])->name('Clothing'
 Route::get('/apply-filters', [ProductController::class, 'applyFilters']);
 Route::get('/get-subcategories', [ProductController::class, 'getSubcategories']);
 
-Route::get('/ToPay', [OrderController::class, 'checkout'])->middleware('auth')->name('ToPay');
+
+
+
+Route::post('/place-order', [OrderController::class, 'placeOrder'])->name('order.place');
+Route::get('/order-pending', function () {
+    return view('orders.pending');
+})->name('orders.pending');
 
 Route::post('/paymongo/checkout', [PaymentController::class, 'createPaymentIntent'])->name('paymongo.checkout');
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
-
-Route::post('/order/mine', [OrderController::class, 'mine'])->name('order.mine');
+Route::get('/ToPay', [OrderController::class, 'checkout'])->middleware('auth')->name('ToPay');
+Route::post('/order/mine/{productId}', [OrderController::class, 'mine'])->name('order.mine');
+//Route::post('/order/mine', [OrderController::class, 'mine'])->name('order.mine');
 Route::get('/order/topay', [OrderController::class, 'toPay'])->name('order.topay');
+Route::post('/place-order', [OrderController::class, 'placeOrder'])->name('order.place');
 
 
+
+
+
+
+
+
+
+//Cart
+Route::middleware(['auth'])->group(function () {
+    Route::post('/cart/add/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
+    Route::delete('/cart/remove/{cartItemId}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+});
 
 
 
@@ -91,5 +114,3 @@ Route::get('/categories/{type}', [ProductController::class, 'getCategoriesByType
 Route::get('/subcategories/{categoryId}', [ProductController::class, 'getSubcategoriesByCategory']);
 Route::get('/products/filters', [ProductController::class, 'getFilters']);
 Route::get('/products/filter', [ProductController::class, 'getFilteredProducts']);
-
-

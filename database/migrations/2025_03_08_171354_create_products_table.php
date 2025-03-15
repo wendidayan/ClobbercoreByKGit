@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('style')->nullable(); 
             $table->string('condition')->nullable(); 
             $table->string('material')->nullable(); 
+            $table->boolean('is_sold')->default(false);
             $table->timestamps();
         });
     }

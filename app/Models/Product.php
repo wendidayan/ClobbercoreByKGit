@@ -12,7 +12,7 @@ class Product extends Model
 
     protected $fillable = [
         'name', 'category_id', 'subcategory_id', 'price', 'is_thrift_deal', 'is_new_arrival',
-        'image', 'description', 'color', 'size', 'style', 'condition', 'material'
+        'image', 'description', 'color', 'size', 'style', 'condition', 'material', 'is_sold'
     ];
 
     public function category() {

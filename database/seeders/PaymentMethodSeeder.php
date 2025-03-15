@@ -14,10 +14,10 @@ class PaymentMethodSeeder extends Seeder
     public function run(): void
     {
         //
-        PaymentMethod::insert([
-            ['name' => 'Credit Card'],
-            ['name' => 'PayPal'],
-            ['name' => 'Cash on Delivery'],
-        ]);
+      /*   PaymentMethod::insert([
+            ['name' => 'cod'],
+            ['name' => 'gcash'],
+            ['name' => 'paymaya'],
+        ]); */
     }
 }

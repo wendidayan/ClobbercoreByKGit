@@ -13,9 +13,9 @@ class ProductController extends Controller
     public function index()
     {
         // Get products based on filters
-        $thriftDeals = Product::where('is_thrift_deal', true)->get();
-        $newArrivals = Product::where('is_new_arrival', true)->get();
-        $allProducts = Product::all();
+        $thriftDeals = Product::where('is_thrift_deal', true)->where('is_sold', false)->get();
+        $newArrivals = Product::where('is_new_arrival', true)->where('is_sold', false)->get();
+        $allProducts = Product::where('is_sold', false)->get();
 
         return view('ShoppingPage', compact('thriftDeals', 'newArrivals', 'allProducts'));
     }
@@ -36,9 +36,9 @@ class ProductController extends Controller
     public function Clothing()
     {
         // Get products based on filters
-        $thriftDeals = Product::where('is_thrift_deal', true)->get();
-        $newArrivals = Product::where('is_new_arrival', true)->get();
-        $allProducts = Product::all();
+        $thriftDeals = Product::where('is_thrift_deal', true)->where('is_sold', false)->get();
+        $newArrivals = Product::where('is_new_arrival', true)->where('is_sold', false)->get();
+        $allProducts = Product::where('is_sold', false)->get();
 
 
         // Fetch categories, subcategories, sizes, and colors

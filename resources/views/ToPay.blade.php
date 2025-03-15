@@ -80,15 +80,15 @@
                         <h5 style="color: var(--bs-secondary);">Unit Price</h5>
                     </div>
                 </div>
-
-                @foreach ($orders as $order)
-                @foreach ($order->orderItems as $item)
-                <div class="product-order"><img class="object-fit-cover" src="{{ asset($item->product->image) }}" style="width: 80px;height: 80px;">
+                @php
+                $totalPrice = collect($mineItems)->sum(fn($item) => $item['price']);
+                @endphp
+                @foreach ($mineItems as $item)
+                <div class="product-order"><img class="object-fit-cover" src="{{ asset('assets/img/1.png') }}" style="width: 80px;height: 80px;">
                     <div class="order-info"></div>
-                    <p>{{ $item->product->name }}</p>
-                    <h5>₱&nbsp;<span>{{ number_format($item->price, 2) }}</span></h5>
+                    <p>{{ $item['name'] }}</p>
+                    <h5>₱&nbsp;<span>{{ number_format($item['price'], 2) }}</span></h5>
                 </div>
-                @endforeach
                 @endforeach
 
 
@@ -97,9 +97,12 @@
                 <div class="shipping">
                     <p style="color: rgb(51, 51, 51);">Shipping Option: Standard Local - ₱<span>36</span></p>
                 </div>
+                @php
+                $totalAmount = $totalPrice + 36; // Adding the shipping fee
+                @endphp
                 <div class="d-flex justify-content-end align-items-center totalamount gap-5">
-                    <h4>Order Total ({{ $orders->sum(fn($o) => $o->orderItems->count()) }} item):&nbsp;</h4>
-                    <h2>₱ {{ number_format($orders->sum('total_price'), 2) }}</h2>
+                    <h4>Order Total  ({{ count($mineItems) }} item{{ count($mineItems) > 1 ? 's' : '' }}):&nbsp;</h4>
+                    <h2>₱ {{ number_format($totalAmount, 2) }}</h2>
                 </div>
             </div>
         </div>
@@ -110,9 +113,15 @@
                 <div class="d-flex justify-content-between voucher-card" style="margin: 0px 0px 15px;padding: 0px 0px 10px;border-top-color: #ddd;border-bottom: 1.5px dashed #ddd ;">
                     <h5 style="font-size: 16px;">Platform Voucher</h5><a class="text-decoration-none" href="#">Select Voucher</a>
                 </div>
+                <form action="{{ route('order.place') }}" method="POST">
+                @csrf
+                @php
+                $totalAmount = $mineItems ? collect($mineItems)->sum('price') + 36 : 36;
+                @endphp
+            <input type="hidden" name="amount" value="{{ $totalAmount }}">
                 <div class="d-flex justify-content-between payment-method-card mt-3 mb-3">
-                    <h4 style="font-size: 18px;">Payment Method</h4><select style="border-radius: 3px;font-size: 14px;width: 170px;border: 0.8px solid rgba(108,117,125,0.3) ;border-top-style: solid;">
-                        <option value="" selected="">Select</option>
+                    <h4 style="font-size: 18px;">Payment Method</h4><select name="payment_method" required style="border-radius: 3px;font-size: 14px;width: 170px;border: 0.8px solid rgba(108,117,125,0.3) ;border-top-style: solid;">
+                        <option value="" selected="">Select</option> <!-- payment method already saving in database -->
                         <option value="cod">Cash On Delivery</option>
                         <option value="gcash">Gcash</option>
                         <option value="paymaya">Paymaya</option>
@@ -121,7 +130,7 @@
                 <div class="sub-info mb-3" style="border-top: 1px dashed #ddd ;">
                     <div class="d-flex justify-content-end gap-5" style="border-top-color: rgb(51,51,51);">
                         <h6 style="font-size: 14px;color: rgb(108,117,125);">Merchandise Subtotal&nbsp;</h6>
-                        <h6>₱ {{ number_format($orders->sum('total_price'), 2) }}</h6>
+                        <h6>₱{{ number_format($totalAmount - 36, 2) }}</h6>
                     </div>
                     <div class="d-flex justify-content-end gap-5">
                         <h6 style="font-size: 14px;color: rgb(108,117,125);">Shipping Subtotal</h6>
@@ -129,12 +138,9 @@
                     </div>
                     <div class="d-flex justify-content-end align-items-center gap-5">
                         <h6 style="font-size: 14px;color: rgb(108,117,125);">Total Payment:&nbsp;</h6>
-                        <h6 style="border-top-width: 4px;font-size: 24px;font-weight: bold;color: red;">₱{{ number_format($orders->sum('total_price') + 36, 2) }}</h6>
+                        <h6 style="border-top-width: 4px;font-size: 24px;font-weight: bold;color: red;">₱{{ number_format($totalAmount, 2) }}</h6>
                     </div>
                 </div>
-                <form action="{{ route('paymongo.checkout') }}" method="POST">
-                @csrf
-                <input type="hidden" name="amount" value="{{ $orders->sum('total_price') + 36 }}">
                 <div class="d-flex justify-content-end">
                     <button class="btn checkout-btn" type="submit" style="border-radius: 3px;">Place Order</button>
                 </div>

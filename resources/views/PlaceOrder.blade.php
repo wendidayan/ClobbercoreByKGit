@@ -58,7 +58,23 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
-                        <tbody id="cart-items"></tbody>
+                        <tbody id="cart-items">
+                        @foreach($cartItems as $cartItem) <!-- work on placing order from here -->
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>{{ $cartItem->product->name }}</td>
+                                <td>₱{{ number_format($cartItem->price, 2) }}</td>
+                                <td>1</td> 
+                                <td>
+                                    <form action="{{ route('cart.remove', ['cartItemId' => $cartItem->id]) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger" type="submit">Remove</button> <!-- Remove To Cart (done)-->
+                                    </form>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
                     </table>
                 </div>
                 <div class="d-flex justify-content-between checkout-footer">
@@ -68,7 +84,29 @@
                             <h4 style="font-size: 18px;">Select All</h4>
                         </div>
                         <div class="checkout-section">
-                            <h4 style="font-size: 18px;">Total (0 item):&nbsp;<span id="total-price" style="font-size: 24px;">₱0</span></h4><a class="btn checkout-btn" role="button" href="ToPay.html">Check Out</a>
+                        <h4 style="font-size: 18px;">
+                            Total ({{ count($cartItems) }} item{{ count($cartItems) > 1 ? 's' : '' }}): 
+                            <span id="total-price" style="font-size: 24px;">
+                                ₱{{ number_format($cartItems->sum('price'), 2) }}
+                            </span>
+                        </h4>
+                            @if(session('success'))
+                                <div id="success-alert" class="alert alert-success">{{ session('success') }}</div>
+                            @endif
+
+                            @if(session('error'))
+                                <div id="error-alert" class="alert alert-danger">{{ session('error') }}</div>
+                            @endif
+
+                            <script>
+                                setTimeout(function() {
+                                    document.querySelectorAll('.alert').forEach(function(alert) {
+                                        alert.style.transition = "opacity 0.5s";
+                                        alert.style.opacity = "0";
+                                        setTimeout(() => alert.remove(), 500);
+                                    });
+                                }, 3000); // Message disappears after 3 seconds
+                            </script>
                         </div>
                     </div>
                 </div>
