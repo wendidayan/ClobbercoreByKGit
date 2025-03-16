@@ -45,80 +45,165 @@
                 </div>
             </div>
         </div>
-        <div style="margin-top: 20px;font-family: 'Open Sans', sans-serif;">
-            <div class="container checkout-container mt-4" style="background: var(--bs-white);border-radius: 3px;">
-                <div class="table-responsive table p-2">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th><input type="checkbox"></th>
-                                <th>Product</th>
-                                <th>Unit Price</th>
-                                <th>Quantity</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="cart-items">
-                        @foreach($cartItems as $cartItem) <!-- work on placing order from here -->
-                            <tr>
-                                <td><input type="checkbox"></td>
-                                <td>{{ $cartItem->product->name }}</td>
-                                <td>₱{{ number_format($cartItem->price, 2) }}</td>
-                                <td>1</td> 
-                                <td>
-                                    <form action="{{ route('cart.remove', ['cartItemId' => $cartItem->id]) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-danger" type="submit">Remove</button> <!-- Remove To Cart (done)-->
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+        <div style="margin-top: 20px; font-family: 'Open Sans', sans-serif;">
+    <div class="container checkout-container mt-4" style="background: var(--bs-white); border-radius: 3px;">
+        <div class="table-responsive table p-2">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" class="select-all-checkbox"></th> <!-- working, just fix css for button-->
+                        <th>Product</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="cart-items">
+                    @foreach($cartItems as $cartItem)
+                        <tr class="cart-item">
+                            <td><input type="checkbox" class="cart-item-checkbox" data-cart-id="{{ $cartItem->id }}"></td>
+                            <td>{{ $cartItem->product->name }}</td>
+                            <td>₱{{ number_format($cartItem->price, 2) }}</td>
+                            <td>1</td> 
+                            <td>
+                                <form action="{{ route('cart.remove', ['cartItemId' => $cartItem->id]) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger" type="submit">Remove</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-between checkout-footer">
+            <div class="voucher-section"><span style="margin-right: 10px;">Platform Voucher</span><a href="#">Select or Enter Code</a></div>
+            <div class="bottom-section" style="border-top: 2px dashed #f0f0f0 ;">
+                <div class="actions">
+                    <input type="checkbox" class="select-all-checkbox">
+                    <h4 style="font-size: 18px;">Select All</h4>
                 </div>
-                <div class="d-flex justify-content-between checkout-footer">
-                    <div class="voucher-section"><span style="margin-right: 10px;">Platform Voucher</span><a href="#">Select or Enter Code</a></div>
-                    <div class="bottom-section" style="border-top: 2px dashed #f0f0f0 ;">
-                        <div class="actions"><input type="checkbox">
-                            <h4 style="font-size: 18px;">Select All</h4>
-                        </div>
-                        <div class="checkout-section">
-                        <h4 style="font-size: 18px;">
-                            Total ({{ count($cartItems) }} item{{ count($cartItems) > 1 ? 's' : '' }}): 
-                            <span id="total-price" style="font-size: 24px;">
-                                ₱{{ number_format($cartItems->sum('price'), 2) }}
-                            </span>
-                        </h4>
-                            @if(session('success'))
-                                <div id="success-alert" class="alert alert-success">{{ session('success') }}</div>
-                            @endif
 
-                            @if(session('error'))
-                                <div id="error-alert" class="alert alert-danger">{{ session('error') }}</div>
-                            @endif
+                <div class="checkout-section">
+                <h4 style="font-size: 18px;">
+                    Total (<span id="total-checked-items"> 0</span>item{{ count($cartItems) > 1 ? 's' : '' }}):  
+                    <span id="total-price" style="font-size: 24px;">
+                        ₱<span id="total-price-amount">0.00</span>
+                    </span>
+                </h4>
+                    
+                    <!-- Button appears when checkbox is checked -->
+                    <form action="{{ route('cart.placeOrder') }}" method="POST" id="place-order-form" style="display: none;">
+                        @csrf
+                      <!--  <input type="hidden" name="cart_items[]" id="selected-cart-items" value="">-->
+                        <button type="submit" class="btn btn-primary">Place Order</button>
+                    </form>
 
-                            <script>
-                                setTimeout(function() {
-                                    document.querySelectorAll('.alert').forEach(function(alert) {
-                                        alert.style.transition = "opacity 0.5s";
-                                        alert.style.opacity = "0";
-                                        setTimeout(() => alert.remove(), 500);
-                                    });
-                                }, 3000); // Message disappears after 3 seconds
-                            </script>
-                        </div>
-                    </div>
+                    @if(session('success'))
+                        <div id="success-alert" class="alert alert-success">{{ session('success') }}</div>
+                    @endif
+
+                    @if(session('error'))
+                        <div id="error-alert" class="alert alert-danger">{{ session('error') }}</div>
+                    @endif
+
+                    <script>
+                    // Auto-hide alert messages after 3 seconds
+                    setTimeout(function() {
+                        document.querySelectorAll('.alert').forEach(function(alert) {
+                            alert.style.transition = "opacity 0.5s";
+                            alert.style.opacity = "0";
+                            setTimeout(() => alert.remove(), 500);
+                        });
+                    }, 3000);
+
+                    // Select all checkbox functionality
+                    document.querySelectorAll('.select-all-checkbox').forEach(selectAll => {
+                            selectAll.addEventListener('change', function() {
+                                const checkboxes = document.querySelectorAll('.cart-item-checkbox');
+                                checkboxes.forEach(checkbox => {
+                                    checkbox.checked = this.checked;
+                                });
+
+                                // Ensure both "Select All" checkboxes stay in sync
+                                document.querySelectorAll('.select-all-checkbox').forEach(otherCheckbox => {
+                                    if (otherCheckbox !== this) {
+                                        otherCheckbox.checked = this.checked;
+                                    }
+                                });
+
+                                updateTotal();
+                                updateSelectedCartItems();
+                            });
+                        });
+                    // Listen for individual item checkboxes being checked or unchecked
+                    document.querySelectorAll('.cart-item-checkbox').forEach(checkbox => {
+                        checkbox.addEventListener('change', function() {
+                            updateTotal();
+                            updateSelectedCartItems();
+                        });
+                    });
+
+                    // Function to update total checked items and price
+                    function updateTotal() {
+                        const checkedItems = document.querySelectorAll('.cart-item-checkbox:checked');
+                        const totalCheckedItems = checkedItems.length;
+                        const totalPrice = Array.from(checkedItems).reduce((total, checkbox) => {
+                            const row = checkbox.closest('tr');
+                            const price = parseFloat(row.querySelector('td:nth-child(3)').textContent.replace('₱', '').replace(',', ''));
+                            return total + price;
+                        }, 0);
+
+                        // Update UI
+                        document.getElementById('total-checked-items').textContent = totalCheckedItems;
+                        document.getElementById('total-price-amount').textContent = totalPrice.toFixed(2);
+
+                        // Show or hide the Place Order button
+                        togglePlaceOrderButton(totalCheckedItems);
+                    }
+
+                    // Function to dynamically add hidden inputs for selected cart items
+                    function updateSelectedCartItems() {
+                        const form = document.getElementById('place-order-form');
+
+                        // Remove existing hidden inputs
+                        document.querySelectorAll('.selected-cart-item-input').forEach(input => input.remove());
+
+                        // Get checked items and create hidden inputs
+                        document.querySelectorAll('.cart-item-checkbox:checked').forEach(item => {
+                            let input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'cart_items[]'; // Laravel will receive an array
+                            input.value = item.getAttribute('data-cart-id');
+                            input.classList.add('selected-cart-item-input');
+                            form.appendChild(input);
+                        });
+
+                        // Update visibility of Place Order button
+                        togglePlaceOrderButton(document.querySelectorAll('.cart-item-checkbox:checked').length);
+                    }
+
+                    // Show or hide the Place Order button
+                    function togglePlaceOrderButton(totalCheckedItems) {
+                        const placeOrderButton = document.getElementById('place-order-form');
+                        placeOrderButton.style.display = totalCheckedItems > 0 ? 'block' : 'none';
+                    }
+                </script>
                 </div>
             </div>
         </div>
     </div>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
-    <script src="assets/js/functions.js"></script>
-    <script src="assets/js/my-profileJS.js"></script>
-    <script src="assets/js/my-purchaseTab.js"></script>
-    <script src="assets/js/tabfunction.js"></script>
+</div>
+
+</div>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/js/bs-init.js"></script>
+<script src="assets/js/functions.js"></script>
+<script src="assets/js/my-profileJS.js"></script>
+<script src="assets/js/my-purchaseTab.js"></script>
+<script src="assets/js/tabfunction.js"></script>
 </body>
 
 </html>

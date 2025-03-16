@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\PaymentMethod;
 use App\Models\Product;
+use App\Models\CartItem;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -20,7 +21,6 @@ class OrderController extends Controller
     
         return view('ToPay', compact('orders', 'mineItems'));
     }
-
  
     public function mine($productId)
     {
@@ -30,7 +30,7 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'This product is already sold.');
         }
 
-        // Instead of keeping previous items, store only the selected one
+        
         $mineItems = [
             $productId => [
                 'product_id' => $product->id,
@@ -118,4 +118,5 @@ class OrderController extends Controller
         }
     }
 
+ 
 }
