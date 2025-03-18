@@ -9,6 +9,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CartController;
 
 
+//Client-Side
 // Default Route (Landing Page)
 Route::get('/', function () {
     return view('auth.ToLogin'); // Show ToLogin as the default page
@@ -59,6 +60,18 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/order/place/cart', [CartController::class, 'placeOrderCart'])->name('order.placecart');
 });
 
+
+
+
+
+
+//Admin-Side
+Route::get('/Dashboard', function () {
+    return view('Dashboard'); // Ensure a 'dashboard.blade.php' exists in resources/views
+})->name('Dashboard');
+
+
+Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
 
 
 

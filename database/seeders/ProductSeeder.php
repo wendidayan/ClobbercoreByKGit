@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
     {
         Product::insert([
             [
-                'name' => 'Men’s Blue Pajama',
+                'name' => 'Men’s Board Shorts',
                 'category_id' => 1, 
                 'subcategory_id' => 1,
                 'price' => 299.99,
@@ -33,7 +33,7 @@ class ProductSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
-                'name' => 'Kids’s Terno Shirt',
+                'name' => 'Kids’s Khaki Sando',
                 'category_id' => 2, 
                 'subcategory_id' => 1,
                 'price' => 199.99,
@@ -51,7 +51,7 @@ class ProductSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
-                'name' => 'Women’s Elegant Jumpsuit',
+                'name' => 'Women’s Silver Gown',
                 'category_id' => 2, 
                 'subcategory_id' => 4,
                 'price' => 499.99,
@@ -70,7 +70,7 @@ class ProductSeeder extends Seeder
             ],
 
             [
-                'name' => 'Women’s Short Dress',
+                'name' => 'Women’s Maxi Dress',
                 'category_id' => 2, 
                 'subcategory_id' => 4,
                 'price' => 499.99,

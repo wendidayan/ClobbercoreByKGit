@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>EcommerceFinalNaTalaga (Backup 1741367607420)</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700,800&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,700,800&amp;display=swap">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
 </head>
 
 <body style="background: #f5f5f5;">
@@ -226,114 +226,7 @@
                             </div>
                             @endforeach
 
-                          <!--  <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="ProductView.html"><img class="img-fluid" src="assets/img/1.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Mine</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="ProductView.html"><img class="img-fluid" src="assets/img/1.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Mine</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="ProductView.html"><img class="img-fluid" src="assets/img/1.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Mine</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="ProductView.html"><img class="img-fluid" src="assets/img/1.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Mine</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="ProductView.html"><img class="img-fluid" src="assets/img/1.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Mine</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="ProductView.html"><img class="img-fluid" src="assets/img/1.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Mine</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="ProductView.html"><img class="img-fluid" src="assets/img/1.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Mine</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="ProductView.html"><img class="img-fluid" src="assets/img/1.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Mine</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="ProductView.html"><img class="img-fluid" src="assets/img/1.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Mine</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
+                       
                         </div>
                     </div>
                 </section>
@@ -361,7 +254,7 @@
                 <div id="newArrivals" class="new-arrivals-wrapper py-4 py-xl-5 mt-0 pt-4">
                 @foreach ( $newArrivals as $product)   
                 <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);font-family:'Open Sans', sans-serif;"> 
-                    <a href="{{ route('product.view', $product->id) }}" style="text-decoration: none; color:inherit;"><img src="assets/img/1.png">
+                    <a href="{{ route('product.view', $product->id) }}" style="text-decoration: none; color:inherit;"><img src="{{ asset($product->image) }}" alt="{{ $product->name }}">
                         <p class="product-title" style="text-align:left;">{{ $product->name }}</p>
                         <div class="row text-center d-flex justify-content-between buy-add-button" style="margin-right:-5px;margin-left:-5px;">
                             <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:28px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);">Mine</a></button></div>
@@ -369,98 +262,6 @@
                         </div>
                     </a>
                     </div>@endforeach
-                    <!--
-                    <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);"><img src="assets/img/1.png">
-                        <p class="product-title" style="text-align:left;">Paragraph</p>
-                        <div class="row text-center d-flex justify-content-between buy-add-button" style="margin-right:-5px;margin-left:-5px;">
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:28px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);">Mine</a></button></div>
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;background:#d7ac4b;border-style:none;width:90%;height:28px;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);font-size:12px;">Add to Cart</a></button></div>
-                        </div>
-                    </div>
-                    <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);"><img src="assets/img/1.png">
-                        <p class="product-title" style="text-align:left;">Paragraph</p>
-                        <div class="row text-center d-flex justify-content-between buy-add-button" style="margin-right:-5px;margin-left:-5px;">
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:28px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);">Mine</a></button></div>
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;background:#d7ac4b;border-style:none;width:90%;height:28px;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);font-size:12px;">Add to Cart</a></button></div>
-                        </div>
-                    </div>
-                    <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);"><img src="assets/img/1.png">
-                        <p class="product-title" style="text-align:left;">Paragraph</p>
-                        <div class="row text-center d-flex justify-content-between buy-add-button" style="margin-right:-5px;margin-left:-5px;">
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:28px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);">Mine</a></button></div>
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;background:#d7ac4b;border-style:none;width:90%;height:28px;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);font-size:12px;">Add to Cart</a></button></div>
-                        </div>
-                    </div>
-                    <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);"><img src="assets/img/1.png">
-                        <p class="product-title" style="text-align:left;">Paragraph</p>
-                        <div class="row text-center d-flex justify-content-between buy-add-button" style="margin-right:-5px;margin-left:-5px;">
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:28px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);">Mine</a></button></div>
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;background:#d7ac4b;border-style:none;width:90%;height:28px;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);font-size:12px;">Add to Cart</a></button></div>
-                        </div>
-                    </div>
-                    <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);"><img src="assets/img/1.png">
-                        <p class="product-title" style="text-align:left;">Paragraph</p>
-                        <div class="row text-center d-flex justify-content-between buy-add-button" style="margin-right:-5px;margin-left:-5px;">
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:28px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);">Mine</a></button></div>
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;background:#d7ac4b;border-style:none;width:90%;height:28px;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);font-size:12px;">Add to Cart</a></button></div>
-                        </div>
-                    </div>
-                    <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);"><img src="assets/img/1.png">
-                        <p class="product-title" style="text-align:left;">Paragraph</p>
-                        <div class="row text-center d-flex justify-content-between buy-add-button" style="margin-right:-5px;margin-left:-5px;">
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:28px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);">Mine</a></button></div>
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;background:#d7ac4b;border-style:none;width:90%;height:28px;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);font-size:12px;">Add to Cart</a></button></div>
-                        </div>
-                    </div>
-                    <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);"><img src="assets/img/1.png">
-                        <p class="product-title" style="text-align:left;">Paragraph</p>
-                        <div class="row text-center d-flex justify-content-between buy-add-button" style="margin-right:-5px;margin-left:-5px;">
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:28px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);">Mine</a></button></div>
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;background:#d7ac4b;border-style:none;width:90%;height:28px;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);font-size:12px;">Add to Cart</a></button></div>
-                        </div>
-                    </div>
-                    <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);"><img src="assets/img/1.png">
-                        <p class="product-title" style="text-align:left;">Paragraph</p>
-                        <div class="row text-center d-flex justify-content-between buy-add-button" style="margin-right:-5px;margin-left:-5px;">
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:28px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);">Mine</a></button></div>
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;background:#d7ac4b;border-style:none;width:90%;height:28px;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);font-size:12px;">Add to Cart</a></button></div>
-                        </div>
-                    </div>
-                    <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);"><img src="assets/img/1.png">
-                        <p class="product-title" style="text-align:left;">Paragraph</p>
-                        <div class="row text-center d-flex justify-content-between buy-add-button" style="margin-right:-5px;margin-left:-5px;">
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:28px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);">Mine</a></button></div>
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;background:#d7ac4b;border-style:none;width:90%;height:28px;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);font-size:12px;">Add to Cart</a></button></div>
-                        </div>
-                    </div>
-                    <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);"><img src="assets/img/1.png">
-                        <p class="product-title" style="text-align:left;">Paragraph</p>
-                        <div class="row text-center d-flex justify-content-between buy-add-button" style="margin-right:-5px;margin-left:-5px;">
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:28px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);">Mine</a></button></div>
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;background:#d7ac4b;border-style:none;width:90%;height:28px;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);font-size:12px;">Add to Cart</a></button></div>
-                        </div>
-                    </div>
-                    <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);"><img src="assets/img/1.png">
-                        <p class="product-title" style="text-align:left;">Paragraph</p>
-                        <div class="row text-center d-flex justify-content-between buy-add-button" style="margin-right:-5px;margin-left:-5px;">
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:28px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);">Mine</a></button></div>
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;background:#d7ac4b;border-style:none;width:90%;height:28px;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);font-size:12px;">Add to Cart</a></button></div>
-                        </div>
-                    </div>
-                    <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);"><img src="assets/img/1.png">
-                        <p class="product-title" style="text-align:left;">Paragraph</p>
-                        <div class="row text-center d-flex justify-content-between buy-add-button" style="margin-right:-5px;margin-left:-5px;">
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:28px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);">Mine</a></button></div>
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;background:#d7ac4b;border-style:none;width:90%;height:28px;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);font-size:12px;">Add to Cart</a></button></div>
-                        </div>
-                    </div>
-                    <div class="product-card" style="border-radius:6px;border-color:rgb(210,210,210);"><img src="assets/img/1.png">
-                        <p class="product-title" style="text-align:left;">Paragraph</p>
-                        <div class="row text-center d-flex justify-content-between buy-add-button" style="margin-right:-5px;margin-left:-5px;">
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;width:90%;height:28px;background:#d7ac4b;border-style:none;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);">Mine</a></button></div>
-                            <div class="col" style="padding:0px 0px;"><button class="btn btn-primary" type="button" style="font-size:12px;padding:5px 10px;background:#d7ac4b;border-style:none;width:90%;height:28px;"><a class="text-decoration-none" href="#" style="color:var(--bs-light);font-size:12px;">Add to Cart</a></button></div>
-                        </div>
-                    </div>-->
                 </div> 
                 <button class="btn scroll-btn next-btn" type="button" onclick="scrollGallery(-1)" style="width: 40px;height: 40px;"><i class="fa fa-chevron-right"></i></button>
             </div> 
@@ -490,7 +291,7 @@
                             <div class="col item">
                             <a href="{{ route('product.view', $product->id) }}" style="text-decoration: none; color: inherit;">
                                 <div class="card">
-                                    <div class="card-body"><img class="img-fluid" src="assets/img/1.png">
+                                    <div class="card-body"><img class="img-fluid" src="{{ asset($product->image) }}">
                                         <h4 class="card-title" style="font-size:16px;margin-top:12px;margin-bottom:12px;">{{ $product->name }}</h4>
                                         <h3 style="font-size:18px;font-weight:bold;color:#d7ac4b;">₱&nbsp;<span id="price">{{ $product->price }}</span></h3>
                                     </div>

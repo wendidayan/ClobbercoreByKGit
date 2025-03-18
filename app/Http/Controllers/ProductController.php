@@ -33,6 +33,106 @@ class ProductController extends Controller
         return view('ProductView', compact('product', 'similarProducts'));
     }
 
+
+
+
+    public function store(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'price' => 'required|numeric',
+        'category_name' => 'required|string|max:255',
+        'subcategory_name' => 'required|string|max:255',
+        'size' => 'nullable|string',
+        'color' => 'nullable|string',
+        'style' => 'nullable|string',
+        'material' => 'nullable|string',
+        'condition' => 'nullable|string',
+        'description' => 'nullable|string',
+        'is_new_arrival' => 'nullable|boolean',
+        'is_thrift_deal' => 'nullable|boolean',
+    ]);
+
+    // Handle Image Upload
+    $imagePath = null;
+    if ($request->hasFile('image')) {
+        $imageName = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('images/products'), $imageName);
+        $imagePath = 'images/products/' . $imageName;
+    }
+
+    // Find or create category
+    $category = Category::firstOrCreate(['name' => $request->category_name]);
+
+    // Find or create subcategory
+    $subcategory = Subcategory::firstOrCreate([
+        'name' => $request->subcategory_name,
+        'category_id' => $category->id
+    ]);
+
+    // Create Product
+    Product::create([
+        'name' => $request->name,
+        'image' => $imagePath,
+        'price' => $request->price,
+        'category_id' => $category->id,
+        'subcategory_id' => $subcategory->id,
+        'size' => $request->size,
+        'color' => $request->color,
+        'style' => $request->style,
+        'material' => $request->material,
+        'condition' => $request->condition,
+        'description' => $request->description,
+        'is_new_arrival' => $request->is_new_arrival ? 1 : 0,
+        'is_thrift_deal' => $request->is_thrift_deal ? 1 : 0,
+
+    ]);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Product added successfully!'
+    ]);
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function Clothing()
     {
         // Get products based on filters
