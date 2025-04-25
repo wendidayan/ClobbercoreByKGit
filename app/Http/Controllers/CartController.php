@@ -27,7 +27,7 @@ class CartController extends Controller
             ->first();
 
         if ($existingCartItem) {
-            return redirect()->route('cart.view')->with('error', 'Product already in cart');
+            return redirect()->back()->with('already_in_cart', true);
         }
 
         // Add product to cart
@@ -37,8 +37,8 @@ class CartController extends Controller
             'price' => $product->price, // Store price at the time of adding
         ]);
 
-        // Redirect to cart (PlaceOrder.blade.php)
-        return redirect()->route('cart.view')->with('success', 'Product added to cart');
+        // Added to cart modal in the blade
+        return redirect()->back()->with('cart_added', true);
     }
 
     public function viewCart()
@@ -71,7 +71,7 @@ class CartController extends Controller
 
         $cartItem->delete();
 
-        return redirect()->route('cart.view')->with('success', 'Product removed from cart');
+        return redirect()->back()->with('cart_deleted', true);
     }
 
 

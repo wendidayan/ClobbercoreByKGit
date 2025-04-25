@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>EcommerceFinalNaTalaga (Backup 1741367607420)</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700,800&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,700,800&amp;display=swap">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
 </head>
 
 <body style="background: #f5f5f5;">
@@ -18,15 +18,28 @@
             <div class="container-fluid"><a class="navbar-brand" href="#" style="color: var(--bs-gray-900);--bs-body-font-weight: normal;font-weight: bold;">Clobbercore by K</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse d-md-flex justify-content-md-center justify-content-lg-end me-0 pe-0 ms-0" id="navcol-2">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link active" href="Homepage.html" style="color: var(--bs-gray-dark);font-size: 13px;">HOME</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#categories" style="color: var(--bs-gray-dark);font-size: 13px;">COLLECTIONS</a></li>
-                        <li class="nav-item"><a class="nav-link" href="ShoppingPage.html" style="color: var(--bs-gray-dark);font-size: 13px;">SHOP</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#" style="font-size: 13px;">NOTIFICATIONS&nbsp;<span>(5)</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="PlaceOrder.html" style="font-size: 13px;color: rgba(0, 0, 0, 0.65);">MY CART&nbsp;<span>(5)</span></a></li>
+                    <!--     <li class="nav-item"><a class="nav-link active" href="{{ route('Homepage') }}" style="color: var(--bs-gray-dark);font-size: 13px;">HOME</a></li>-->
+                        <li class="nav-item"><a class="nav-link" href="{{ route('ShoppingPage') }}" style="color: var(--bs-gray-dark);font-size: 13px;">SHOP</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('Clothing') }}" style="color: var(--bs-gray-dark);font-size: 13px;">COLLECTIONS</a></li>
+                        <!--  <li class="nav-item"><a class="nav-link" href="{{ route('ShoppingPage') }}" style="color: var(--bs-gray-dark);font-size: 13px;">SHOP</a></li>-->
+                        <li class="nav-item"><a class="nav-link" href="#" style="font-size: 13px;">NOTIFICATIONS (5)</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('cart.view') }}" style="font-size: 13px;">MY CART</a></li>
                     </ul>
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link active" href="#" style="color: rgba(0,0,0,0.65);font-size: 13px;">ABOUT</a></li>
-                        <li class="nav-item"><a class="nav-link" href="UserProfile.html" style="color: var(--bs-gray-dark);font-size: 13px;font-weight: bold;"><i class="fa fa-user p-1"></i>&nbsp;username</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="#aboutus" style="color: var(--bs-gray-dark);font-size: 13px;">ABOUT</a></li>
+                        @if(Auth::check())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('UserProfile') }}" style="color: var(--bs-gray-dark); font-size: 13px; font-weight: bold;">
+                                    <i class="fa fa-user p-1"></i>&nbsp;{{ Auth::user()->username }}
+                                </a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}" style="color: var(--bs-gray-dark); font-size: 13px; font-weight: bold;">
+                                    LOGIN | SIGN UP
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -35,7 +48,7 @@
             <div class="main-search" style="border: 0.8px solid rgba(33,37,41,0.3) ;"><i class="fa fa-search"></i><input type="text" placeholder="Search here..."><button class="btn" type="button">Go</button></div>
         </div>
     </div>
-
+    <!-- Main Clothing Section -->
     <section id="main-clothingSec">
         <div class="main-page">
             <div class="container mt-4">
@@ -44,6 +57,8 @@
                     <li class="nav-item"><a class="nav-link" data-category="bagsak-presyo" href="#" style="border-radius: 0px;border-style: none;">Bagsak Presyo</a></li>
                     <li class="nav-item"><a class="nav-link" data-category="all-out-ukay" href="#" style="border-radius: 0px;border-style: none;">All-Out Ukay</a></li>
                 </ul>
+                <!--Filtering Section -->
+                <!--For New Arrivals -->
                 <div class="filter-section mt-3"><select class="form-select" id="filterCategory-1">
                         <optgroup label="Select Category">
                             <option value="">Select Category</option>
@@ -66,14 +81,14 @@
                         <optgroup label="Select Color">
                             <option value="">Select Color</option>
                             @foreach($colors as $color)
-                                <option value="{{ $color->color }}">{{ $color->color }}</option>
+                            <option value="{{ $color->color }}">{{ $color->color }}</option>
                             @endforeach
                         </optgroup>
-                    </select><button class="btn btn-primary" id="applyFilters" type="submit" style="background: var(--bs-white);border: 1px solid #d7ac4b;">Apply Filters</button></div>
+                    </select><button class="btn btn-primary" id="applyFilters" type="submit" style="background: var(--bs-white);border: 1px solid #d7ac4b;">Apply Filters</button></div>  
 
-                    <div id="productList"></div>
-      
-                    <div class="product-container new-arrival show">
+                 <div id="productList"></div>
+            <!-- New Arrival Display -->
+                <div class="product-container new-arrival show">
                     <section id="new-arrival">
                         <div class="new-arrival-heading" style="font-family: 'Open Sans', sans-serif;">
                             <div class="container">
@@ -95,7 +110,7 @@
                                         @foreach ( $newArrivals as $product) 
                                             <div class="col item">
                                                 <div class="card">
-                                                    <div class="card-body"><a href="{{ route('product.view', $product->id) }}"><img class="img-fluid" src="{{ asset($product->image) }}"></a>
+                                                    <div class="card-body"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="{{ asset($product->image) }}"></a>
                                                         <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">{{ $product->name }}</h4>
                                                         <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱{{ $product->price }}</span></p>
                                                         <div class="row text-center d-flex justify-content-between buy-add-button">
@@ -112,7 +127,9 @@
                         </div>
                     </section>
                 </div>
-                <div class="product-container bagsak-presyo">
+
+                <!--Thrift Deals Display -->
+        <!--        <div class="product-container bagsak-presyo">
                     <section id="bagsak-presyo">
                         <div class="new-arrival-heading" style="font-family: 'Open Sans', sans-serif;">
                             <div class="container">
@@ -134,7 +151,7 @@
                                         @foreach ($thriftDeals as $product)
                                             <div class="col item">
                                                 <div class="card">
-                                                    <div class="card-body"><a href="{{ route('product.view', $product->id) }}"><img class="img-fluid" src="{{ asset($product->image) }}"></a>
+                                                    <div class="card-body"><a href="ProductView.html"><img class="img-fluid" src="{{ asset($product->image) }}"></a>
                                                         <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">{{ $product->name }}</h4>
                                                         <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱{{ $product->price }}</span></p>
                                                         <div class="row text-center d-flex justify-content-between buy-add-button">
@@ -150,8 +167,10 @@
                             </div>
                         </div>
                     </section>
-                </div>
-                <div class="product-container all-out-ukay">
+                </div>-->
+
+            <!-- All Out Ukay -->
+       <!--         <div class="product-container all-out-ukay">
                     <section id="all-products">
                         <div class="new-arrival-heading" style="font-family: 'Open Sans', sans-serif;">
                             <div class="container">
@@ -172,25 +191,28 @@
                                         <div class="row gx-2 gy-2 row-cols-1 row-cols-md-2 row-cols-xl-5 photos" data-bss-baguettebox="">
                                         @foreach ( $allProducts as $product)  
                                             <div class="col item">
-                                            <a href="{{ route('product.view', $product->id) }}" style="text-decoration: none; color: inherit;">
                                                 <div class="card">
-                                                    <div class="card-body"><img class="img-fluid" src="{{ asset($product->image) }}">
-                                                        <h4 class="card-title" style="font-size:16px;margin-top:12px;margin-bottom:12px;">{{ $product->name }}</h4>
-                                                        <h3 style="font-size:18px;font-weight:bold;color:#d7ac4b;">₱&nbsp;<span id="price">{{ $product->price }}</span></h3>
+                                                <div class="card-body"><a href="ProductView.html"><img class="img-fluid" src="{{ asset($product->image) }}"></a>
+                                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">{{ $product->name }}</h4>
+                                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱{{ $product->price }}</span></p>
+                                                        <div class="row text-center d-flex justify-content-between buy-add-button">
+                                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Mine</a></button></div>
+                                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
                                                     </div>
                                                 </div>
-                                                </a>
-                                            </div>@endforeach
-                                        </div>
+                                            </div>
+                                        </div>@endforeach
                                     </div>
-                                </section>
-                            </div>
+                                </div>
+                            </section>
                         </div>
-                    </section>
-                </div>
+                    </div>
+                </section>
             </div>
         </div>
-    </section>
+    </div>-->
+<!-- Footer (don't move) -->
+</section>
     <section id="footer">
         <div>
             <footer style="background: #ede6d2;">
@@ -248,8 +270,10 @@
     <script src="assets/js/my-profileJS.js"></script>
     <script src="assets/js/my-purchaseTab.js"></script>
     <script src="assets/js/tabfunction.js"></script>
-    
-    <script>
+
+<!-- Script For Filtering -->
+
+<script>
         // Apply Filters
         document.getElementById('applyFilters').addEventListener('click', function(event) {
             event.preventDefault(); // Prevent default button behavior
@@ -335,6 +359,7 @@
         });
     </script>
 
+  
 
 </body>
 </html>

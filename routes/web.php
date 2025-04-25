@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\AdminController;
 
 
 //Client-Side
@@ -27,9 +28,15 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/auth/google', [AuthController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('/auth/google/call-back', [AuthController::class, 'handleGoogleCallback']);
 
+//Homepage....not yet finalized
+Route::get('/Homepage', [ProductController::class, 'homeview'])->name('Homepage');
+
 //Shopping Page after Log In
 Route::get('/ShoppingPage', [ProductController::class, 'index'])->name('ShoppingPage');
 Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.view');
+
+//Username Display
+Route::get('/get-username', [AuthController::class, 'getUsername'])->name('get.username');
 
 //Placing Order (redirect to pending page if COD)
 Route::post('/place-order', [OrderController::class, 'placeOrder'])->name('order.place');
@@ -60,21 +67,30 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/order/place/cart', [CartController::class, 'placeOrderCart'])->name('order.placecart');
 });
 
+//Privacy Policy
+Route::get('/PrivacyPolicy', function () {
+    return view('PrivacyPolicy'); 
+})->name('PrivacyPolicy');
 
 
 
 
 
-//Admin-Side
-Route::get('/Dashboard', function () {
-    return view('Dashboard'); // Ensure a 'dashboard.blade.php' exists in resources/views
-})->name('Dashboard');
+//Server-side
+//Admin Login
+Route::prefix('admin')->group(function() {
+    Route::get('/adminlogin', [AdminController::class, 'showLogin'])->name('admin.Login');
+    Route::post('/adminlogin', [AdminController::class, 'login']);
+    Route::get('/Dashboard', [ProductController::class, 'dashview'])->middleware('auth:admin')->name('Dashboard');
+    Route::get('/adminlogout', [AdminController::class, 'logout'])->name('admin.logout');
 
+    Route::get('/admin.ToLogin', function () {
+        return view('admin.ToLogin'); 
+    })->name('admin.ToLogin');
+});
 
+// Product Management
 Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
-
-
-
 
 
 
@@ -84,27 +100,18 @@ Route::get('/Clothing', [ProductController::class, 'Clothing'])->name('Clothing'
 Route::get('/apply-filters', [ProductController::class, 'applyFilters']);
 Route::get('/get-subcategories', [ProductController::class, 'getSubcategories']);
 
-Route::get('/Homepage', function () {
-    return view('Homepage'); // Ensure a 'dashboard.blade.php' exists in resources/views
-})->name('Homepage');
+
+
+
+
 
 
 Route::get('/Collections', function () {
-    return view('Collections'); // Ensure a 'dashboard.blade.php' exists in resources/views
+    return view('Collections'); 
 })->name('Collections');
-
-Route::get('/PlaceOrder', function () {
-    return view('PlaceOrder'); // Ensure a 'dashboard.blade.php' exists in resources/views
-})->name('PlaceOrder');
-
 
 
 Route::get('/UserProfile', function () {
-    return view('UserProfile'); // Ensure a 'dashboard.blade.php' exists in resources/views
+    return view('UserProfile'); 
 })->name('UserProfile');
 
-
-Route::get('/categories/{type}', [ProductController::class, 'getCategoriesByType']);
-Route::get('/subcategories/{categoryId}', [ProductController::class, 'getSubcategoriesByCategory']);
-Route::get('/products/filters', [ProductController::class, 'getFilters']);
-Route::get('/products/filter', [ProductController::class, 'getFilteredProducts']);

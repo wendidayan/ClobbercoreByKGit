@@ -18,15 +18,28 @@
             <div class="container-fluid"><a class="navbar-brand" href="#" style="color: var(--bs-gray-900);--bs-body-font-weight: normal;font-weight: bold;">Clobbercore by K</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse d-md-flex justify-content-md-center justify-content-lg-end me-0 pe-0 ms-0" id="navcol-2">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link active" href="Homepage.html" style="color: var(--bs-gray-dark);font-size: 13px;">HOME</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#categories" style="color: var(--bs-gray-dark);font-size: 13px;">COLLECTIONS</a></li>
-                        <li class="nav-item"><a class="nav-link" href="ShoppingPage.html" style="color: var(--bs-gray-dark);font-size: 13px;">SHOP</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#" style="font-size: 13px;">NOTIFICATIONS&nbsp;<span>(5)</span></a></li>
-                        <li class="nav-item"><a class="nav-link" href="PlaceOrder.html" style="font-size: 13px;color: rgba(0, 0, 0, 0.65);">MY CART&nbsp;<span>(5)</span></a></li>
+                    <!--     <li class="nav-item"><a class="nav-link active" href="{{ route('Homepage') }}" style="color: var(--bs-gray-dark);font-size: 13px;">HOME</a></li>-->
+                        <li class="nav-item"><a class="nav-link" href="{{ route('ShoppingPage') }}" style="color: var(--bs-gray-dark);font-size: 13px;">SHOP</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('Clothing') }}" style="color: var(--bs-gray-dark);font-size: 13px;">COLLECTIONS</a></li>
+                        <!--  <li class="nav-item"><a class="nav-link" href="{{ route('ShoppingPage') }}" style="color: var(--bs-gray-dark);font-size: 13px;">SHOP</a></li>-->
+                        <li class="nav-item"><a class="nav-link" href="#" style="font-size: 13px;">NOTIFICATIONS (5)</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('cart.view') }}" style="font-size: 13px;">MY CART</a></li>
                     </ul>
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link active" href="#" style="color: rgba(0,0,0,0.65);font-size: 13px;">ABOUT</a></li>
-                        <li class="nav-item"><a class="nav-link" href="UserProfile.html" style="color: var(--bs-gray-dark);font-size: 13px;font-weight: bold;"><i class="fa fa-user p-1"></i>&nbsp;username</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="#aboutus" style="color: var(--bs-gray-dark);font-size: 13px;">ABOUT</a></li>
+                        @if(Auth::check())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('UserProfile') }}" style="color: var(--bs-gray-dark); font-size: 13px; font-weight: bold;">
+                                    <i class="fa fa-user p-1"></i>&nbsp;{{ Auth::user()->username }}
+                                </a>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}" style="color: var(--bs-gray-dark); font-size: 13px; font-weight: bold;">
+                                    LOGIN | SIGN UP
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -150,12 +163,13 @@
             </div>
         </div>
     </div>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
-    <script src="assets/js/functions.js"></script>
-    <script src="assets/js/my-profileJS.js"></script>
-    <script src="assets/js/my-purchaseTab.js"></script>
-    <script src="assets/js/tabfunction.js"></script>
+    <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bs-init.js') }}"></script>
+    <script src="{{ asset('assets/js/functions.js') }}"></script>
+    <script src="{{ asset('assets/js/my-profileJS.js') }}"></script>
+    <script src="{{ asset('assets/js/my-purchaseTab.js') }}"></script>
+    <script src="{{ asset('assets/js/tabfunction.js') }}"></script>
+
 </body>
 
 </html>

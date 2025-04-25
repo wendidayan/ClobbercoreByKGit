@@ -22,11 +22,11 @@ class Order extends Model
 
     public function paymentMethod(): BelongsTo
     {
-        return $this->belongsTo(PaymentMethod::class); // ✅ Fixed model reference
+        return $this->belongsTo(PaymentMethod::class); 
     }
 
     public function orderItems(): HasMany
     {
-        return $this->hasMany(OrderItem::class); // ✅ Fixed model reference
+        return $this->hasMany(OrderItem::class); 
     }
 }

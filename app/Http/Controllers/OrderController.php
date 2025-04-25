@@ -37,6 +37,7 @@ class OrderController extends Controller
                 'name' => $product->name,
                 'price' => $product->price,
                 'quantity' => 1, // Always 1 for second-hand store
+                'image' => $product->image,
             ]
         ];
 
@@ -44,7 +45,6 @@ class OrderController extends Controller
 
         return redirect()->route('order.topay')->with('success', 'Product added to Mine list!');
     }
-
 
 
     public function toPay()
@@ -118,5 +118,5 @@ class OrderController extends Controller
         }
     }
 
- 
+
 }

@@ -1,0 +1,14 @@
+.toggle-show-hide .text-view {
+  display: none;
+}
+
+/* When the menu is open (has .show), hide icon and show text */
+
+.navbar-collapse.show .toggle-show-hide .icon-view {
+  display: none;
+}
+
+.navbar-collapse.show .toggle-show-hide .text-view {
+  display: inline-block;
+}
+

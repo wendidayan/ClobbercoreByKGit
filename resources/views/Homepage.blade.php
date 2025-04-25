@@ -22,16 +22,16 @@
                 <div class="container-fluid"><a class="navbar-brand" href="#" style="color: var(--bs-gray-900);--bs-body-font-weight: normal;font-weight: bold;">Clobbercore by K</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                     <div class="collapse navbar-collapse d-md-flex justify-content-md-center justify-content-lg-end me-0 pe-0 ms-0" id="navcol-1">
                         <ul class="navbar-nav ms-auto">
-                            <li class="nav-item"><a class="nav-link active" href="#" style="color: var(--bs-gray-dark);font-size: 13px;">HOME</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="{{ route('Homepage') }}" style="color: var(--bs-gray-dark);font-size: 13px;">HOME</a></li>
                             <li class="nav-item"><a class="nav-link" href="#" style="color: var(--bs-gray-dark);font-size: 13px;">COLLECTIONS</a></li>
-                            <li class="nav-item"><a class="nav-link" href="ShoppingPage.html" style="color: var(--bs-gray-dark);font-size: 13px;">SHOP</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('ShoppingPage') }}" style="color: var(--bs-gray-dark);font-size: 13px;">SHOP</a></li>
                             <li class="nav-item"><a class="nav-link" href="#" style="font-size: 13px;">NOTIFICATIONS (5)</a></li>
-                            <li class="nav-item"><a class="nav-link" href="PlaceOrder.html" style="font-size: 13px;">MY CART</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('cart.view') }}" style="font-size: 13px;">MY CART</a></li>
                         </ul>
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item"><a class="nav-link active" href="#aboutus" style="color: var(--bs-gray-dark);font-size: 13px;">ABOUT</a></li>
                             <li class="nav-item"><a class="nav-link active" href="#contactus" style="color: var(--bs-gray-dark);font-size: 13px;">CONTACT US</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#" style="color: var(--bs-gray-dark);font-size: 13px;font-weight: bold;">LOGIN | SIGN UP</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url('/') }}" style="color: var(--bs-gray-dark);font-size: 13px;font-weight: bold;">LOGIN | SIGN UP</a></li>
                         </ul>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                             <h2 class="fw-bold mb-2" style="font-family: 'Open Sans', sans-serif;">Thrift, Save, Slay - Shop Preloved Fashion for Less</h2>
                             <p class="mb-0" style="font-family: 'Open Sans', sans-serif;font-style: italic;">Clobbercore By K is a small online thrift store offering a unique mix of styles—vintage, casual, and everyday essentials—all at budget-friendly prices.&nbsp; Every piece has history, style, and a second chance—just waiting for you to make it yours!</p>
                         </div>
-                        <div class="my-2"><a class="btn btn-primary fs-5 py-2 px-4" role="button" data-bss-hover-animate="swing" href="#" style="background: #d7ac4b;border-style: none;border-top-style: none;color: var(--bs-light);font-family: 'Open Sans', sans-serif;font-weight: bold;font-size: 16px;">Shop Now</a></div>
+                        <div class="my-2"><a class="btn btn-primary fs-5 py-2 px-4" role="button" data-bss-hover-animate="swing"  href="{{ route('ShoppingPage') }}" style="background: #d7ac4b;border-style: none;border-top-style: none;color: var(--bs-light);font-family: 'Open Sans', sans-serif;font-weight: bold;font-size: 16px;">Shop Now</a></div>
                     </div>
                 </div>
             </section>
@@ -80,126 +80,33 @@
                 <section class="photo-gallery py-4 py-xl-5 mt-0 pt-4" style="padding: 50px 0px;">
                     <div class="container" style="font-family: 'Open Sans', sans-serif;padding: 0px;">
                         <div class="row gx-2 gy-2 row-cols-1 row-cols-md-2 row-cols-xl-5 photos" data-bss-baguettebox="">
+                        @foreach ( $newArrivals as $product)  
                             <div class="col item">
                                 <div class="card">
-                                    <div class="card-body"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="assets/img/1.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
+                                    <div class="card-body"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="{{ asset($product->image) }}"></a>
+                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">{{ $product->name }}</h4>
+                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱{{ $product->price }}</span></p>
                                         <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Buy Now</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
+                                            <div class="col" style="padding: 0px 0px;">
+                                           <!-- Mine Method (done) -->
+                                                <form action="{{ route('order.mine', ['productId' => $product->id]) }}" method="POST">
+                                                @csrf
+                                                <button class="btn btn-primary" type="submit" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;">
+                                                <a class="text-decoration-none" style="color: var(--bs-light);">Buy Now</a></button>
+                                                </form>
+                                            </div>
+                                            <div class="col" style="padding: 0px 0px;">
+                                             <!--Adding To Cart (done) -->
+                                                <form action="{{ route('cart.add', ['productId' => $product->id]) }}" method="POST">
+                                                @csrf
+                                                <button class="btn btn-primary" data-product-id="{{ $product->id }}" type="submit" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;">
+                                                <a class="text-decoration-none" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="assets/img/3.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Buy Now</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="assets/img/7.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Buy Now</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="assets/img/4.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Buy Now</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="assets/img/5.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Buy Now</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="assets/img/7.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Buy Now</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="assets/img/6.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Buy Now</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="assets/img/5.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Buy Now</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="assets/img/2.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Buy Now</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col item">
-                                <div class="card">
-                                    <div class="card-body"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="assets/img/7.png"></a>
-                                        <h4 class="card-title" style="font-size: 16px;margin-top: 12px;">Product Descrip</h4>
-                                        <p class="card-text" style="font-size: 16px;">Price:&nbsp;<span>₱</span></p>
-                                        <div class="row text-center d-flex justify-content-between buy-add-button">
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;width: 90%;height: 30px;background: #d7ac4b;border-style: none;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);">Buy Now</a></button></div>
-                                            <div class="col" style="padding: 0px 0px;"><button class="btn btn-primary" type="button" style="font-size: 12px;padding: 5px 10px;background: #d7ac4b;border-style: none;width: 90%;height: 30px;"><a class="text-decoration-none" href="#" style="color: var(--bs-light);font-size: 12px;">Add to Cart</a></button></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </div>@endforeach
                         </div>
                     </div>
                 </section>

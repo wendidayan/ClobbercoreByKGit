@@ -82,4 +82,14 @@ class AuthController extends Controller
         Auth::logout();
         return redirect('/');
     }
+
+    //Username Display
+    public function getUsername()
+    {
+        if (Auth::check()) {
+            return response()->json(['username' => Auth::user()->username]);
+        }
+        return response()->json(['error' => 'User not logged in'], 401);
+    }
+
 }
