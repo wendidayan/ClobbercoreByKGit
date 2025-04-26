@@ -30,7 +30,7 @@
                 <div class="collapse navbar-collapse d-md-flex justify-content-md-center justify-content-lg-end me-0 pe-0 ms-0" id="navcol-1">
                     <ul class="navbar-nav" style="border-top-style: none;">
                         <li class="nav-item"><a class="nav-link" href="{{ route('ShoppingPage') }}" style="color:var(--bs-gray-dark);font-size:13px;">HOME</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Clothing.html" style="color:var(--bs-gray-dark);font-size:13px;">COLLECTIONS</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('Clothing') }}" style="color:var(--bs-gray-dark);font-size:13px;">COLLECTIONS</a></li>
                         <li class="nav-item"><a class="nav-link active" href="{{ route('PrivacyPolicy') }}" style="color:var(--bs-gray-dark);font-size:13px;">MORE</a></li>
                     </ul>
                     <ul class="navbar-nav ms-auto nav-right" style="font-family:'Open Sans', sans-serif;">
@@ -85,6 +85,8 @@
             </div>
         </nav>
     </div>
+    
+    
     <div class="container" style="margin-top: 120px;font-family: 'Open Sans', sans-serif;">
         <div>
             <h4>Checkout</h4>
@@ -96,6 +98,7 @@
                 <div>
                     <div class="d-flex align-items-center address-header gap-2 mb-3" style="border-bottom:1px solid rgb(221,221,221);"><i class="fa fa-map-marker" style="color:rgb(215, 172, 75);"></i>
                         <h5 class="d-flex">Delivery Option</h5>
+                        
                     </div>
                     <div class="d-flex delivery-btn gap-4 mt-4 mb-4"><a class="btn shipping-btn" role="button" id="shippingBTN" style="border-radius:3px;" href="#">Shipping</a><a class="btn meetup-btn" role="button" id="meetupBTN" style="border-radius:3px;" href="#">Meet- Up</a><a class="btn meetup-btn" role="button" id="pickupBTN" style="border-radius:3px;" href="#">Pick- Up</a></div>
                 </div>
@@ -228,33 +231,52 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="col-md-6">
-                    <div class="final-placeorder">
-                        <div class="d-flex justify-content-between payment-method-card mt-3 mb-3">
-                            
-                            <h4 style="font-size: 18px;">Payment Method</h4><select style="border-radius: 3px;font-size: 14px;width: 170px;border: 0.8px solid rgba(108,117,125,0.3) ;border-top-style: solid;">
-                                <option value="" selected="">Select</option>
-                                <option value="cod">Cash On Delivery</option>
-                                <option value="gcash">Gcash</option>
-                                <option value="paymaya">Paymaya</option>
-                            </select>
-                        </div>
-                        <div style="border-top: 1px dashed #ddd ;"></div>
-                        <div style="margin: 0px;margin-top: 160px;">
-                            <div class="sub-info mb-3">
-                                <div class="d-flex justify-content-end gap-5">
-                                    <h6 style="font-size: 14px;color: rgb(108,117,125);">Delivery fee</h6>
-                                    <h6>₱ 0</h6>
-                                </div>
-                                <div class="d-flex justify-content-end align-items-center gap-5">
-                                    <h6 style="font-size: 14px;color: rgb(108,117,125);">Total Payment:&nbsp;</h6>
-                                    <h6 style="border-top-width: 4px;font-size: 24px;font-weight: bold;color: red;">₱0</h6>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-end"><a class="btn checkout-btn" role="button" style="border-radius: 3px;" onclick="placeOrder()">Place Order</a></div>
-                        </div>
+             <div class="final-placeorder">
+                <form action="{{ route('order.place') }}" method="POST">
+                @csrf
+                @php
+                    $totalAmount = $mineItems ? collect($mineItems)->sum('price') + 36 : 36;
+                @endphp
+            <input type="hidden" name="amount" value="{{ $totalAmount }}">
+
+
+            <!-- Payment Method Card -->
+            <div class="payment-method-card mt-3 mb-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 style="font-size: 18px;">Payment Method</h4>
+                    <select name="payment_method" required style="border-radius: 3px; font-size: 14px; width: 170px; border: 0.8px solid rgba(108,117,125,0.3);">
+                        <option value="" selected>Select</option>
+                        <option value="cod">Cash On Delivery</option>
+                        <option value="gcash">Gcash</option>
+                        <option value="paymaya">Paymaya</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="border-top: 1px dashed #ddd;"></div>
+
+            <!-- Order Summary -->
+            <div style="margin-top: 160px;">
+                <div class="sub-info mb-3">
+                    <div class="d-flex justify-content-end gap-5">
+                        <h6 style="font-size: 14px; color: rgb(108,117,125);">Delivery fee</h6>
+                        <h6>₱ 0</h6>
+                    </div>
+                    <div class="d-flex justify-content-end align-items-center gap-5">
+                        <h6 style="font-size: 14px; color: rgb(108,117,125);">Total Payment:&nbsp;</h6>
+                        <h6 style="font-size: 24px; font-weight: bold; color: red;">₱{{ number_format($totalAmount, 2) }}</h6>
                     </div>
                 </div>
+                <div class="d-flex justify-content-end">
+                    <button class="btn checkout-btn" type="submit" style="border-radius: 3px;">Place Order</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
             </div>
         </div>
     </div>
@@ -273,6 +295,7 @@
     <script src="{{ asset('assets/js/steps.js') }}"></script>
     <script src="{{ asset('assets/js/tabDelivery.js') }}"></script>
     <script src="{{ asset('assets/js/tabfunction.js') }}"></script>
+
 </body>
 
 </html>

@@ -117,6 +117,7 @@ class CartController extends Controller
                 'name' => $cartItem->product->name,
                 'price' => $cartItem->price,
                 'quantity' => 1, // Default quantity
+                'image' => $cartItem->product->image,
             ];
         }
     
@@ -149,53 +150,56 @@ class CartController extends Controller
         $request->validate([
             'payment_method' => 'required|string'
         ]);
-
-        // Find or create the payment method
-        $paymentMethod = PaymentMethod::firstOrCreate([
-            'name' => $request->payment_method
-        ]);
-
+    
         // Retrieve cart items from session
         $cartItems = session()->get('cart_items', []);
-
+    
         if (empty($cartItems)) {
             return redirect()->back()->with('error', 'No items selected for order.');
         }
-
+    
         // Calculate total price from session data
         $totalAmount = collect($cartItems)->sum(function ($item) {
             return $item['price'] * $item['quantity'];
         });
-
-        // Create an order
-        $order = Order::create([
-            'user_id' => $user->id,
-            'payment_method_id' => $paymentMethod->id,
-            'total_price' => $totalAmount + 36, // Additional fee included
-            'status' => $request->payment_method === 'cod' ? 'pending' : 'processing'
-        ]);
-
-        // Save each order item
-        foreach ($cartItems as $item) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $item['product_id'],
-                'quantity' => $item['quantity'],
-                'price' => $item['price']
-            ]);
-
-            // Mark product as sold
-            Product::where('id', $item['product_id'])->update(['is_sold' => true]);
-        }
-
-        // Clear the session after order placement
-        session()->forget('cart_items');
-
-        // Handle payment redirection
+    
+        // Handle COD: Create order immediately
         if ($request->payment_method === 'cod') {
+            $paymentMethod = PaymentMethod::firstOrCreate(['name' => 'cod']);
+    
+            $order = Order::create([
+                'user_id' => $user->id,
+                'payment_method_id' => $paymentMethod->id,
+                'total_price' => $totalAmount + 36, // Additional fee
+                'status' => 'pending'
+            ]);
+    
+            foreach ($cartItems as $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item['product_id'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['price']
+                ]);
+    
+                Product::where('id', $item['product_id'])->update(['is_sold' => true]);
+            }
+    
+            session()->forget('cart_items');
+    
             return redirect()->route('orders.pending')->with('success', 'Order placed successfully! (COD)');
-        } else {
-            return app(PaymentController::class)->createPaymentIntent($request);
         }
-    }
+    
+        // For online payment: save cart and payment data in session only
+        session([
+            'payment_data' => [
+                'cart_items' => $cartItems,
+                'total_amount' => $totalAmount,
+                'payment_method' => $request->payment_method
+            ]
+        ]);
+    
+        // Redirect to PaymentController to handle PayMongo payment flow
+        return app(PaymentController::class)->createcartPaymentIntent($request);
+}
 }

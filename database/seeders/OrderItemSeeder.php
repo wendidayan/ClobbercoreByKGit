@@ -26,7 +26,6 @@ class OrderItemSeeder extends Seeder
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $product->id,
-                    'quantity' => rand(1, 5),
                     'price' => $product->price,
                 ]);
             }

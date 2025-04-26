@@ -63,39 +63,34 @@ class OrderController extends Controller
 
     public function placeOrder(Request $request)
     {
-        $user = auth()->user();
+    $user = auth()->user();
 
-        // Validate request
-        $request->validate([
-            'payment_method' => 'required|string'
-        ]);
+    $request->validate([
+        'payment_method' => 'required|string'
+    ]);
 
-        // Find or create the payment method
+    $mineItems = session()->get('mine_items', []);
+    if (empty($mineItems)) {
+        return redirect()->back()->with('error', 'No items selected for order.');
+    }
+
+    $totalAmount = collect($mineItems)->sum(function ($item) {
+        return $item['price'] * $item['quantity'];
+    });
+
+    if ($request->payment_method === 'cod') {
+        // Handle COD normally
         $paymentMethod = PaymentMethod::firstOrCreate([
-            'name' => $request->payment_method
+            'name' => 'cod'
         ]);
 
-        // Retrieve mineItems from session
-        $mineItems = session()->get('mine_items', []);
-
-        if (empty($mineItems)) {
-            return redirect()->back()->with('error', 'No items selected for order.');
-        }
-
-        // Calculate total price from session data
-        $totalAmount = collect($mineItems)->sum(function ($item) {
-            return $item['price'] * $item['quantity'];
-        });
-
-        // Create an order
         $order = Order::create([
             'user_id' => $user->id,
             'payment_method_id' => $paymentMethod->id,
-            'total_price' => $totalAmount + 36, // Additional fee included
-            'status' => $request->payment_method === 'cod' ? 'pending' : 'processing'
+            'total_price' => $totalAmount + 36,
+            'status' => 'pending'
         ]);
 
-        // Save each order item
         foreach ($mineItems as $item) {
             OrderItem::create([
                 'order_id' => $order->id,
@@ -103,20 +98,20 @@ class OrderController extends Controller
                 'quantity' => $item['quantity'],
                 'price' => $item['price']
             ]);
-            // Mark product as sold
-        Product::where('id', $item['product_id'])->update(['is_sold' => true]);
+            Product::where('id', $item['product_id'])->update(['is_sold' => true]);
         }
 
-        // Clear the session after order placement
         session()->forget('mine_items');
 
-        // Handle payment redirection
-        if ($request->payment_method === 'cod') {
-            return redirect()->route('orders.pending')->with('success', 'Order placed successfully! (COD)');
-        } else {
-            return app(PaymentController::class)->createPaymentIntent($request);
-        }
+        return redirect()->route('orders.pending')->with('success', 'Order placed successfully! (COD)');
+    } else {
+        // For PayMongo — just pass session data
+        $request->merge(['amount' => $totalAmount + 36]);
+        return app(PaymentController::class)->createPaymentIntent($request);
     }
 
 
+    }
+
+    
 }

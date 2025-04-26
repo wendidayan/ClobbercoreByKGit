@@ -21,28 +21,22 @@ class OrderSeeder extends Seeder
 
         // Insert sample orders using the Order model
         Order::create([
-            'user_id' => 1,
-            'payment_method_id' => $paymentMethods->random()->id,
+            'user_id' => 2,
+            'payment_method_id' => 1,
             'total_price' => 500.00,
-            'status' => 'pending',
-        ]);
-
-        Order::create([
-            'user_id' => 1,
-            'payment_method_id' => $paymentMethods->random()->id,
-            'total_price' => 750.50,
-            'status' => 'processing',
-        ]);
-
-        Order::create([
-            'user_id' => 1,
-            'payment_method_id' => $paymentMethods->random()->id,
-            'total_price' => 1200.75,
             'status' => 'completed',
         ]);
+
         Order::create([
             'user_id' => 2,
-            'payment_method_id' => $paymentMethods->random()->id,
+            'payment_method_id' => 1,
+            'total_price' => 750.50,
+            'status' => 'completed',
+        ]);
+
+        Order::create([
+            'user_id' => 2,
+            'payment_method_id' => 1,
             'total_price' => 1200.75,
             'status' => 'completed',
         ]);

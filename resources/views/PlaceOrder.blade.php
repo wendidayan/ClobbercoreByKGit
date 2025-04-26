@@ -28,7 +28,7 @@
                 <div class="collapse navbar-collapse d-md-flex justify-content-md-center justify-content-lg-end me-0 pe-0 ms-0" id="navcol-1">
                     <ul class="navbar-nav" style="border-top-style: none;">
                     <li class="nav-item"><a class="nav-link" href="{{ route('ShoppingPage') }}"  style="color:var(--bs-gray-dark);font-size:13px;">HOME</a></li>
-                            <li class="nav-item"><a class="nav-link" href="Clothing.html" style="color:var(--bs-gray-dark);font-size:13px;">COLLECTIONS</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('Clothing') }}" style="color:var(--bs-gray-dark);font-size:13px;">COLLECTIONS</a></li>
                             <li class="nav-item"><a class="nav-link active nav-link active" href="{{ route('PrivacyPolicy') }}" style="color:var(--bs-gray-dark);font-size:13px;">MORE</a></li>
                     </ul>
                     <ul class="navbar-nav ms-auto nav-right" style="font-family:'Open Sans', sans-serif;">

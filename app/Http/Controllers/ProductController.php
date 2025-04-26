@@ -121,6 +121,17 @@ class ProductController extends Controller
         
     }
 
+
+    //Displaying By Brand
+    public function showByBrand($brand)
+{
+    $products = Product::where('brand', $brand)
+    ->where('is_sold', false)
+    ->get();
+
+    return view('BrandsPage', compact('products', 'brand'));
+}
+
 //on development filtering.......
     public function Clothing()
     {
@@ -129,53 +140,145 @@ class ProductController extends Controller
         $newArrivals = Product::where('is_new_arrival', true)->where('is_sold', false)->get();
         $allProducts = Product::where('is_sold', false)->get();
 
+        //----For New Arrivals
+       // Fetch distinct categories where at least one product meets the conditions
+        $categories = Category::whereHas('products', function ($query) {
+            $query->where('is_new_arrival', true)
+                ->where('is_sold', false);
+        })->distinct()->pluck('name');
 
-        // Fetch categories, subcategories, sizes, and colors
-        $categories = Category::all();
-        $subcategories = Subcategory::all();
-        $sizes = Product::select('size')->distinct()->get();
-        $colors = Product::select('color')->distinct()->get();
+        // Fetch distinct sizes with conditions: is_new_arrival = true and is_sold = false
+        $sizes = Product::distinct()
+            ->whereNotNull('size') // Ensure size is not null
+            ->where('is_new_arrival', true) // Add condition for new arrivals
+            ->where('is_sold', false) // Add condition for products not sold
+            ->pluck('size');
+
+        // Fetch distinct colors with conditions: is_new_arrival = true and is_sold = false
+        $colors = Product::distinct()
+            ->whereNotNull('color') // Ensure color is not null
+            ->where('is_new_arrival', true) // Add condition for new arrivals
+            ->where('is_sold', false) // Add condition for products not sold
+            ->pluck('color');
+
+        //----For Thrift Deals
+        // Fetch distinct categories where at least one product meets the conditions
+        $categories1 = Category::whereHas('products', function ($query) {
+            $query->where('is_thrift_deal', true)
+                ->where('is_sold', false);
+        })->distinct()->pluck('name');
+
+        // Fetch distinct sizes with conditions: is_new_arrival = true and is_sold = false
+        $sizes1 = Product::distinct()
+            ->whereNotNull('size') // Ensure size is not null
+            ->where('is_thrift_deal', true) // Add condition for new arrivals
+            ->where('is_sold', false) // Add condition for products not sold
+            ->pluck('size');
+
+        // Fetch distinct colors with conditions: is_new_arrival = true and is_sold = false
+        $colors1 = Product::distinct()
+            ->whereNotNull('color') // Ensure color is not null
+            ->where('is_thrift_deal', true) // Add condition for new arrivals
+            ->where('is_sold', false) // Add condition for products not sold
+            ->pluck('color');
+
+        //----For All Out Ukay
+        // Fetch distinct categories where at least one product meets the conditions
+        $categories2 = Category::whereHas('products', function ($query) {
+            $query->where('is_sold', false);
+        })->distinct()->pluck('name');
+
+        // Fetch distinct sizes with conditions: is_new_arrival = true and is_sold = false
+        $sizes2 = Product::distinct()
+            ->whereNotNull('size') // Ensure size is not null
+            ->where('is_sold', false) // Add condition for products not sold
+            ->pluck('size');
+
+        // Fetch distinct colors with conditions: is_new_arrival = true and is_sold = false
+        $colors2 = Product::distinct()
+            ->whereNotNull('color') // Ensure color is not null
+            ->where('is_sold', false) // Add condition for products not sold
+            ->pluck('color');
 
 
-        return view('Clothing', compact('thriftDeals', 'newArrivals', 'allProducts', 'categories', 'subcategories', 'sizes', 'colors'));
+
+        return view('Clothing', compact('thriftDeals', 'newArrivals', 'allProducts', 'categories', 'sizes', 'colors','categories1', 'sizes1', 'colors1','categories2', 'sizes2', 'colors2'));
     }
 
-    public function applyFilters(Request $request)
+   
+    public function ClothingFiltering(Request $request)
     {
-        \Log::info('Filters applied:', $request->all()); 
+        // Initialize query for filtering products
+        $query = Product::where('is_sold', false); // Only show unsold products
     
-        $query = Product::with('category', 'subcategory'); 
+        // Apply filters based on the selected tab
+        if ($request->has('category') && $request->category) {
+            switch ($request->category) {
+                case 'new-arrival':
+                    $query->where('is_new_arrival', true);
+                    break;
+                case 'bagsak-presyo':
+                    $query->where('is_thrift_deal', true);
+                    break;
+                case 'all-out-ukay':
+                    // No additional filter, show all products
+                    break;
+            }
+        }
     
-        // Apply filters
-        if ($request->category) {
-            $query->where('category_id', $request->category);
-        }
-        if ($request->subcategory) {
-            $query->where('subcategory_id', $request->subcategory);
-        }
-        if ($request->size) {
+        // Apply additional filters (size, color, price range)
+        if ($request->has('size') && $request->size) {
             $query->where('size', $request->size);
         }
-        if ($request->color) {
+    
+        if ($request->has('color') && $request->color) {
             $query->where('color', $request->color);
         }
     
+        if (is_numeric($request->min_price)) {
+            $query->where('price', '>=', $request->min_price);
+        }
+    
+        if (is_numeric($request->max_price)) {
+            $query->where('price', '<=', $request->max_price);
+        }
+    
+        // Apply category filter
+        if ($request->has('category_filter') && $request->category_filter) {
+            $categoryId = Category::where('name', $request->category_filter)->value('id');
+            if ($categoryId) {
+                $query->where('category_id', $categoryId);
+            }
+        }
+    
         // Fetch filtered products
-        $filteredProducts = $query->get();
+        $products = $query->get();
     
-        \Log::info('Filtered products:', $filteredProducts->toArray()); // Log filtered products
-    
-        return response()->json(['products' => $filteredProducts]);
+        return response()->json([
+            'success' => true,
+            'products' => $products,
+        ]);
     }
     
-    public function getSubcategories(Request $request)
-    {
-        $subcategories = Subcategory::where('category_id', $request->category_id)->get();
-        return response()->json(['subcategories' => $subcategories]);
-    }
+
+}
+    
+    
+    
 
 
 
-   
+    
+
+
+
+
+
+
+
+
+
+
+
   
- }
+ 

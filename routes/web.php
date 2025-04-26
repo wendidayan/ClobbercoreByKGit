@@ -49,6 +49,9 @@ Route::post('/paymongo/checkout', [PaymentController::class, 'createPaymentInten
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('payment.success');
 Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
+//For Cart Payment
+Route::get('/payment/cart/success', [PaymentController::class, 'successCartPayment'])->name('payment.cart.success');
+
 //Mine Method (passing details to ToPay blade)
 Route::middleware(['auth'])->group(function () {
     Route::get('/order/topay', [OrderController::class, 'toPay'])->name('order.topay');
@@ -65,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/cart/place-order', [CartController::class, 'cartPlaceOrder'])->name('cart.placeOrder');
     Route::get('/order/topay/cart', [CartController::class, 'toPayCart'])->name('order.topaycart'); 
     Route::post('/order/place/cart', [CartController::class, 'placeOrderCart'])->name('order.placecart');
+    
 });
 
 //Privacy Policy
@@ -72,8 +76,13 @@ Route::get('/PrivacyPolicy', function () {
     return view('PrivacyPolicy'); 
 })->name('PrivacyPolicy');
 
+//For Branded Items
+Route::get('/brands/{brand}', [ProductController::class, 'showByBrand'])->name('BrandsPage');
 
 
+//Filter for Specific Products
+Route::get('/Clothing', [ProductController::class, 'Clothing'])->name('Clothing');
+Route::get('/clothing/filter', [ProductController::class, 'ClothingFiltering'])->name('clothing.filter');
 
 
 //Server-side
@@ -94,22 +103,15 @@ Route::post('/products/store', [ProductController::class, 'store'])->name('produ
 
 
 
+
+
+
+
+
+
+
+
 // To be finalized............
-//Filter for Specific Products
-Route::get('/Clothing', [ProductController::class, 'Clothing'])->name('Clothing');
-Route::get('/apply-filters', [ProductController::class, 'applyFilters']);
-Route::get('/get-subcategories', [ProductController::class, 'getSubcategories']);
-
-
-
-
-
-
-
-Route::get('/Collections', function () {
-    return view('Collections'); 
-})->name('Collections');
-
 
 Route::get('/UserProfile', function () {
     return view('UserProfile'); 

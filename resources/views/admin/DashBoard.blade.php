@@ -620,7 +620,8 @@
                                     <option value="LEVI'S">LEVI'S</option>
                                     <option value="GAP">GAP</option>
                                     <option value="ADIDAS">ADIDAS</option>
-                                    <option value="CHANNEL">CHANNEL</option>
+                                    <option value="CHANEL">CHANEL</option>
+                                    <option value="HM">H&M</option>
                                     <option value="Local-Brand">Local Brand</option>
                                     <option value="Not-Specified">Not Specified</option>
                                 </select></div>
@@ -709,7 +710,8 @@
                                     <option value="LEVI'S">LEVI'S</option>
                                     <option value="GAP">GAP</option>
                                     <option value="ADIDAS">ADIDAS</option>
-                                    <option value="CHANNEL">CHANNEL</option>
+                                    <option value="CHANEL">CHANEL</option>
+                                    <option value="HM">H&M</option>
                                     <option value="Local-Brand">Local Brand</option>
                                     <option value="Not-Specified">Not Specified</option>
                                 </select></div>
@@ -797,7 +799,8 @@
                                     <option value="LEVI'S">LEVI'S</option>
                                     <option value="GAP">GAP</option>
                                     <option value="ADIDAS">ADIDAS</option>
-                                    <option value="CHANNEL">CHANNEL</option>
+                                    <option value="CHANEL">CHANEL</option>
+                                    <option value="HM">H&M</option>
                                     <option value="Local-Brand">Local Brand</option>
                                     <option value="Not-Specified">Not Specified</option>
                                 </select></div>

@@ -10,7 +10,7 @@
     <div class="container text-center mt-5">
         <h1 class="text-success">Payment Cancelled!</h1>
         <p>Your payment has been cancelled.</p>
-        <a href="{{ route('ToPay') }}" class="btn btn-primary">Go Back to Shop</a>
+        <a href="{{ route('ShoppingPage') }}"class="btn btn-primary">Go Back to Shop</a>
     </div>
 </body>
 </html>

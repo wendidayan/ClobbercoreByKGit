@@ -32,7 +32,7 @@
                     <div class="collapse navbar-collapse d-md-flex justify-content-md-center justify-content-lg-end me-0 pe-0 ms-0" id="navcol-1">
                         <ul class="navbar-nav" style="border-top-style: none;">
                             <li class="nav-item"><a class="nav-link" href="{{ route('ShoppingPage') }}"  style="color:var(--bs-gray-dark);font-size:13px;">HOME</a></li>
-                            <li class="nav-item"><a class="nav-link" href="Clothing.html" style="color:var(--bs-gray-dark);font-size:13px;">COLLECTIONS</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ route('Clothing') }}"  style="color:var(--bs-gray-dark);font-size:13px;">COLLECTIONS</a></li>
                             <li class="nav-item"><a class="nav-link active nav-link active" href="{{ route('PrivacyPolicy') }}" style="color:var(--bs-gray-dark);font-size:13px;">MORE</a></li>
                         </ul>
                         <ul class="navbar-nav ms-auto nav-right" style="font-family:'Open Sans', sans-serif;">
@@ -231,48 +231,57 @@
             </div>
         </div>
     </section>
+
+
+
+    <!--POPULAR BRANDS -->
     <section id="popular-brands" class="popular-brands mb-4">
         <div class="container">
             <h2 class="brand-title">Discover Your Favorite Brands- Pre-loved Treasures</h2>
             <div class="brand-scroll-container">
-                <div class="brand-card-inline"><a class="text-decoration-none" href="BrandsPage.html"><img alt="person in white nike crew neck shirt" class="brand-logo" src="assets/img/photo-1606105954396-43576bb5a44d.jpg">
+                <div class="brand-card-inline"><a class="text-decoration-none" href="{{ route('BrandsPage', ['brand' => 'NIKE']) }}"><img alt="person in white nike crew neck shirt" class="brand-logo" src="assets/img/photo-1606105954396-43576bb5a44d.jpg">
                         <div class="brand-name">
                             <h6>Nike</h6>
                         </div>
                     </a></div>
-                <div class="brand-card-inline"><a class="text-decoration-none" href="BrandsPage.html"><img class="brand-logo" src="assets/img/uniqlo.jpg">
+                <div class="brand-card-inline"><a class="text-decoration-none" href="{{ route('BrandsPage', ['brand' => 'UNIQLO']) }}"><img class="brand-logo" src="assets/img/uniqlo.jpg">
                         <div class="brand-name">
                             <h6>UNIQLO</h6>
                         </div>
                     </a></div>
-                <div class="brand-card-inline"><a class="text-decoration-none" href="BrandsPage.html"><img class="brand-logo" src="assets/img/zara.jpg">
+                <div class="brand-card-inline"><a class="text-decoration-none" href="{{ route('BrandsPage', ['brand' => 'ZARA']) }}"><img class="brand-logo" src="assets/img/zara.jpg">
                         <div class="brand-name">
                             <h6>ZARA</h6>
                         </div>
                     </a></div>
-                <div class="brand-card-inline"><a class="text-decoration-none" href="BrandsPage.html"><img class="brand-logo" src="assets/img/puma.jpg">
+                <div class="brand-card-inline"><a class="text-decoration-none" href="{{ route('BrandsPage', ['brand' => 'PUMA']) }}"><img class="brand-logo" src="assets/img/puma.jpg">
                         <div class="brand-name">
                             <h6>PUMA</h6>
                         </div>
                     </a></div>
-                <div class="brand-card-inline"><a class="text-decoration-none" href="BrandsPage.html"><img class="brand-logo" src="assets/img/levis.jpg">
+                <div class="brand-card-inline"><a class="text-decoration-none" href="{{ route('BrandsPage', ['brand' => 'LEVI\'S']) }}"><img class="brand-logo" src="assets/img/levis.jpg">
                         <div class="brand-name">
                             <h6>LEVI'S</h6>
                         </div>
                     </a></div>
-                <div class="brand-card-inline"><a class="text-decoration-none" href="BrandsPage.html"><img class="brand-logo" src="assets/img/gap.jpg">
+                <div class="brand-card-inline"><a class="text-decoration-none" href="{{ route('BrandsPage', ['brand' => 'GAP']) }}"><img class="brand-logo" src="assets/img/gap.jpg">
                         <div class="brand-name">
                             <h6>GAP</h6>
                         </div>
                     </a></div>
-                <div class="brand-card-inline"><a class="text-decoration-none" href="BrandsPage.html"><img class="brand-logo" src="assets/img/adidas.jpg">
+                <div class="brand-card-inline"><a class="text-decoration-none" href="{{ route('BrandsPage', ['brand' => 'ADIDAS']) }}"><img class="brand-logo" src="assets/img/adidas.jpg">
                         <div class="brand-name">
                             <h6>ADIDAS</h6>
                         </div>
                     </a></div>
-                <div class="brand-card-inline"><a class="text-decoration-none" href="BrandsPage.html"><img class="brand-logo" src="assets/img/chanel.jpg">
+                <div class="brand-card-inline"><a class="text-decoration-none" href="{{ route('BrandsPage', ['brand' => 'CHANEL']) }}"><img class="brand-logo" src="assets/img/chanel.jpg">
                         <div class="brand-name">
                             <h6>CHANEL</h6>
+                        </div>
+                    </a></div>
+                    <div class="brand-card-inline"><a class="text-decoration-none" href="{{ route('BrandsPage', ['brand' => 'HM']) }}"><img class="brand-logo" src="{{asset('assets/img/hm.jpg')}}">
+                        <div class="brand-name">
+                            <h6>H&M</h6>
                         </div>
                     </a></div>
             </div>
