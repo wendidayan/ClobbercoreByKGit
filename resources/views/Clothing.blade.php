@@ -60,7 +60,7 @@
                                     </div>
                                 </div>
                             </a></li>
-                        <li class="nav-item"><a class="nav-link" href="PlaceOrder.html" style="font-size:13px;padding-right:20px;">
+                        <li class="nav-item"><a class="nav-link" href="{{ route('cart.view') }}"  style="font-size:13px;padding-right:20px;">
                                 <div class="notification-nav" id="notif-5"><svg fill="none" height="1em" style="width:20px;height:20px;color:var(--bs-dark-text-emphasis);" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M5 4H19C19.5523 4 20 4.44771 20 5V19C20 19.5523 19.5523 20 19 20H5C4.44772 20 4 19.5523 4 19V5C4 4.44772 4.44771 4 5 4ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5ZM12 12C9.23858 12 7 9.31371 7 6H9C9 8.56606 10.6691 10 12 10C13.3309 10 15 8.56606 15 6H17C17 9.31371 14.7614 12 12 12Z" fill="currentColor" fill-rule="evenodd"></path></svg><span class="badge" style="background:rgba(108,117,125,0.6);">12</span>
                                     <div class="notif-box" id="notif-content-3">
                                         <h5 style="font-size:18px;margin:0px;padding:15px;border-bottom:1px solid #ddd;background:rgba(215,172,75,0.1);font-weight:bold;">Recently Received Notifications</h5>
@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                             </a></li>
-                        <li class="nav-item"><a class="nav-link" href="UserProfile.html" style="font-size:13px;">
+                        <li class="nav-item"><a class="nav-link" href="{{ route('UserProfile') }}"  style="font-size:13px;">
                                 <div class="notification-nav" id="notif-7"><svg fill="none" height="1em" style="width:20px;height:20px;color:var(--bs-dark-text-emphasis);" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 9C16 11.2091 14.2091 13 12 13C9.79086 13 8 11.2091 8 9C8 6.79086 9.79086 5 12 5C14.2091 5 16 6.79086 16 9ZM14 9C14 10.1046 13.1046 11 12 11C10.8954 11 10 10.1046 10 9C10 7.89543 10.8954 7 12 7C13.1046 7 14 7.89543 14 9Z" fill="currentColor" fill-rule="evenodd"></path><path d="M12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1ZM3 12C3 14.0902 3.71255 16.014 4.90798 17.5417C6.55245 15.3889 9.14627 14 12.0645 14C14.9448 14 17.5092 15.3531 19.1565 17.4583C20.313 15.9443 21 14.0524 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12ZM12 21C9.84977 21 7.87565 20.2459 6.32767 18.9878C7.59352 17.1812 9.69106 16 12.0645 16C14.4084 16 16.4833 17.1521 17.7538 18.9209C16.1939 20.2191 14.1881 21 12 21Z" fill="currentColor" fill-rule="evenodd"></path></svg></div>
                             </a></li>
                     </ul>
@@ -103,7 +103,7 @@
 </svg>
                     <p class="m-0 p-2" style="color:var(--bs-secondary);">Thank you for shopping with us!</p>
                 </div>
-                <p class="p-2" style="color:var(--bs-secondary);">We appreciate your trust in&nbsp;<span style="font-weight:bold;color:var(--bs-dark);">Clobbercore by K</span>.</p><a class="btn btn-primary" role="button" style="border-radius: 2px;background: rgba(215,172,75,0.5);border-style: none;color: var(--bs-dark);font-size: 14px;padding: 8px 16px;" href="ShoppingPage.html"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none">
+                <p class="p-2" style="color:var(--bs-secondary);">We appreciate your trust in&nbsp;<span style="font-weight:bold;color:var(--bs-dark);">Clobbercore by K</span>.</p><a class="btn btn-primary" role="button" style="border-radius: 2px;background: rgba(215,172,75,0.5);border-style: none;color: var(--bs-dark);font-size: 14px;padding: 8px 16px;" href="{{ route('ShoppingPage') }}"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none">
                         <path d="M20.3284 11.0001V13.0001L7.50011 13.0001L10.7426 16.2426L9.32842 17.6568L3.67157 12L9.32842 6.34314L10.7426 7.75735L7.49988 11.0001L20.3284 11.0001Z" fill="currentColor"></path>
                     </svg>&nbsp;Back to Home</a>
             </div>
@@ -284,6 +284,20 @@
             </div>
         </div>
     </section>
+
+    @if(session('order_success'))
+        <script>
+            function placeOrder() {
+                localStorage.setItem('orderPlaced', 'true');
+                console.log("Order placed flag set in localStorage.");
+            }
+
+            // Call placeOrder only if the order_success message exists
+            placeOrder();
+        </script>
+    @endif
+
+    
 
     <section id="footer">
         <div>

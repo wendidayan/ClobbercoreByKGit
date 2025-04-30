@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\OrderItem;
@@ -12,24 +11,29 @@ class OrderItemSeeder extends Seeder
 {
     public function run(): void
     {
-        $orders = Order::all();
-        $products = Product::all();
-    
-        if ($orders->isEmpty() || $products->isEmpty()) {
-            return; // Stop seeding if no orders or products exist
+        // Specify the order ID
+        $orderId = 21;
+
+        // Check if the specified order exists
+        $order = Order::find($orderId);
+        if (!$order) {
+            return; // Stop seeding if the specified order does not exist
         }
-    
-        foreach ($orders as $order) {
-            $randomProducts = $products->random(max(1, rand(1, 3))); // Ensure at least 1 product
-    
-            foreach ($randomProducts as $product) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $product->id,
-                    'price' => $product->price,
-                ]);
-            }
+
+        // Fetch two products to associate with the order
+        $products = Product::limit(3)->get(); // Get the first two products from the database
+
+        if ($products->isEmpty()) {
+            return; // Stop seeding if no products exist
+        }
+
+        // Create two OrderItem records for the specified order
+        foreach ($products as $product) {
+            OrderItem::create([
+                'order_id' => $orderId,
+                'product_id' => $product->id,
+                'price' => $product->price,
+            ]);
         }
     }
-    
 }

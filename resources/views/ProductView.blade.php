@@ -200,9 +200,6 @@
                 <div>
                     <ul>
                         <li>{{ $product->description }}</li>
-                   <!--     <li>Pwede sa tag-ulan, tag-araw, at kahit taghirap!</li>
-                        <li>Walang kupas, pang-OOTD!</li>
-                        <li>Authentic vintage feels, pang-classic look!</li>-->
                     </ul>
                 </div>
             </div>

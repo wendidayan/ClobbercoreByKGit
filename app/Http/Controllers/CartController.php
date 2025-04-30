@@ -7,7 +7,11 @@ use App\Models\CartItem;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\PaymentMethod;
+use App\Models\DeliveryMethod;
 use App\Models\OrderItem;
+use App\Models\Category;
+use App\Models\Subcategory;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -148,7 +152,8 @@ class CartController extends Controller
 
         // Validate request
         $request->validate([
-            'payment_method' => 'required|string'
+            'payment_method' => 'required|string',
+            'delivery_method' => 'required|in:shipping,meetup,pickup'
         ]);
     
         // Retrieve cart items from session
@@ -163,6 +168,11 @@ class CartController extends Controller
             return $item['price'] * $item['quantity'];
         });
     
+        // Get or create delivery method
+        $deliveryMethod = DeliveryMethod::firstOrCreate([
+            'name' => $request->input('delivery_method')
+        ]);
+
         // Handle COD: Create order immediately
         if ($request->payment_method === 'cod') {
             $paymentMethod = PaymentMethod::firstOrCreate(['name' => 'cod']);
@@ -170,6 +180,7 @@ class CartController extends Controller
             $order = Order::create([
                 'user_id' => $user->id,
                 'payment_method_id' => $paymentMethod->id,
+                'delivery_method_id' => $deliveryMethod->id,
                 'total_price' => $totalAmount + 36, // Additional fee
                 'status' => 'pending'
             ]);
@@ -187,7 +198,7 @@ class CartController extends Controller
     
             session()->forget('cart_items');
     
-            return redirect()->route('orders.pending')->with('success', 'Order placed successfully! (COD)');
+            return redirect()->route('Clothing')->with('order_success', 'Order placed successfully! (COD)');
         }
     
         // For online payment: save cart and payment data in session only
@@ -195,7 +206,8 @@ class CartController extends Controller
             'payment_data' => [
                 'cart_items' => $cartItems,
                 'total_amount' => $totalAmount,
-                'payment_method' => $request->payment_method
+                'payment_method' => $request->payment_method,
+                'delivery_method' => $request->delivery_method
             ]
         ]);
     

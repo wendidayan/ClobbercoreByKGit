@@ -8,6 +8,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ReviewController;
 
 
 //Client-Side
@@ -113,7 +114,11 @@ Route::post('/products/store', [ProductController::class, 'store'])->name('produ
 
 // To be finalized............
 
-Route::get('/UserProfile', function () {
-    return view('UserProfile'); 
-})->name('UserProfile');
 
+// Remove the standalone /UserProfile route
+Route::get('/UserProfile', [OrderController::class, 'showCompletedOrders'])->name('UserProfile');
+
+// Keep the existing /UserProfile/Orders route
+//Route::get('/UserProfile/Orders', [OrderController::class, 'showCompletedOrders'])->name('orders.completed');
+
+Route::post('order/{orderId}/rate', [ReviewController::class, 'rateOrder'])->name('order.rate');

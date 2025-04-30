@@ -5,18 +5,26 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Ecommerce-Client-Side</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alex+Brush&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Great+Vibes&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700,800&amp;display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,700,800&amp;display=swap">
-    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
-    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
-    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
-    <link rel="stylesheet" href="assets/css/Lightbox-Gallery-baguetteBox.min.css">
-    <link rel="stylesheet" href="assets/css/LoginStyle.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/test.css">
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alex+Brush&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Great+Vibes&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700,800&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,500,700,800&display=swap">
+    <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/fonts/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome5-overrides.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/Lightbox-Gallery-baguetteBox.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/LoginStyle.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/test.css') }}">
+
+    <!-- Required for Bootstrap Modal -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
 </head>
 
 <body style="font-family: 'Open Sans', sans-serif;background: #f5f5f5;">
@@ -29,9 +37,9 @@
                 </a><button data-bs-toggle="collapse" data-bs-target="#navcol-1" class="navbar-toggler"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse d-md-flex justify-content-md-center justify-content-lg-end me-0 pe-0 ms-0" id="navcol-1">
                     <ul class="navbar-nav" style="border-top-style: none;">
-                        <li class="nav-item"><a class="nav-link" href="ShoppingPage.html" style="color:var(--bs-gray-dark);font-size:13px;">HOME</a></li>
-                        <li class="nav-item"><a class="nav-link" href="Clothing.html" style="color:var(--bs-gray-dark);font-size:13px;">COLLECTIONS</a></li>
-                        <li class="nav-item"><a class="nav-link active" href="PrivacyPolicy.html" style="color:var(--bs-gray-dark);font-size:13px;">MORE</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('ShoppingPage') }}"  style="color:var(--bs-gray-dark);font-size:13px;">HOME</a></li>
+                        <li class="nav-item"><a class="nav-link"href="{{ route('Clothing') }}"  style="color:var(--bs-gray-dark);font-size:13px;">COLLECTIONS</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="{{ route('PrivacyPolicy') }}"  style="color:var(--bs-gray-dark);font-size:13px;">MORE</a></li>
                     </ul>
                     <ul class="navbar-nav ms-auto nav-right" style="font-family:'Open Sans', sans-serif;">
                         <li class="nav-item"><a class="nav-link" href="#" style="font-size:13px;padding-right:20px;color:var(--bs-dark-text-emphasis);">
@@ -243,10 +251,13 @@
                                 <li class="nav-item"><a class="nav-link" data-category="completed" href="completed" style="border-radius:0px;border-style:none;">Completed</a></li>
                                 <li class="nav-item"><a class="nav-link" data-category="cancelled" href="cancelled" style="border-radius:0px;border-style:none;">Cancelled</a></li>
                             </ul>
+                            
                             <div id="all" class="tab-content-div" style="display: none;">
                                 <div id="search-bar-main" class="search-div m-3" style="font-family: 'Open Sans', sans-serif;">
                                     <div class="main-search" style="border: 0.8px solid rgba(33,37,41,0.3) ;"><i class="fa fa-search"></i><input type="text" placeholder="Search here..."><button class="btn" type="button">Go</button></div>
                                 </div>
+                                <!--
+                                
                                 <div class="p-2 mb-2" style="border-bottom-width: 0.8px;border-bottom-color: rgba(33,37,41,0.1);">
                                     <div class="d-flex justify-content-end">
                                         <h6 style="font-size: 14px;color: #d7ac4b;">Completed</h6>
@@ -270,6 +281,9 @@
                                         <p class="p-2 pt-0 pb-0 mb-0" style="font-size: 12px;color: var(--bs-black);">Order Total:&nbsp;<span>₱100</span></p><button class="btn" type="button" style="padding: 8px 16px;width: 80px;height: 40px;border-radius: 3px;background: #d7ac4b;border-style: none;border-top-style: none;color: var(--bs-light);" data-bs-toggle="modal" data-bs-target="#toRateModal">Rate</button>
                                     </div>
                                 </div>
+                                -->
+
+                                
                                 <div class="p-2 mb-2" style="border-bottom-width: 0.8px;border-bottom-color: rgba(33,37,41,0.1);">
                                     <div class="d-flex justify-content-end">
                                         <h6 style="font-size: 14px;color: #d7ac4b;">Cancelled</h6>
@@ -419,31 +433,54 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="completed" class="tab-content-div" style="display: none;">
-                                <div class="p-2 mb-2" style="border-bottom-width: 0.8px;border-bottom-color: rgba(33,37,41,0.1);">
-                                    <div class="d-flex justify-content-end p-3">
-                                        <h6 style="font-size: 14px;color: #d7ac4b;">Completed</h6>
-                                    </div>
-                                    <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;border-top-width: 0.8px;border-top-color: rgba(33,37,41,0.1);border-bottom: 0.8px none rgba(33,37,41,0.1) ;"><img class="object-fit-cover" style="width: 60px;height: 60px;margin-right: 15px;" src="assets/img/1.png">
-                                        <div class="all-content">
-                                            <p><strong>Rose Jeans Shirt</strong></p>
-                                            <p>Small, Black</p>
-                                            <p class="mb-2" style="text-align: right;">₱50</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;border-top-width: 0.8px;border-top-color: rgba(33,37,41,0.1);border-bottom: 0.8px none rgba(33,37,41,0.1) ;"><img class="object-fit-cover" style="width: 60px;height: 60px;margin-right: 15px;" src="assets/img/5.png">
-                                        <div class="all-content">
-                                            <p><strong>Rose Jeans Shirt</strong></p>
-                                            <p>Small, Black</p>
-                                            <p class="mb-2" style="text-align: right;">₱50</p>
-                                            <p class="d-flex justify-content-end"><span>2&nbsp;</span>Items</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-end align-items-center p-2 order-total gap-2" style="border-top: 0.8px solid rgba(33,37,41,0.1) ;border-bottom: 0.8px dashed rgba(33,37,41,0.1) ;">
-                                        <p class="p-2 pt-0 pb-0 mb-0" style="font-size: 12px;color: var(--bs-black);">Order Total:&nbsp;<span>₱100</span></p><button class="btn" type="button" style="padding: 8px 20px;width: 80px;height: 40px;border-radius: 2px;background: #d7ac4b;border-style: none;border-top-style: none;color: var(--bs-light);" data-bs-toggle="modal" data-bs-target="#toRateModal">Rate</button>
-                                    </div>
+
+
+                         <!-- Display for Completed -->
+                        <div id="completed" class="tab-content-div" style="display: none;">
+                            <div class="p-2 mb-2" style="border-bottom-width: 0.8px; border-bottom-color: rgba(33,37,41,0.1);">
+                                <div class="d-flex justify-content-end p-3">
+                                    <h6 style="font-size: 14px; color: #d7ac4b;">Completed</h6>
                                 </div>
+
+                                @if($completedOrders->isEmpty())
+                                    <p>No completed orders found.</p>
+                                @else
+                                    @foreach($completedOrders as $order)
+                                        @foreach($order->orderItems as $orderItem)
+                                            <div class="d-flex align-items-center purchase mb-2" style="padding: 15px; border-top-width: 0.8px; border-top-color: rgba(33,37,41,0.1); border-bottom: 0.8px none rgba(33,37,41,0.1);">
+                                                <img class="object-fit-cover" style="width: 60px; height: 60px; margin-right: 15px;" src="{{ asset($orderItem->product->image ?? 'assets/img/default.png') }}">
+                                                <div class="all-content">
+                                                    <p><strong>{{ $orderItem->product->name ?? 'Product Not Available' }}</strong></p>
+                                                    <p>{{ $orderItem->product->size ?? 'N/A' }}</p>
+                                                    <p class="mb-2" style="text-align: right;">₱{{ $orderItem->product->price ?? 'N/A' }}</p>
+                                                </div>
+                                            </div>
+                                        @endforeach
+
+                                        <!-- Total Items Count -->
+                                        <p class="d-flex justify-content-end" style="padding: 0 15px; font-size: 14px;">
+                                            <span>{{ count($order->orderItems) }}</span>&nbsp;
+                                            {{ count($order->orderItems) === 1 ? 'Item' : 'Items' }}
+                                        </p>
+
+
+                                        <!-- Rate Button -->
+                                        <div class="d-flex justify-content-end align-items-center p-2 order-total gap-2" style="border-top: 0.8px solid rgba(33,37,41,0.1); border-bottom: 0.8px dashed rgba(33,37,41,0.1);">
+                                            <p class="p-2 pt-0 pb-0 mb-0" style="font-size: 12px; color: var(--bs-black);">
+                                                Order Total:&nbsp;<span>₱{{ $order->total_price ?? 'N/A' }}</span>
+                                            </p>
+                                            <button class="btn" type="button"
+                                                    style="padding: 8px 20px; width: 80px; height: 40px; border-radius: 2px; background: #d7ac4b; border-style: none; color: var(--bs-light);"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#toRateModal-{{ $order->id }}">Rate</button>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
+                        </div>
+
+                       
+
                             <div id="cancelled" class="tab-content-div" style="display: none;">
                                 <div class="p-2 mb-2" style="border-bottom-width: 0.8px;border-bottom-color: rgba(33,37,41,0.1);">
                                     <div class="d-flex justify-content-end p-3">
@@ -480,162 +517,148 @@
             </div>
         </div>
     </div>
-    <div class="modal fade modal-xl" role="dialog" tabindex="-1" id="toRateModal" style="padding: 30px 30px 0;">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable scr" role="document">
-            <div class="modal-content">
-                <div class="main-review-rate-form">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Rate and Review</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body" style="overflow-y: auto;">
+    
+  
+    
+<!--Rating Modal-->
+@foreach($completedOrders as $order)
+<div class="modal fade modal-xl" role="dialog" tabindex="-1" id="toRateModal-{{ $order->id }}" style="padding: 30px 30px 0;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable scr" role="document">
+        <div class="modal-content">
+            <div class="main-review-rate-form">
+                <div class="modal-header">
+                    <h4 class="modal-title">Rate and Review</h4>
+                    <button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" style="overflow-y: auto;">
+                    <form action="{{ route('order.rate', ['orderId' => $order->id]) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="order_id" value="{{ $order->id }}">
                         <div class="review-main-body">
-                            <div class="review-rate-popup" style="padding: 10px 0px 0px ;">
-                                <div class="review-rate-img"><img alt="woman looking sideways leaning on white wall" src="assets/img/photo-1529626455594-4ff0802cfb7e.jpg" width="56" height="56"></div>
+                            @foreach($order->orderItems as $orderItem)
+                            <div class="review-rate-popup" style="padding: 10px 0px 0px;">
+                                <div class="review-rate-img">
+                                    <img alt="{{ $orderItem->product->name ?? 'Product Image' }}" src="{{ asset($orderItem->product->image ?? 'assets/img/default.png') }}" width="56" height="56">
+                                </div>
                                 <div class="review-rate-title">
-                                    <p>Product Name</p>
+                                    <p>{{ $orderItem->product->name ?? 'N/A' }}</p>
                                 </div>
                             </div>
+                            @endforeach
+
                             <div style="margin: 20px 0px;">
                                 <div class="product-quality">
                                     <div class="product-quality-title">
                                         <h5>Product Quality</h5>
                                     </div>
-                                    <div style="padding-left: 5px;">
-                                        <div style="position: relative; width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
-                                                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-                                                <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
-                                            </svg></div>
+                                    <div style="padding-left: 5px; display: flex; align-items: center;">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                        <div style="position: relative; width: 26px; height: 26px;">
+                                            <label>
+                                                <input type="radio" name="product_quality_rating_{{ $order->id }}" value="{{ $i }}" class="visually-hidden">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
+                                                    <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
+                                                </svg>
+                                            </label>
+                                        </div>
+                                        @endfor
+                                        <span style="margin-left: 5px; color: #d7ac4b; min-width: 100px; font-size: 14px;">&nbsp;Amazing</span>
                                     </div>
-                                    <div style="padding-left: 5px;">
-                                        <div style="position: relative; width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
-                                                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-                                                <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
-                                            </svg></div>
-                                    </div>
-                                    <div style="padding-left: 5px;">
-                                        <div style="position: relative; width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
-                                                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-                                                <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
-                                            </svg></div>
-                                    </div>
-                                    <div style="padding-left: 5px;">
-                                        <div style="position: relative; width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
-                                                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-                                                <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
-                                            </svg></div>
-                                    </div>
-                                    <div style="padding-left: 5px;">
-                                        <div style="position: relative; width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
-                                                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-                                                <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
-                                            </svg></div>
-                                    </div><span style="margin-left: 5px; color: #d7ac4b; min-width: 100px; font-size: 14px;">&nbsp;Amazing</span>
                                 </div>
                             </div>
+
                             <div class="comment-box-main" style="background: rgba(215,172,75,0.1);">
                                 <div class="comment-box">
                                     <div class="comment">
                                         <div class="comment-title">
-                                            <h6>Review</h6><textarea class="comment-text" placeholder="Share your thoughts on the product"></textarea>
+                                            <h6>Review</h6>
+                                            <textarea class="comment-text" name="comment_{{ $order->id }}" placeholder="Share your thoughts on the product"></textarea>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="upload-box"><label class="d-flex align-items-center custom-upload"><i class="fa fa-camera" style="color: var(--bs-danger);"></i><span style="font-size: 10px;font-weight: 400;line-height: 14px;margin-left: 6px;color: var(--bs-danger);">Upload a photo</span><input type="file" class="hidden-file-input" multiple="" accept="image/*" onchange="previewImages(event)"></label>
+
+                                <div class="upload-box">
+                                    <label class="d-flex align-items-center custom-upload">
+                                        <i class="fa fa-camera" style="color: var(--bs-danger);"></i>
+                                        <span style="font-size: 10px;font-weight: 400;line-height: 14px;margin-left: 6px;color: var(--bs-danger);">Upload a photo</span>
+                                        <input type="file" class="hidden-file-input"  name="review_images_{{ $order->id }}[]" multiple accept="image/*" onchange="previewImages(event)">
+                                    </label>
                                     <div id="image-preview-abc"></div>
                                 </div>
                             </div>
+
                             <div class="d-flex align-items-center username-wrapper">
-                                <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-4"><label class="form-check-label" for="formCheck-4"></label></div>
+                                <div class="form-check">
+                                    <input type="hidden" name="show_username_{{ $order->id }}" value="0">
+                                    <input class="form-check-input" type="checkbox" name="show_username_{{ $order->id }}" id="formCheck-{{ $order->id }}" value="1" {{ old("show_username_{$order->id}", 0) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="formCheck-{{ $order->id }}"></label>
+                                </div>
                                 <div style="margin-left: 4px;">
                                     <div class="username-hint">
                                         <h6 style="color: var(--bs-secondary);">Show Username on your review</h6>
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <div class="mt-4">
-                                    <h5 style="font-size: 16px;">About Service</h5>
-                                </div>
-                                <div class="about-service-list">
-                                    <div class="seller-service-box" style="margin-top: 15px;">
-                                        <div class="seller-service">
-                                            <h5>Seller Service</h5>
-                                        </div>
-                                        <div style="padding-left: 5px;">
-                                            <div style="position: relative; width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
-                                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-                                                    <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
-                                                </svg></div>
-                                        </div>
-                                        <div style="padding-left: 5px;">
-                                            <div style="position: relative; width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
-                                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-                                                    <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
-                                                </svg></div>
-                                        </div>
-                                        <div style="padding-left: 5px;">
-                                            <div style="position: relative; width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
-                                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-                                                    <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
-                                                </svg></div>
-                                        </div>
-                                        <div style="padding-left: 5px;">
-                                            <div style="position: relative; width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
-                                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-                                                    <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
-                                                </svg></div>
-                                        </div>
-                                        <div style="padding-left: 5px;">
-                                            <div style="position: relative; width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
-                                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-                                                    <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
-                                                </svg></div>
-                                        </div><span style="margin-left: 5px; color: #d7ac4b; min-width: 100px; font-size: 14px;">&nbsp;Amazing</span>
+
+                            <div class="mt-4">
+                                <h5 style="font-size: 16px;">About Service</h5>
+                            </div>
+
+                            <div class="about-service-list">
+                                <div class="seller-service-box" style="margin-top: 15px;">
+                                    <div class="seller-service">
+                                        <h5>Seller Service</h5>
                                     </div>
-                                    <div class="seller-service-box" style="margin-top: 15px;">
-                                        <div class="seller-service">
-                                            <h5>Delivery Service</h5>
-                                        </div>
-                                        <div style="padding-left: 5px;">
-                                            <div style="position: relative; width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
-                                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
+                                    <div style="padding-left: 5px; display: flex; align-items: center;">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                        <div style="position: relative; width: 26px; height: 26px;">
+                                            <label>
+                                                <input type="radio" name="seller_service_rating_{{ $order->id }}" value="{{ $i }}" class="visually-hidden">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
                                                     <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
-                                                </svg></div>
+                                                </svg>
+
+                                            </label>
                                         </div>
-                                        <div style="padding-left: 5px;">
-                                            <div style="position: relative; width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
-                                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
+                                        @endfor
+                                        <span style="margin-left: 5px; color: #d7ac4b; min-width: 100px; font-size: 14px;">&nbsp;Amazing</span>
+                                    </div>
+                                </div>
+
+                                <div class="seller-service-box" style="margin-top: 15px;">
+                                    <div class="seller-service">
+                                        <h5>Delivery Service</h5>
+                                    </div>
+                                    <div style="padding-left: 5px; display: flex; align-items: center;">
+                                        @for ($i = 1; $i <= 5; $i++)
+                                        <div style="position: relative; width: 26px; height: 26px;">
+                                            <label>
+                                                <input type="radio" name="delivery_service_rating_{{ $order->id }}" value="{{ $i }}" class="visually-hidden">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
                                                     <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
-                                                </svg></div>
+                                                </svg>
+                                            </label>
                                         </div>
-                                        <div style="padding-left: 5px;">
-                                            <div style="position: relative; width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
-                                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-                                                    <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
-                                                </svg></div>
-                                        </div>
-                                        <div style="padding-left: 5px;">
-                                            <div style="position: relative; width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
-                                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-                                                    <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
-                                                </svg></div>
-                                        </div>
-                                        <div style="padding-left: 5px;">
-                                            <div style="position: relative; width: 26px; height: 26px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -32 576 576" width="1em" height="1em" fill="currentColor" style="color: #d7ac4b;width: 26px;height: 26px;">
-                                                    <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc. -->
-                                                    <path d="M287.9 0c9.2 0 17.6 5.2 21.6 13.5l68.6 141.3 153.2 22.6c9 1.3 16.5 7.6 19.3 16.3s.5 18.1-5.9 24.5L433.6 328.4l26.2 155.6c1.5 9-2.2 18.1-9.6 23.5s-17.3 6-25.3 1.7l-137-73.2L151 509.1c-8.1 4.3-17.9 3.7-25.3-1.7s-11.2-14.5-9.7-23.5l26.2-155.6L31.1 218.2c-6.5-6.4-8.7-15.9-5.9-24.5s10.3-14.9 19.3-16.3l153.2-22.6L266.3 13.5C270.4 5.2 278.7 0 287.9 0zm0 79L235.4 187.2c-3.5 7.1-10.2 12.1-18.1 13.3L99 217.9 184.9 303c5.5 5.5 8.1 13.3 6.8 21L171.4 443.7l105.2-56.2c7.1-3.8 15.6-3.8 22.6 0l105.2 56.2L384.2 324.1c-1.3-7.7 1.2-15.5 6.8-21l85.9-85.1L358.6 200.5c-7.8-1.2-14.6-6.1-18.1-13.3L287.9 79z"></path>
-                                                </svg></div>
-                                        </div><span style="margin-left: 5px; color: #d7ac4b; min-width: 100px; font-size: 14px;">&nbsp;Amazing</span>
+                                        @endfor
+                                        <span style="margin-left: 5px; color: #d7ac4b; min-width: 100px; font-size: 14px;">&nbsp;Amazing</span>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="modal-footer">
+                                <button class="btn btn-light" type="button" data-bs-dismiss="modal" style="border-radius: 3px;padding: 8px 20px;">Cancel</button>
+                                <button class="btn btn-primary" type="submit" style="border-radius: 3px;background: #d7ac4b;border-style: none;padding: 8px 20px;">Submit</button>
+                            </div>       
                         </div>
-                    </div>
-                    <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal" style="border-radius: 3px;padding: 8px 20px;">Cancel</button><button class="btn btn-primary" type="button" style="border-radius: 3px;background: #d7ac4b;border-style: none;padding: 8px 20px;" data-bs-target="#review-thank-you" data-bs-toggle="modal">Submit</button></div>
-                </div>
-            </div>
-        </div>
-    </div>
+                    </form>
+                </div> <!-- /.modal-body -->
+            </div> <!-- /.main-review-rate-form -->
+        </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+@endforeach
+
+
     <section id="footer">
         <div>
             <footer style="background: #ede6d2;">
@@ -745,6 +768,7 @@
             </div>
         </div>
     </div>
+    
     <div class="modal fade" role="dialog" tabindex="-1" id="review-thank-you" style="text-align: center;">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -759,6 +783,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" role="dialog" tabindex="-1" id="addAddressSuccess">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -774,6 +799,7 @@
             </div>
         </div>
     </div>
+    
     <div class="modal fade" role="dialog" tabindex="-1" id="updatePasswordSucess">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -788,21 +814,87 @@
             </div>
         </div>
     </div>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
-    <script src="assets/js/emojiJs.js"></script>
-    <script src="assets/js/chatbox.js"></script>
-    <script src="assets/js/forgotpass.js"></script>
-    <script src="assets/js/functions.js"></script>
-    <script src="assets/js/hover-notif.js"></script>
-    <script src="assets/js/Lightbox-Gallery-baguetteBox.min.js"></script>
-    <script src="assets/js/Lightbox-Gallery.js"></script>
-    <script src="assets/js/my-profileJS.js"></script>
-    <script src="assets/js/my-purchaseTab.js"></script>
-    <script src="assets/js/scrolltotop.js"></script>
-    <script src="assets/js/steps.js"></script>
-    <script src="assets/js/tabDelivery.js"></script>
-    <script src="assets/js/tabfunction.js"></script>
+
+    <script>
+    window.addEventListener('load', function () {
+        const rateAdded = @json(session('rate_added'));
+        if (rateAdded) {
+            const modal = new bootstrap.Modal(document.getElementById('review-thank-you'));
+            modal.show();
+        }
+    });
+</script>
+
+
+
+
+    <!-- JS Files -->
+    <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/bs-init.js') }}"></script>
+    <script src="{{ asset('assets/js/emojiJs.js') }}"></script>
+    <script src="{{ asset('assets/js/chatbox.js') }}"></script>
+    <script src="{{ asset('assets/js/forgotpass.js') }}"></script>
+    <script src="{{ asset('assets/js/functions.js') }}"></script>
+    <script src="{{ asset('assets/js/hover-notif.js') }}"></script>
+    <script src="{{ asset('assets/js/Lightbox-Gallery-baguetteBox.min.js') }}"></script>
+    <script src="{{ asset('assets/js/Lightbox-Gallery.js') }}"></script>
+    <script src="{{ asset('assets/js/my-profileJS.js') }}"></script>
+    <script src="{{ asset('assets/js/my-purchaseTab.js') }}"></script>
+    <script src="{{ asset('assets/js/scrolltotop.js') }}"></script>
+    <script src="{{ asset('assets/js/steps.js') }}"></script>
+    <script src="{{ asset('assets/js/tabDelivery.js') }}"></script>
+    <script src="{{ asset('assets/js/tabfunction.js') }}"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get all radio inputs inside rating widgets
+        const ratingInputs = document.querySelectorAll('input[type="radio"]');
+
+        ratingInputs.forEach(input => {
+            input.addEventListener('change', function () {
+                const name = this.name; // e.g., product_quality_rating_5
+                const allInGroup = document.querySelectorAll(`input[name="${name}"]`);
+
+                allInGroup.forEach(star => {
+                    const svg = star.nextElementSibling;
+                    if (star.checked || parseInt(star.value) <= parseInt(this.value)) {
+                        svg.style.color = '#ffc107'; // highlighted star
+                    } else {
+                        svg.style.color = '#d7ac4b'; // default star
+                    }
+                });
+            });
+        });
+    });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const ratingInputs = document.querySelectorAll('input[type="radio"]');
+
+    ratingInputs.forEach(input => {
+        input.addEventListener('change', function () {
+            const name = this.name;
+            const allInGroup = document.querySelectorAll(`input[name="${name}"]`);
+
+            allInGroup.forEach(star => {
+                const svg = star.nextElementSibling; // get the SVG icon
+                if (star.checked || parseInt(star.value) <= parseInt(this.value)) {
+                    svg.setAttribute('fill', '#ffc107'); // highlighted star
+                } else {
+                    svg.setAttribute('fill', '#d7ac4b'); // default star
+                }
+            });
+        });
+    });
+});
+</script>
+    
+
+   
+
+    
+
+
 </body>
 
 </html>

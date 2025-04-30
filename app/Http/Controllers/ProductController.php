@@ -132,7 +132,6 @@ class ProductController extends Controller
     return view('BrandsPage', compact('products', 'brand'));
 }
 
-//on development filtering.......
     public function Clothing()
     {
         // Get products based on filters

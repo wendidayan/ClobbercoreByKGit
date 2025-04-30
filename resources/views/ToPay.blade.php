@@ -87,25 +87,39 @@
     </div>
     
     
-    <div class="container" style="margin-top: 120px;font-family: 'Open Sans', sans-serif;">
-        <div>
-            <h4>Checkout</h4>
-        </div>
+<!--Delivery Option -->
+<div class="container" style="margin-top: 120px;font-family: 'Open Sans', sans-serif;">
+    <div>
+        <h4>Checkout</h4>
     </div>
-    <div style="font-family: 'Open Sans', sans-serif;">
-        <div class="container checkout-container mt-4" style="background: var(--bs-white);border-radius: 3px;">
+</div>
+
+<div style="font-family: 'Open Sans', sans-serif;">
+    <div class="container checkout-container mt-4" style="background: var(--bs-white);border-radius: 3px;">
+        <form id="orderForm" action="{{ route('order.place') }}" method="POST">
+            @csrf
+            <!-- Delivery Option Section -->
+            <input type="hidden" id="delivery_method" name="delivery_method" value="">
             <div id="addressSection" class="address-section" style="font-family: 'Open Sans', sans-serif;">
                 <div>
-                    <div class="d-flex align-items-center address-header gap-2 mb-3" style="border-bottom:1px solid rgb(221,221,221);"><i class="fa fa-map-marker" style="color:rgb(215, 172, 75);"></i>
+                    <div class="d-flex align-items-center address-header gap-2 mb-3" style="border-bottom:1px solid rgb(221,221,221);">
+                        <i class="fa fa-map-marker" style="color:rgb(215, 172, 75);"></i>
                         <h5 class="d-flex">Delivery Option</h5>
-                        
                     </div>
-                    <div class="d-flex delivery-btn gap-4 mt-4 mb-4"><a class="btn shipping-btn" role="button" id="shippingBTN" style="border-radius:3px;" href="#">Shipping</a><a class="btn meetup-btn" role="button" id="meetupBTN" style="border-radius:3px;" href="#">Meet- Up</a><a class="btn meetup-btn" role="button" id="pickupBTN" style="border-radius:3px;" href="#">Pick- Up</a></div>
+                    <div class="d-flex delivery-btn gap-4 mt-4 mb-4">
+                        <a class="btn shipping-btn" role="button" id="shippingBTN" onclick="setDeliveryMethod('shipping')" style="border-radius:3px;" href="#">Shipping</a>
+                        <a class="btn meetup-btn" role="button" id="meetupBTN" style="border-radius:3px;" onclick="setDeliveryMethod('meetup')" href="#">Meet-Up</a>
+                        <a class="btn meetup-btn" role="button" id="pickupBTN" style="border-radius:3px;" onclick="setDeliveryMethod('pickup')" href="#">Pick-Up</a>
+                    </div>
                 </div>
-                <div class="d-flex justify-content-between user-address mb-4 gap-2"><strong>Max Collins</strong><strong>(+63) 9389462709</strong><span class="address">510-512 Honorio Lopez Blvd, Barangay 148, Tondo I / II, Metro Manila, Metro Manila 1012</span>
+                <div class="d-flex justify-content-between user-address mb-4 gap-2">
+                    <strong>Max Collins</strong>
+                    <strong>(+63) 9389462709</strong>
+                    <span class="address">510-512 Honorio Lopez Blvd, Barangay 148, Tondo I / II, Metro Manila, Metro Manila 1012</span>
                     <div class="address-actions"><a class="text-decoration-none" href="#">Change</a></div>
                 </div>
-                <div id="meetupDIV" style="border-top: 1px dashed #ddd;font-family: 'Open Sans', sans-serif; display: none;">
+
+                <div id="meetupDIV" style="border-top: 1px dashed #ddd; font-family: 'Open Sans', sans-serif; display: none;">
                     <div class="meetup-options">
                         <div class="meetUp-progress-bar">
                             <div id="step1" class="meetupSTEP"><span>1</span></div>
@@ -138,10 +152,11 @@
                         <div class="form-step" id="successStep">
                             <div class="d-flex align-items-center m-0">
                                 <h5 class="m-0" style="font-size: 18px;">Step 3: Success</h5><svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" color="#d7ac4b">
-    <path d="M10.5858 13.4142L7.75735 10.5858L6.34314 12L10.5858 16.2427L17.6568 9.1716L16.2426 7.75739L10.5858 13.4142Z" fill="currentColor"></path>
-</svg>
+                                    <path d="M10.5858 13.4142L7.75735 10.5858L6.34314 12L10.5858 16.2427L17.6568 9.1716L16.2426 7.75739L10.5858 13.4142Z" fill="currentColor"></path>
+                                </svg>
                             </div>
                             <p id="successMessage"></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -152,33 +167,33 @@
                         <div class="d-flex flex-column flex-wrap flex-md-row gap-4 mb-3 p-3">
                             <div class="d-flex flex-column gap-2">
                                 <div class="d-flex align-items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" style="color:#d7ac4b;">
-                <path fill-rule="evenodd" d="M16.2721 10.2721C16.2721 12.4813 14.4813 14.2721 12.2721 14.2721C10.063 14.2721 8.27214 12.4813 8.27214 10.2721C8.27214 8.06298 10.063 6.27212 12.2721 6.27212C14.4813 6.27212 16.2721 8.06298 16.2721 10.2721ZM14.2721 10.2721C14.2721 11.3767 13.3767 12.2721 12.2721 12.2721C11.1676 12.2721 10.2721 11.3767 10.2721 10.2721C10.2721 9.16755 11.1676 8.27212 12.2721 8.27212C13.3767 8.27212 14.2721 9.16755 14.2721 10.2721Z" fill="currentColor"></path>
-                <path fill-rule="evenodd" d="M5.79417 16.5183C2.19424 13.0909 2.05438 7.39409 5.48178 3.79417C8.90918 0.194243 14.6059 0.054383 18.2059 3.48178C21.8058 6.90918 21.9457 12.6059 18.5183 16.2059L12.3124 22.7241L5.79417 16.5183ZM17.0698 14.8268L12.243 19.8965L7.17324 15.0698C4.3733 12.404 4.26452 7.97318 6.93028 5.17324C9.59603 2.3733 14.0268 2.26452 16.8268 4.93028C19.6267 7.59603 19.7355 12.0268 17.0698 14.8268Z" fill="currentColor"></path>
-            </svg>
+                                        <path fill-rule="evenodd" d="M16.2721 10.2721C16.2721 12.4813 14.4813 14.2721 12.2721 14.2721C10.063 14.2721 8.27214 12.4813 8.27214 10.2721C8.27214 8.06298 10.063 6.27212 12.2721 6.27212C14.4813 6.27212 16.2721 8.06298 16.2721 10.2721ZM14.2721 10.2721C14.2721 11.3767 13.3767 12.2721 12.2721 12.2721C11.1676 12.2721 10.2721 11.3767 10.2721 10.2721C10.2721 9.16755 11.1676 8.27212 12.2721 8.27212C13.3767 8.27212 14.2721 9.16755 14.2721 10.2721Z" fill="currentColor"></path>
+                                        <path fill-rule="evenodd" d="M5.79417 16.5183C2.19424 13.0909 2.05438 7.39409 5.48178 3.79417C8.90918 0.194243 14.6059 0.054383 18.2059 3.48178C21.8058 6.90918 21.9457 12.6059 18.5183 16.2059L12.3124 22.7241L5.79417 16.5183ZM17.0698 14.8268L12.243 19.8965L7.17324 15.0698C4.3733 12.404 4.26452 7.97318 6.93028 5.17324C9.59603 2.3733 14.0268 2.26452 16.8268 4.93028C19.6267 7.59603 19.7355 12.0268 17.0698 14.8268Z" fill="currentColor"></path>
+                                    </svg>
                                     <h6 class="m-0">Central 2, Abuyog</h6>
                                 </div>
                                 <div class="d-flex align-items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" style="color:#d7ac4b;">
-                <path fill-rule="evenodd" d="M16.2721 10.2721C16.2721 12.4813 14.4813 14.2721 12.2721 14.2721C10.063 14.2721 8.27214 12.4813 8.27214 10.2721C8.27214 8.06298 10.063 6.27212 12.2721 6.27212C14.4813 6.27212 16.2721 8.06298 16.2721 10.2721ZM14.2721 10.2721C14.2721 11.3767 13.3767 12.2721 12.2721 12.2721C11.1676 12.2721 10.2721 11.3767 10.2721 10.2721C10.2721 9.16755 11.1676 8.27212 12.2721 8.27212C13.3767 8.27212 14.2721 9.16755 14.2721 10.2721Z" fill="currentColor"></path>
-                <path fill-rule="evenodd" d="M5.79417 16.5183C2.19424 13.0909 2.05438 7.39409 5.48178 3.79417C8.90918 0.194243 14.6059 0.054383 18.2059 3.48178C21.8058 6.90918 21.9457 12.6059 18.5183 16.2059L12.3124 22.7241L5.79417 16.5183ZM17.0698 14.8268L12.243 19.8965L7.17324 15.0698C4.3733 12.404 4.26452 7.97318 6.93028 5.17324C9.59603 2.3733 14.0268 2.26452 16.8268 4.93028C19.6267 7.59603 19.7355 12.0268 17.0698 14.8268Z" fill="currentColor"></path>
-            </svg>
+                                        <path fill-rule="evenodd" d="M16.2721 10.2721C16.2721 12.4813 14.4813 14.2721 12.2721 14.2721C10.063 14.2721 8.27214 12.4813 8.27214 10.2721C8.27214 8.06298 10.063 6.27212 12.2721 6.27212C14.4813 6.27212 16.2721 8.06298 16.2721 10.2721ZM14.2721 10.2721C14.2721 11.3767 13.3767 12.2721 12.2721 12.2721C11.1676 12.2721 10.2721 11.3767 10.2721 10.2721C10.2721 9.16755 11.1676 8.27212 12.2721 8.27212C13.3767 8.27212 14.2721 9.16755 14.2721 10.2721Z" fill="currentColor"></path>
+                                        <path fill-rule="evenodd" d="M5.79417 16.5183C2.19424 13.0909 2.05438 7.39409 5.48178 3.79417C8.90918 0.194243 14.6059 0.054383 18.2059 3.48178C21.8058 6.90918 21.9457 12.6059 18.5183 16.2059L12.3124 22.7241L5.79417 16.5183ZM17.0698 14.8268L12.243 19.8965L7.17324 15.0698C4.3733 12.404 4.26452 7.97318 6.93028 5.17324C9.59603 2.3733 14.0268 2.26452 16.8268 4.93028C19.6267 7.59603 19.7355 12.0268 17.0698 14.8268Z" fill="currentColor"></path>
+                                    </svg>
                                     <h6 class="m-0">Sorsogon City</h6>
                                 </div>
                             </div>
                             <div class="d-flex flex-column gap-2">
                                 <div class="d-flex align-items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" style="color:#d7ac4b;">
-                <path d="M5.45887 2L1 6.01478L2.33826 7.50107L6.79713 3.48629L5.45887 2Z" fill="currentColor"></path>
-                <path d="M11 8H13V12H16V14H11V8Z" fill="currentColor"></path>
-                <path fill-rule="evenodd" d="M3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12ZM5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12Z" fill="currentColor"></path>
-                <path d="M18.5411 2L23 6.01478L21.6617 7.50107L17.2029 3.48629L18.5411 2Z" fill="currentColor"></path>
-            </svg>
+                                        <path d="M5.45887 2L1 6.01478L2.33826 7.50107L6.79713 3.48629L5.45887 2Z" fill="currentColor"></path>
+                                        <path d="M11 8H13V12H16V14H11V8Z" fill="currentColor"></path>
+                                        <path fill-rule="evenodd" d="M3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12ZM5 12C5 8.13401 8.13401 5 12 5C15.866 5 19 8.13401 19 12C19 15.866 15.866 19 12 19C8.13401 19 5 15.866 5 12Z" fill="currentColor"></path>
+                                        <path d="M18.5411 2L23 6.01478L21.6617 7.50107L17.2029 3.48629L18.5411 2Z" fill="currentColor"></path>
+                                    </svg>
                                     <h6 class="m-0" style="font-weight: bold;">Store Hours:</h6>
                                     <h6 class="m-0">Mon-Sun 9:00 AM - 6:00 PM</h6>
                                 </div>
                                 <div class="d-flex align-items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 24 24" fill="none" style="color:#d7ac4b;">
-                <path d="M22 12C22 10.6868 21.7413 9.38647 21.2388 8.1731C20.7362 6.95996 19.9997 5.85742 19.0711 4.92896C18.1425 4.00024 17.0401 3.26367 15.8268 2.76123C14.6136 2.25854 13.3132 2 12 2V4C13.0506 4 14.0909 4.20703 15.0615 4.60889C16.0321 5.01099 16.914 5.60034 17.6569 6.34326C18.3997 7.08594 18.989 7.96802 19.391 8.93848C19.7931 9.90918 20 10.9495 20 12H22Z" fill="currentColor"></path>
-                <path d="M2 10V5C2 4.44775 2.44772 4 3 4H8C8.55228 4 9 4.44775 9 5V9C9 9.55225 8.55228 10 8 10H6C6 14.4182 9.58173 18 14 18V16C14 15.4478 14.4477 15 15 15H19C19.5523 15 20 15.4478 20 16V21C20 21.5522 19.5523 22 19 22H14C7.37259 22 2 16.6274 2 10Z" fill="currentColor"></path>
-                <path d="M17.5433 9.70386C17.8448 10.4319 18 11.2122 18 12H16.2C16.2 11.4485 16.0914 10.9023 15.8803 10.3928C15.6692 9.88306 15.3599 9.42017 14.9698 9.03027C14.5798 8.64014 14.1169 8.33081 13.6073 8.11963C13.0977 7.90869 12.5515 7.80005 12 7.80005V6C12.7879 6 13.5681 6.15527 14.2961 6.45679C15.024 6.7583 15.6855 7.2002 16.2426 7.75732C16.7998 8.31445 17.2418 8.97583 17.5433 9.70386Z" fill="currentColor"></path>
-            </svg>
+                                        <path d="M22 12C22 10.6868 21.7413 9.38647 21.2388 8.1731C20.7362 6.95996 19.9997 5.85742 19.0711 4.92896C18.1425 4.00024 17.0401 3.26367 15.8268 2.76123C14.6136 2.25854 13.3132 2 12 2V4C13.0506 4 14.0909 4.20703 15.0615 4.60889C16.0321 5.01099 16.914 5.60034 17.6569 6.34326C18.3997 7.08594 18.989 7.96802 19.391 8.93848C19.7931 9.90918 20 10.9495 20 12H22Z" fill="currentColor"></path>
+                                        <path d="M2 10V5C2 4.44775 2.44772 4 3 4H8C8.55228 4 9 4.44775 9 5V9C9 9.55225 8.55228 10 8 10H6C6 14.4182 9.58173 18 14 18V16C14 15.4478 14.4477 15 15 15H19C19.5523 15 20 15.4478 20 16V21C20 21.5522 19.5523 22 19 22H14C7.37259 22 2 16.6274 2 10Z" fill="currentColor"></path>
+                                        <path d="M17.5433 9.70386C17.8448 10.4319 18 11.2122 18 12H16.2C16.2 11.4485 16.0914 10.9023 15.8803 10.3928C15.6692 9.88306 15.3599 9.42017 14.9698 9.03027C14.5798 8.64014 14.1169 8.33081 13.6073 8.11963C13.0977 7.90869 12.5515 7.80005 12 7.80005V6C12.7879 6 13.5681 6.15527 14.2961 6.45679C15.024 6.7583 15.6855 7.2002 16.2426 7.75732C16.7998 8.31445 17.2418 8.97583 17.5433 9.70386Z" fill="currentColor"></path>
+                                    </svg>
                                     <h6 class="m-0" style="font-weight:bold;">Contact Us:</h6>
                                     <h6 class="m-0">+63 903 485 449</h6>
                                 </div>
@@ -189,97 +204,90 @@
                     <p style="color: var(--bs-secondary);">If you have any questions, feel free to reach out to us!</p>
                 </div>
             </div>
-        </div>
-
-
-
-
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 col-xl-6">
-                    <div class="order-container">
-                        <div class="label-section" style="border-right-color: 37,;border-bottom-color: 41);border-left-color: 37,;">
-                            <div class="order-header">
-                                <h5>Products Ordered</h5>
-                            </div>
-                            <div class="order-header">
-                                <h5 style="color: rgb(215,172,75);">Unit Price</h5>
-                            </div>
-                        </div>
-                        <div class="wrapper-abc" style="max-height: 250px; overflow-y: auto; scroll-behavior: smooth;">
-                            @php
-                            $totalPrice = collect($mineItems)->sum(fn($item) => $item['price']);
-                            @endphp
-                            @foreach ($mineItems as $item)
-                            <div class="product-order"><img class="object-fit-cover"src="{{ asset($item['image']) }}" style="width: 80px;height: 80px;">
-                                <div class="order-info"></div>
-                                <p>{{ $item['name'] }}</p>
-                                <h5>₱&nbsp;<span>{{ number_format($item['price'], 2) }}</span></h5>
-                            </div>
-                            @endforeach
-                        </div>
-                        <div class="divider"></div>
-                        <div class="d-flex justify-content-end shipping">
-                            <p style="color: rgb(51, 51, 51);">Shipping Option: Standard Local - ₱<span>36</span></p>
-                        </div>
-                        <div class="d-flex justify-content-end align-items-center totalamount gap-5">
-                            @php
-                            $totalAmount = $totalPrice + 36; // Adding the shipping fee
-                            @endphp
-                            <h4>Order Total ({{ count($mineItems) }} item{{ count($mineItems) > 1 ? 's' : '' }}):&nbsp;</h4>
-                            <h2>₱ {{ number_format($totalAmount, 2) }}</h2>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-6">
-             <div class="final-placeorder">
-                <form action="{{ route('order.place') }}" method="POST">
-                @csrf
-                @php
-                    $totalAmount = $mineItems ? collect($mineItems)->sum('price') + 36 : 36;
-                @endphp
-            <input type="hidden" name="amount" value="{{ $totalAmount }}">
-
-
-            <!-- Payment Method Card -->
-            <div class="payment-method-card mt-3 mb-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h4 style="font-size: 18px;">Payment Method</h4>
-                    <select name="payment_method" required style="border-radius: 3px; font-size: 14px; width: 170px; border: 0.8px solid rgba(108,117,125,0.3);">
-                        <option value="" selected>Select</option>
-                        <option value="cod">Cash On Delivery</option>
-                        <option value="gcash">Gcash</option>
-                        <option value="paymaya">Paymaya</option>
-                    </select>
-                </div>
-            </div>
-
-            <div style="border-top: 1px dashed #ddd;"></div>
-
             <!-- Order Summary -->
-            <div style="margin-top: 160px;">
-                <div class="sub-info mb-3">
-                    <div class="d-flex justify-content-end gap-5">
-                        <h6 style="font-size: 14px; color: rgb(108,117,125);">Delivery fee</h6>
-                        <h6>₱ 0</h6>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-xl-6">
+                        <div class="order-container">
+                            <div class="label-section" style="border-right-color: 37,;border-bottom-color: 41);border-left-color: 37,;">
+                                <div class="order-header">
+                                    <h5>Products Ordered</h5>
+                                </div>
+                                <div class="order-header">
+                                    <h5 style="color: rgb(215,172,75);">Unit Price</h5>
+                                </div>
+                            </div>
+                            <div class="wrapper-abc" style="max-height: 250px; overflow-y: auto; scroll-behavior: smooth;">
+                                @php
+                                $totalPrice = collect($mineItems)->sum(fn($item) => $item['price']);
+                                @endphp
+                                @foreach ($mineItems as $item)
+                                <div class="product-order">
+                                    <img class="object-fit-cover" src="{{ asset($item['image']) }}" style="width: 80px;height: 80px;">
+                                    <div class="order-info">
+                                        <p>{{ $item['name'] }}</p>
+                                        <h5>₱&nbsp;<span>{{ number_format($item['price'], 2) }}</span></h5>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                            <div class="divider"></div>
+                            <div class="d-flex justify-content-end shipping">
+                                <p style="color: rgb(51, 51, 51);">Shipping Option: Standard Local - ₱<span>36</span></p>
+                            </div>
+                            <div class="d-flex justify-content-end align-items-center totalamount gap-5">
+                                @php
+                                $totalAmount = $totalPrice + 36;
+                                @endphp
+                                <h4>Order Total ({{ count($mineItems) }} item{{ count($mineItems) > 1 ? 's' : '' }}):&nbsp;</h4>
+                                <h2>₱ {{ number_format($totalAmount, 2) }}</h2>
+                            </div>
+                        </div>
                     </div>
-                    <div class="d-flex justify-content-end align-items-center gap-5">
-                        <h6 style="font-size: 14px; color: rgb(108,117,125);">Total Payment:&nbsp;</h6>
-                        <h6 style="font-size: 24px; font-weight: bold; color: red;">₱{{ number_format($totalAmount, 2) }}</h6>
+                    <div class="col-md-6">
+                        <div class="final-placeorder">
+                            @php
+                                $totalAmount = $mineItems ? collect($mineItems)->sum('price') + 36 : 36;
+                            @endphp
+                            <input type="hidden" name="amount" value="{{ $totalAmount }}">
+                            <!-- Payment Method Card -->
+                            <div class="payment-method-card mt-3 mb-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h4 style="font-size: 18px;">Payment Method</h4>
+                                    <select name="payment_method" required style="border-radius: 3px; font-size: 14px; width: 170px; border: 0.8px solid rgba(108,117,125,0.3);">
+                                        <option value="" selected>Select</option>
+                                        <option value="cod">Cash On Delivery</option>
+                                        <option value="gcash">Gcash</option>
+                                        <option value="paymaya">Paymaya</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="border-top: 1px dashed #ddd;"></div>
+                            <!-- Order Summary -->
+                            <div style="margin-top: 160px;">
+                                <div class="sub-info mb-3">
+                                    <div class="d-flex justify-content-end gap-5">
+                                        <h6 style="font-size: 14px; color: rgb(108,117,125);">Delivery fee</h6>
+                                        <h6>₱ 0</h6>
+                                    </div>
+                                    <div class="d-flex justify-content-end align-items-center gap-5">
+                                        <h6 style="font-size: 14px; color: rgb(108,117,125);">Total Payment:&nbsp;</h6>
+                                        <h6 style="font-size: 24px; font-weight: bold; color: red;">₱{{ number_format($totalAmount, 2) }}</h6>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button class="btn checkout-btn" type="submit" style="border-radius: 3px;">Place Order</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="d-flex justify-content-end">
-                    <button class="btn checkout-btn" type="submit" style="border-radius: 3px;">Place Order</button>
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-            </div>
-        </div>
-    </div>
+
     <script src="{{ asset('assets/bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/js/bs-init.js') }}"></script>
     <script src="{{ asset('assets/js/emojiJs.js') }}"></script>
@@ -295,6 +303,44 @@
     <script src="{{ asset('assets/js/steps.js') }}"></script>
     <script src="{{ asset('assets/js/tabDelivery.js') }}"></script>
     <script src="{{ asset('assets/js/tabfunction.js') }}"></script>
+    
+    <!--Working js for the button-->
+    <script>
+    function setDeliveryMethod(option) {
+        // Set value of hidden input field
+        document.getElementById('delivery_method').value = option;
+
+        // Remove active from all buttons
+        const buttons = ['shippingBTN', 'meetupBTN', 'pickupBTN'];
+        buttons.forEach(btnId => {
+            const btn = document.getElementById(btnId);
+            if (btn) {
+                btn.classList.remove('active');
+            }
+        });
+
+        // Add active to selected button
+        const selectedBtn = document.getElementById(option + 'BTN');
+        if (selectedBtn) {
+            selectedBtn.classList.add('active');
+        }
+
+        // Show/hide sections based on selected method
+        document.getElementById('meetupDIV').style.display = (option === 'meetup') ? 'block' : 'none';
+        document.getElementById('pickupDIV').style.display = (option === 'pickup') ? 'block' : 'none';
+    }
+
+    // Optional: Style for active state (add to a stylesheet or use inline style)
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .delivery-btn .btn.active {
+            background-color: #d7ac4b !important;
+            color: white !important;
+        }
+    `;
+    document.head.appendChild(style);
+
+</script>
 
 </body>
 
