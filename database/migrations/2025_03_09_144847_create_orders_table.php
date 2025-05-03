@@ -16,10 +16,13 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); 
             $table->foreignId('payment_method_id')->nullable()->constrained('payment_methods')->onDelete('cascade');
             $table->foreignId('delivery_method_id')->constrained('delivery_methods')->onDelete('cascade');
+            $table->foreignId('shipping_address_id')->nullable()->constrained('addresses')->onDelete('set null');
+            $table->foreignId('meetup_location_id')->nullable()->constrained('meet_up_locations')->onDelete('set null');
             $table->decimal('total_price', 10, 2);
             $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
             $table->timestamps();
         });
+        
         
     }
 

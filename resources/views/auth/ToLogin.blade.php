@@ -36,7 +36,7 @@
                 <button class="btn w-100 mt-3 sign-up-btn" type="submit" style="background: #d7ac4b;color: var(--bs-light);padding: 10px;border-radius: 3px;font-size: 14px;">Log in</button>
             </form>
             <div class="text-center mt-2" style="height: 30px;">
-                <a class="text-decoration-none" href="ForgotPassword.html">
+                <a class="text-decoration-none" href="{{ route('password.request') }}">
                     <p style="font-size: 12px;">Forgot Password?</p>
                 </a>
             </div>

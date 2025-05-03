@@ -13,7 +13,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'payment_method_id', 'delivery_method_id', 'total_price', 'status'];
+    protected $fillable = ['user_id', 'payment_method_id', 'delivery_method_id', 'shipping_address_id', 'meetup_location_id', 'total_price', 'status'];
 
     public function user(): BelongsTo
     {
@@ -34,5 +34,21 @@ class Order extends Model
     {
         return $this->hasOne(Review::class);
     }
+
+    public function shippingAddress(): BelongsTo
+    {
+        return $this->belongsTo(Address::class, 'shipping_address_id');
+    }
+
+    public function meetupLocation(): BelongsTo
+    {
+        return $this->belongsTo(MeetUpLocation::class);
+    }
+
+    public function deliveryMethod(): BelongsTo
+    {
+        return $this->belongsTo(DeliveryMethod::class);
+    }
+
 
 }

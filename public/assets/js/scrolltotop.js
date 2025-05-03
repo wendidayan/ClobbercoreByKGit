@@ -42,10 +42,17 @@ function toggleChatbox() {
 }
 
 // Toggle Function for View Details in To Deliver Tab
-function toggleTrackDetails() {
+/*function toggleTrackDetails() {
       const details = document.getElementById("details-abc");
       details.style.display = details.style.display === "none" || details.style.display === "" ? "block" : "none";
+    }*/
+
+function toggleTrackDetails(orderId) {
+    const details = document.getElementById("details-" + orderId);
+    if (details) {
+        details.style.display = (details.style.display === "none" || details.style.display === "") ? "block" : "none";
     }
+}
 
 //JS for meetup steps
 function updateProgress(meetupSTEP) {

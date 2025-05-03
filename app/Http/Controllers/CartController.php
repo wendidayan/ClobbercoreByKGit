@@ -12,6 +12,8 @@ use App\Models\OrderItem;
 use App\Models\Category;
 use App\Models\Subcategory;
 use App\Models\Customer;
+use App\Models\Address;
+use App\Models\MeetUpLocation;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -31,7 +33,7 @@ class CartController extends Controller
             ->first();
 
         if ($existingCartItem) {
-            return redirect()->back()->with('already_in_cart', true);
+            return response()->json(['already_in_cart' => true]);
         }
 
         // Add product to cart
@@ -41,12 +43,17 @@ class CartController extends Controller
             'price' => $product->price, // Store price at the time of adding
         ]);
 
-        // Added to cart modal in the blade
-        return redirect()->back()->with('cart_added', true);
+        // Get updated cart count
+        $cartCount = CartItem::where('user_id', $user->id)->count();
+
+        return response()->json(['cart_added' => true, 'cartCount' => $cartCount]);
     }
 
     public function viewCart()
     {
+        $user = Auth::user();
+        $cartCount = CartItem::where('user_id', $user->id)->count();
+        
         // Find all sold products in the user's cart
         $soldItems = CartItem::where('user_id', Auth::id())
             ->whereHas('product', function ($query) {
@@ -64,7 +71,7 @@ class CartController extends Controller
             ->with('product')
             ->get();
 
-        return view('PlaceOrder', compact('cartItems'));
+        return view('PlaceOrder', compact('cartItems','cartCount', 'user'));
     }
 
     public function removeFromCart($cartItemId)
@@ -83,7 +90,7 @@ class CartController extends Controller
 
     public function checkoutCart()
     {
-        $orders = Order::where('user_id', Auth::id())->with('orderItems.product')->latest()->get();
+    $orders = Order::where('user_id', Auth::id())->with('orderItems.product')->latest()->get();
 
     // Retrieve cart items from the session
     $cartItems = session()->get('cart_items', []);
@@ -134,6 +141,8 @@ class CartController extends Controller
     public function toPayCart()
     {
         $user = auth()->user();
+        // Get updated cart count
+        $cartCount = CartItem::where('user_id', $user->id)->count();
         $orders = Order::where('user_id', $user->id)
             ->where('status', 'Pending')
             ->with('orderItems.product')
@@ -142,7 +151,39 @@ class CartController extends Controller
         // Retrieve cart items from session
         $cartItems = session()->get('cart_items', []);
 
-        return view('ToPayCart', compact('orders', 'cartItems'));
+        $defaultAddress = auth()->user()->addresses()->where('is_default', true)->first();
+        $locations = MeetUpLocation::all()->map(function ($loc) {
+            return [
+                'id' => $loc->id,
+                'city' => $loc->city,
+                'landmark' => $loc->landmark,
+            ];
+        })->groupBy('city');
+
+         // Shipping fee calculation based on city
+         $shippingFees = [
+            'Barcelona' => 50,
+            'Bulan' => 120,
+            'Bulusan' => 80,
+            'Casiguran' => 70,
+            'Castilla' => 60,
+            'Donsol' => 110,
+            'Gubat' => 40,
+            'Irosin' => 90,
+            'Juban' => 55,
+            'Magallanes' => 130,
+            'Matnog' => 100,
+            'Pilar' => 65,
+            'Prieto Diaz' => 50,
+        ];
+
+        $city = $defaultAddress ? $defaultAddress->city : '';  // Ensure city exists
+
+        // Get shipping fee based on the city
+        $shippingFee = $shippingFees[$city] ?? 0;  // Default to 0 if the city isn't found in the array
+
+
+        return view('ToPayCart', compact('orders', 'cartItems', 'defaultAddress', 'locations','city', 'shippingFee','cartCount'));
     }
 
     
@@ -153,7 +194,8 @@ class CartController extends Controller
         // Validate request
         $request->validate([
             'payment_method' => 'required|string',
-            'delivery_method' => 'required|in:shipping,meetup,pickup'
+            'delivery_method' => 'required|in:shipping,meetup,pickup',
+            'meetup_location_id' => 'nullable|exists:meet_up_locations,id'
         ]);
     
         // Retrieve cart items from session
@@ -167,7 +209,32 @@ class CartController extends Controller
         $totalAmount = collect($cartItems)->sum(function ($item) {
             return $item['price'] * $item['quantity'];
         });
+
+        $defaultAddress = $user->addresses()->where('is_default', true)->first();
+
+        // Shipping fee calculation based on city — only apply if delivery method is shipping
+        $shippingFee = 0;
     
+        if ($request->input('delivery_method') === 'shipping') {
+            $shippingFees = [
+                'Barcelona' => 20,
+                'Bulan' => 75,
+                'Bulusan' => 50,
+                'Castilla' => 30,
+                'Donsol' => 60,
+                'Irosin' => 60,
+                'Juban' => 25,
+                'Magallanes' => 80,
+                'Matnog' => 70,
+                'Pilar' => 35,
+                'Prieto Diaz' => 20,
+            ];
+    
+            $city = $defaultAddress ? $defaultAddress->city : '';
+            $shippingFee = $shippingFees[$city] ?? 0;
+        }
+    
+        
         // Get or create delivery method
         $deliveryMethod = DeliveryMethod::firstOrCreate([
             'name' => $request->input('delivery_method')
@@ -176,12 +243,17 @@ class CartController extends Controller
         // Handle COD: Create order immediately
         if ($request->payment_method === 'cod') {
             $paymentMethod = PaymentMethod::firstOrCreate(['name' => 'cod']);
+
+            
+            $defaultAddress = $user->addresses()->where('is_default', true)->first();
     
             $order = Order::create([
                 'user_id' => $user->id,
                 'payment_method_id' => $paymentMethod->id,
                 'delivery_method_id' => $deliveryMethod->id,
-                'total_price' => $totalAmount + 36, // Additional fee
+                'shipping_address_id' => $request->delivery_method === 'shipping' ? optional($defaultAddress)->id : null,
+                'meetup_location_id' => $request->delivery_method === 'meetup' ? $request->input('meetup_location_id') : null,
+                'total_price' => $totalAmount + $shippingFee,
                 'status' => 'pending'
             ]);
     
@@ -204,12 +276,16 @@ class CartController extends Controller
         // For online payment: save cart and payment data in session only
         session([
             'payment_data' => [
-                'cart_items' => $cartItems,
-                'total_amount' => $totalAmount,
-                'payment_method' => $request->payment_method,
-                'delivery_method' => $request->delivery_method
+            'cart_items' => $cartItems,
+            'total_amount' => $totalAmount,
+            'payment_method' => $request->payment_method,
+            'delivery_method' => $request->delivery_method,
+            'shipping_address_id' => optional($user->addresses()->where('is_default', true)->first())->id,
+            'meetup_location_id' => $request->input('meetup_location_id'),
             ]
         ]);
+
+        $request->merge(['amount' => $totalAmount]); // No shipping fee for pickup/meetup
     
         // Redirect to PaymentController to handle PayMongo payment flow
         return app(PaymentController::class)->createcartPaymentIntent($request);

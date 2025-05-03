@@ -26,7 +26,7 @@ function updateProgress(meetupSTEP) {
 
       updateProgress(2);
     }
-
+/*
     function confirmLocation() {
       const city = document.getElementById('city').value;
       const landmark = document.getElementById('landmark').value;
@@ -38,7 +38,7 @@ function updateProgress(meetupSTEP) {
 
       updateProgress(3);
     }
-
+*/
     function goBack() {
       document.getElementById('confirmationStep').classList.remove('active');
       document.getElementById('selectionStep').classList.add('active');

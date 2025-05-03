@@ -12,7 +12,7 @@ class OrderItemSeeder extends Seeder
     public function run(): void
     {
         // Specify the order ID
-        $orderId = 21;
+        $orderId = 31;
 
         // Check if the specified order exists
         $order = Order::find($orderId);
@@ -21,7 +21,7 @@ class OrderItemSeeder extends Seeder
         }
 
         // Fetch two products to associate with the order
-        $products = Product::limit(3)->get(); // Get the first two products from the database
+        $products = Product::limit(2)->get(); // Get the first two products from the database
 
         if ($products->isEmpty()) {
             return; // Stop seeding if no products exist

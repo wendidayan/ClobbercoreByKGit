@@ -39,7 +39,7 @@ class PaymentController extends Controller
                 'billing' => [
                     'email' => $userEmail,
                 ],
-                'success_url' => route('payment.success'), // Remove order_id
+                'success_url' => route('payment.success'), 
                 'cancel_url' => route('payment.cancel'),
             ]
         ]
@@ -54,49 +54,7 @@ class PaymentController extends Controller
     return back()->with('error', 'Failed to create payment session.');
 }
 
-/*
-public function success(Request $request)
-{
-    $mineItems = session()->get('mine_items', []);
-    if (empty($mineItems)) {
-        return redirect()->route('order.topay')->with('error', 'No items to process.');
-    }
 
-    $user = auth()->user();
-
-    $totalAmount = collect($mineItems)->sum(fn($item) => $item['price']);
-
-    $paymentMethod = PaymentMethod::firstOrCreate([
-        'name' => 'gcash' // or 'paymaya' depending on preference
-    ]);
-
-    $order = Order::create([
-        'user_id' => $user->id,
-        'payment_method_id' => $paymentMethod->id,
-        'total_price' => $totalAmount + 36,
-        'status' => 'processing'
-    ]);
-
-    foreach ($mineItems as $item) {
-        OrderItem::create([
-            'order_id' => $order->id,
-            'product_id' => $item['product_id'],
-            'quantity' => $item['quantity'],
-            'price' => $item['price']
-        ]);
-        Product::where('id', $item['product_id'])->update(['is_sold' => true]);
-    }
-
-    session()->forget('mine_items');
-
-    return view('payment.success')->with('success', 'Payment was successful and order placed.');
-}
-
-
-public function cancel()
-{
-    return view('payment.cancel')->with('error', 'Payment was cancelled.');
-}*/
 
 public function success(Request $request)
 {
@@ -106,10 +64,31 @@ public function success(Request $request)
     }
 
     $user = auth()->user();
-
+    $defaultAddress = $user->addresses()->where('is_default', true)->first();
     $totalAmount = collect($mineItems)->sum(fn($item) => $item['price']);
-
     $deliveryMethodName = session('delivery_method', 'shipping');
+
+   // Shipping fee calculation based on city — only apply if delivery method is shipping
+   $shippingFee = 0;
+
+   if ($request->input('delivery_method') === 'shipping') {
+       $shippingFees = [
+        'Barcelona' => 20,
+        'Bulan' => 75,
+        'Bulusan' => 50,
+        'Castilla' => 30,
+        'Donsol' => 60,
+        'Irosin' => 60,
+        'Juban' => 25,
+        'Magallanes' => 80,
+        'Matnog' => 70,
+        'Pilar' => 35,
+        'Prieto Diaz' => 20,
+       ];
+
+       $city = $defaultAddress ? $defaultAddress->city : '';
+       $shippingFee = $shippingFees[$city] ?? 0;
+   }
 
     $paymentMethod = PaymentMethod::firstOrCreate([
         'name' => 'gcash' // or 'paymaya' depending on preference
@@ -124,7 +103,9 @@ public function success(Request $request)
         'user_id' => $user->id,
         'payment_method_id' => $paymentMethod->id,
         'delivery_method_id' => $deliveryMethod->id,
-        'total_price' => $totalAmount + 36,
+        'shipping_address_id' => session('delivery_method') === 'shipping' ? session('shipping_address_id') : null,
+        'meetup_location_id' => session('delivery_method') === 'meetup' ? session('meetup_location_id') : null,
+        'total_price' => $totalAmount + $shippingFee,
         'status' => 'pending'
     ]);
 
@@ -146,6 +127,27 @@ public function success(Request $request)
     return redirect()->route('Clothing')->with('order_success', 'Payment successful! Order has been placed.');
 }
 
+
+public function cancel(Request $request)
+{
+    return redirect()->route('order.topay')->with('error', 'Payment was cancelled. Please review your order.');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//for cart
 
 public function createcartPaymentIntent(Request $request)
 {
@@ -179,7 +181,7 @@ public function createcartPaymentIntent(Request $request)
                     'email' => $userEmail,
                 ],
                 'success_url' => route('payment.cart.success'),
-                'cancel_url' => route('payment.cancel'),
+                'cancel_url' => route('order.topaycart'),
             ]
         ]
     ]);
@@ -194,7 +196,6 @@ public function createcartPaymentIntent(Request $request)
 }
 
 
-/*
 public function successCartPayment(Request $request)
 {
     $paymentData = session('payment_data');
@@ -205,46 +206,30 @@ public function successCartPayment(Request $request)
 
     $cartItems = $paymentData['cart_items'];
     $totalAmount = $paymentData['total_amount'];
+    $deliveryMethodName = session('delivery_method', 'shipping');
     $user = auth()->user();
 
-    $paymentMethod = PaymentMethod::firstOrCreate([
-        'name' => $paymentData['payment_method'] ?? 'gcash'
-    ]);
+    // Shipping fee calculation based on city — only apply if delivery method is shipping
+   $shippingFee = 0;
 
-    $order = Order::create([
-        'user_id' => $user->id,
-        'payment_method_id' => $paymentMethod->id,
-        'total_price' => $totalAmount + 36,
-        'status' => 'processing'
-    ]);
+   if ($request->input('delivery_method') === 'shipping') {
+       $shippingFees = [
+           'Barcelona' => 20,
+           'Bulan' => 75,
+           'Bulusan' => 50,
+           'Castilla' => 30,
+           'Donsol' => 60,
+           'Irosin' => 60,
+           'Juban' => 25,
+           'Magallanes' => 80,
+           'Matnog' => 70,
+           'Pilar' => 35,
+           'Prieto Diaz' => 20,
+       ];
 
-    foreach ($cartItems as $item) {
-        OrderItem::create([
-            'order_id' => $order->id,
-            'product_id' => $item['product_id'],
-            'quantity' => $item['quantity'],
-            'price' => $item['price']
-        ]);
-
-        Product::where('id', $item['product_id'])->update(['is_sold' => true]);
-    }
-
-    session()->forget('payment_data');
-
-    return view('payment.success')->with('success', 'Payment successful! Order has been placed.');
-}*/
-
-public function successCartPayment(Request $request)
-{
-    $paymentData = session('payment_data');
-
-    if (!$paymentData || empty($paymentData['cart_items'])) {
-        return redirect()->route('orders.pending')->with('error', 'No items to process from cart.');
-    }
-
-    $cartItems = $paymentData['cart_items'];
-    $totalAmount = $paymentData['total_amount'];
-    $user = auth()->user();
+       $city = $defaultAddress ? $defaultAddress->city : '';
+       $shippingFee = $shippingFees[$city] ?? 0;
+   }
 
     $paymentMethod = PaymentMethod::firstOrCreate([
         'name' => $paymentData['payment_method'] ?? 'gcash'
@@ -258,7 +243,9 @@ public function successCartPayment(Request $request)
         'user_id' => $user->id,
         'payment_method_id' => $paymentMethod->id,
         'delivery_method_id' => $deliveryMethod->id,
-        'total_price' => $totalAmount + 36,
+        'shipping_address_id' => $paymentData['delivery_method'] === 'shipping' ? $paymentData['shipping_address_id'] ?? null : null,
+        'meetup_location_id' => $paymentData['delivery_method'] === 'meetup' ? $paymentData['meetup_location_id'] ?? null : null,
+        'total_price' => $totalAmount + $shippingFee,
         'status' => 'pending'
     ]);
 
@@ -280,6 +267,10 @@ public function successCartPayment(Request $request)
 
     return redirect()->route('Clothing')->with('order_success', 'Payment successful! Order has been placed.');
 }
+
+
+
+
 
 protected function addUserToCustomersTable($user)
 {

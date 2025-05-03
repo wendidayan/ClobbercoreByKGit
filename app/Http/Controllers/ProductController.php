@@ -7,18 +7,28 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Subcategory;
 use App\Models\Order;
+use App\Models\Review;
+use App\Models\CartItem;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
     //Displaying in Shopping Page
     public function index()
     {
+        $user = Auth::user();
         // Get products based on filters
         $thriftDeals = Product::where('is_thrift_deal', true)->where('is_sold', false)->take(5)->get();
         $newArrivals = Product::where('is_new_arrival', true)->where('is_sold', false)->get();
         $allProducts = Product::where('is_sold', false)->get();
 
-        return view('ShoppingPage', compact('thriftDeals', 'newArrivals', 'allProducts'));
+        $reviews = Review::with(['user', 'images'])->latest()->paginate(1); // You can change 5 to any number per page
+        // Get updated cart count
+        $cartCount = CartItem::where('user_id', $user->id)->count();
+ 
+
+        return view('ShoppingPage', compact('thriftDeals', 'newArrivals', 'allProducts','reviews', 'cartCount','user'));
     }
 
     //Displaying in Homepage
@@ -48,6 +58,7 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::findOrFail($id);
+        $user = Auth::user();
 
         // Find similar products based on category_id (or another attribute)
         $similarProducts = Product::where('style', $product->style)
@@ -55,7 +66,12 @@ class ProductController extends Controller
                               ->take(10) // Limit results
                               ->get();
 
-        return view('ProductView', compact('product', 'similarProducts'));
+        $reviews = Review::with(['user', 'images'])->latest()->paginate(1);
+
+        // Get updated cart count
+        $cartCount = CartItem::where('user_id', $user->id)->count();
+
+        return view('ProductView', compact('product', 'similarProducts','reviews', 'cartCount'));
     }
 
     //Adding Products by Section
@@ -123,17 +139,59 @@ class ProductController extends Controller
 
 
     //Displaying By Brand
-    public function showByBrand($brand)
+    public function showByBrand(Request $request, $brand)
 {
-    $products = Product::where('brand', $brand)
-    ->where('is_sold', false)
-    ->get();
+    // Base query
+    $query = Product::where('brand', $brand)->where('is_sold', false);
 
-    return view('BrandsPage', compact('products', 'brand'));
+    // Get all possible filter options for the current brand
+    $availableColors = Product::where('brand', $brand)->where('is_sold', false)->distinct()->pluck('color');
+    $availableSizes = Product::where('brand', $brand)->where('is_sold', false)->distinct()->pluck('size');
+
+    // Min and max price for range
+    $priceRange = Product::where('brand', $brand)->where('is_sold', false)
+        ->selectRaw('MIN(price) as min_price, MAX(price) as max_price')
+        ->first();
+
+    // Apply filters if present
+    if ($request->filled('color')) {
+        $query->where('color', $request->input('color'));
+    }
+
+    if ($request->filled('size')) {
+        $query->where('size', $request->input('size'));
+    }
+
+    if ($request->filled('min_price') || $request->filled('max_price')) {
+        $min = $request->input('min_price');
+        $max = $request->input('max_price');
+
+        if ($min && $max) {
+            $query->whereBetween('price', [$min, $max]);
+        } elseif ($min) {
+            $query->where('price', '>=', $min);
+        } elseif ($max) {
+            $query->where('price', '<=', $max);
+        }
+    }
+
+    $products = $query->get();
+
+    return view('BrandsPage', compact(
+        'products',
+        'brand',
+        'availableColors',
+        'availableSizes',
+        'priceRange'
+    ));
 }
 
     public function Clothing()
     {
+        $user = Auth::user();
+        // Get updated cart count
+        $cartCount = CartItem::where('user_id', $user->id)->count();
+
         // Get products based on filters
         $thriftDeals = Product::where('is_thrift_deal', true)->where('is_sold', false)->get();
         $newArrivals = Product::where('is_new_arrival', true)->where('is_sold', false)->get();
@@ -201,7 +259,7 @@ class ProductController extends Controller
 
 
 
-        return view('Clothing', compact('thriftDeals', 'newArrivals', 'allProducts', 'categories', 'sizes', 'colors','categories1', 'sizes1', 'colors1','categories2', 'sizes2', 'colors2'));
+        return view('Clothing', compact('thriftDeals', 'newArrivals', 'allProducts', 'categories', 'sizes', 'colors','categories1', 'sizes1', 'colors1','categories2', 'sizes2', 'colors2','cartCount','user'));
     }
 
    

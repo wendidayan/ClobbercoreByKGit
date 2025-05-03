@@ -60,10 +60,10 @@
                                     </div>
                                 </div>
                             </a></li>
-                        <li class="nav-item"><a class="nav-link" href="PlaceOrder.html" style="font-size:13px;padding-right:20px;">
-                                <div class="notification-nav" id="notif-1"><svg fill="none" height="1em" style="width:20px;height:20px;color:var(--bs-dark-text-emphasis);" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M5 4H19C19.5523 4 20 4.44771 20 5V19C20 19.5523 19.5523 20 19 20H5C4.44772 20 4 19.5523 4 19V5C4 4.44772 4.44771 4 5 4ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5ZM12 12C9.23858 12 7 9.31371 7 6H9C9 8.56606 10.6691 10 12 10C13.3309 10 15 8.56606 15 6H17C17 9.31371 14.7614 12 12 12Z" fill="currentColor" fill-rule="evenodd"></path></svg><span class="badge" style="background:rgba(108,117,125,0.6);">12</span></div>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('cart.view') }}"  style="font-size:13px;padding-right:20px;">
+                                <div class="notification-nav" id="notif-1"><svg fill="none" height="1em" style="width:20px;height:20px;color:var(--bs-dark-text-emphasis);" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M5 4H19C19.5523 4 20 4.44771 20 5V19C20 19.5523 19.5523 20 19 20H5C4.44772 20 4 19.5523 4 19V5C4 4.44772 4.44771 4 5 4ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5ZM12 12C9.23858 12 7 9.31371 7 6H9C9 8.56606 10.6691 10 12 10C13.3309 10 15 8.56606 15 6H17C17 9.31371 14.7614 12 12 12Z" fill="currentColor" fill-rule="evenodd"></path></svg><span class="badge" style="background:rgba(108,117,125,0.6);">{{ $cartCount }}</span></div>
                             </a></li>
-                        <li class="nav-item"><a class="nav-link" href="UserProfile.html" style="font-size:13px;">
+                        <li class="nav-item"><a class="nav-link" href="{{ route('UserProfile') }}"  style="font-size:13px;">
                                 <div class="notification-nav" id="notif-2"><svg fill="none" height="1em" style="width:20px;height:20px;color:var(--bs-dark-text-emphasis);" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 9C16 11.2091 14.2091 13 12 13C9.79086 13 8 11.2091 8 9C8 6.79086 9.79086 5 12 5C14.2091 5 16 6.79086 16 9ZM14 9C14 10.1046 13.1046 11 12 11C10.8954 11 10 10.1046 10 9C10 7.89543 10.8954 7 12 7C13.1046 7 14 7.89543 14 9Z" fill="currentColor" fill-rule="evenodd"></path><path d="M12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1ZM3 12C3 14.0902 3.71255 16.014 4.90798 17.5417C6.55245 15.3889 9.14627 14 12.0645 14C14.9448 14 17.5092 15.3531 19.1565 17.4583C20.313 15.9443 21 14.0524 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12ZM12 21C9.84977 21 7.87565 20.2459 6.32767 18.9878C7.59352 17.1812 9.69106 16 12.0645 16C14.4084 16 16.4833 17.1521 17.7538 18.9209C16.1939 20.2191 14.1881 21 12 21Z" fill="currentColor" fill-rule="evenodd"></path></svg></div>
                             </a></li>
                     </ul>
@@ -119,28 +119,53 @@
                         </div></a>
                     </div>
                 </div>
-                <div class="col cold-md-9 brand-2">
-                    <div class="filter-section-right" style="padding: 20px 10px 0px;">
-                        <h5 style="padding-top: 0px;padding-bottom: 0px;">Filters</h5>
-                        <div class="filter-row-right">
-                            <div class="filter-dropdown-right col-md-3 col-12"><select class="form-select">
-                                    <option value="">Select Color</option>
-                                    <option value="red">Red</option>
-                                    <option value="blue">Blue</option>
-                                    <option value="green">Green</option>
-                                    <option value="black">Black</option>
-                                    <option value="white">White</option>
-                                </select></div>
-                            <div class="filter-dropdown-right col-md-3 col-12"><select class="form-select">
-                                    <option value="">Select Size</option>
-                                    <option value="s">S</option>
-                                    <option value="m">M</option>
-                                    <option value="l">L</option>
-                                    <option value="xl">XL</option>
-                                </select></div>
-                            <div class="d-flex price-range col-md-4 col-12 gap-2 col-lg-2"><input type="number" class="form-control" min="0" placeholder="Min"><input type="number" class="form-control" min="0" placeholder="Max"></div><button class="apply-btn-right col-md-2 col-12">Apply Filters</button>
+
+                
+                <div class="col col-md-9 brand-2">
+                    <form action="{{ route('BrandsPage', ['brand' => $brand]) }}" method="GET">
+                        <div class="filter-section-right" style="padding: 20px 10px 0px;">
+                            <h5 style="padding-top: 0px; padding-bottom: 0px;">Filters</h5>
+                            <div class="filter-row-right">
+                                <!-- Color Filter -->
+                                <div class="filter-dropdown-right col-md-3 col-12">
+                                    <select name="color" class="form-select">
+                                        <option value="">Select Color</option>
+                                        @foreach($availableColors as $color)
+                                            <option value="{{ $color }}" {{ request('color') == $color ? 'selected' : '' }}>
+                                                {{ ucfirst($color) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Size Filter -->
+                                <div class="filter-dropdown-right col-md-3 col-12">
+                                    <select name="size" class="form-select">
+                                        <option value="">Select Size</option>
+                                        @foreach($availableSizes as $size)
+                                            <option value="{{ $size }}" {{ request('size') == $size ? 'selected' : '' }}>
+                                                {{ strtoupper($size) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <!-- Price Range Inputs -->
+                                <div class="d-flex price-range col-md-4 col-12 gap-2 col-lg-2">
+                                    <input type="number" name="min_price" class="form-control" min="0"
+                                        placeholder="Min" value="{{ request('min_price') }}"
+                                        min="0" max="{{ $priceRange->max_price ?? '' }}">
+
+                                    <input type="number" name="max_price" class="form-control" min="0"
+                                        placeholder="Max" value="{{ request('max_price') }}"
+                                        min="0" max="{{ $priceRange->max_price ?? '' }}">
+                                </div>
+
+                                <!-- Apply Button -->
+                                <button type="submit" class="apply-btn-right col-md-2 col-12">Apply Filters</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
 
 
                     <div class="filter-section-right pb-2" style="padding-top: 10px;padding-right: 10px;padding-left: 10px;padding-bottom: 5px;">
@@ -230,6 +255,22 @@
     <script src="{{ asset('assets/js/steps.js') }}"></script>
     <script src="{{ asset('assets/js/tabDelivery.js') }}"></script>
     <script src="{{ asset('assets/js/tabfunction.js') }}"></script>
+
+    <script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        let minPrice = document.querySelector('input[name="min_price"]');
+        let maxPrice = document.querySelector('input[name="max_price"]');
+
+        let minValue = parseFloat(minPrice.value);
+        let maxValue = parseFloat(maxPrice.value);
+
+        if (!isNaN(minValue) && !isNaN(maxValue) && minValue > maxValue) {
+            e.preventDefault(); // Stop form from submitting
+            alert("Minimum price cannot be greater than maximum price.");
+            maxPrice.focus();
+        }
+    });
+</script>
 </body>
 
 </html>

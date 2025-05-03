@@ -39,7 +39,7 @@ Route::get('/product/{id}', [ProductController::class, 'show'])->name('product.v
 //Username Display
 Route::get('/get-username', [AuthController::class, 'getUsername'])->name('get.username');
 
-//Placing Order (redirect to pending page if COD)
+//Placing Order (for COD)
 Route::post('/place-order', [OrderController::class, 'placeOrder'])->name('order.place');
 Route::get('/order-pending', function () {
     return view('orders.pending');
@@ -115,10 +115,27 @@ Route::post('/products/store', [ProductController::class, 'store'])->name('produ
 // To be finalized............
 
 
-// Remove the standalone /UserProfile route
+
 Route::get('/UserProfile', [OrderController::class, 'showCompletedOrders'])->name('UserProfile');
-
-// Keep the existing /UserProfile/Orders route
-//Route::get('/UserProfile/Orders', [OrderController::class, 'showCompletedOrders'])->name('orders.completed');
-
 Route::post('order/{orderId}/rate', [ReviewController::class, 'rateOrder'])->name('order.rate');
+Route::post('/user/address', [AuthController::class, 'storeAddress'])->name('user.address.store');
+Route::put('/addresses/{id}', [AuthController::class, 'updateAddress'])->name('addresses.update');
+Route::post('/addresses/{id}/set-default', [AuthController::class, 'setDefault'])->name('addresses.setDefault');
+Route::patch('/order/{order}/complete', [OrderController::class, 'markAsCompleted'])->name('order.complete');
+Route::patch('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+
+
+
+Route::get('/Notif-View-Details', function () {
+    return view('Notif-View-Details'); 
+})->name('Notif-View-Details');
+
+
+//not working
+Route::get('/forgot-password', function () {
+    return view('auth.ForgotPassword'); // Your forgot password page
+})->name('password.request');
+
+Route::post('/forgot-password/send-code', [AuthController::class, 'sendResetCode']);
+Route::post('/forgot-password/verify-code', [AuthController::class, 'verifyResetCode']);
+Route::post('/forgot-password/reset', [AuthController::class, 'resetPassword']);

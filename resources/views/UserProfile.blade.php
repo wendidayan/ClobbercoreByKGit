@@ -41,6 +41,7 @@
                         <li class="nav-item"><a class="nav-link"href="{{ route('Clothing') }}"  style="color:var(--bs-gray-dark);font-size:13px;">COLLECTIONS</a></li>
                         <li class="nav-item"><a class="nav-link active" href="{{ route('PrivacyPolicy') }}"  style="color:var(--bs-gray-dark);font-size:13px;">MORE</a></li>
                     </ul>
+                    
                     <ul class="navbar-nav ms-auto nav-right" style="font-family:'Open Sans', sans-serif;">
                         <li class="nav-item"><a class="nav-link" href="#" style="font-size:13px;padding-right:20px;color:var(--bs-dark-text-emphasis);">
                                 <div class="notification-nav" id="notif"><svg fill="none" height="1em" style="width:20px;height:20px;" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M14 3V3.28988C16.8915 4.15043 19 6.82898 19 10V17H20V19H4V17H5V10C5 6.82898 7.10851 4.15043 10 3.28988V3C10 1.89543 10.8954 1 12 1C13.1046 1 14 1.89543 14 3ZM7 17H17V10C17 7.23858 14.7614 5 12 5C9.23858 5 7 7.23858 7 10V17ZM14 21V20H10V21C10 22.1046 10.8954 23 12 23C13.1046 23 14 22.1046 14 21Z" fill="currentColor" fill-rule="evenodd"></path></svg><span class="badge" style="background:rgba(108,117,125,0.6);">12</span>
@@ -68,8 +69,8 @@
                                     </div>
                                 </div>
                             </a></li>
-                        <li class="nav-item"><a class="nav-link" href="PlaceOrder.html" style="font-size:13px;padding-right:20px;">
-                                <div class="notification-nav" id="notif-1"><svg fill="none" height="1em" style="width:20px;height:20px;color:var(--bs-dark-text-emphasis);" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M5 4H19C19.5523 4 20 4.44771 20 5V19C20 19.5523 19.5523 20 19 20H5C4.44772 20 4 19.5523 4 19V5C4 4.44772 4.44771 4 5 4ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5ZM12 12C9.23858 12 7 9.31371 7 6H9C9 8.56606 10.6691 10 12 10C13.3309 10 15 8.56606 15 6H17C17 9.31371 14.7614 12 12 12Z" fill="currentColor" fill-rule="evenodd"></path></svg><span class="badge" style="background:rgba(108,117,125,0.6);">12</span>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('cart.view') }}" style="font-size:13px;padding-right:20px;">
+                                <div class="notification-nav" id="notif-1"><svg fill="none" height="1em" style="width:20px;height:20px;color:var(--bs-dark-text-emphasis);" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M5 4H19C19.5523 4 20 4.44771 20 5V19C20 19.5523 19.5523 20 19 20H5C4.44772 20 4 19.5523 4 19V5C4 4.44772 4.44771 4 5 4ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5ZM12 12C9.23858 12 7 9.31371 7 6H9C9 8.56606 10.6691 10 12 10C13.3309 10 15 8.56606 15 6H17C17 9.31371 14.7614 12 12 12Z" fill="currentColor" fill-rule="evenodd"></path></svg><span class="badge" style="background:rgba(108,117,125,0.6);">{{ $cartCount }}</span>
                                     <div class="notif-box" id="notif-content-1">
                                         <h5 style="font-size:18px;margin:0px;padding:15px;border-bottom:1px solid #ddd;background:rgba(215,172,75,0.1);font-weight:bold;">Recently Received Notifications</h5>
                                         <div class="notif-item">
@@ -216,239 +217,334 @@
                             <div class="mb-3 gap-3"><label class="form-label">Confirm Password</label><input class="form-control" type="password" style="border-radius: 3px;"></div><a class="btn checkout-btn float-end mb-3" role="button" style="border-radius: 3px;font-size: 14px;padding: 10px 30px;" href="#" data-bs-target="#updatePasswordSucess" data-bs-toggle="modal">Save</a>
                         </form>
                     </div>
+                    
+                   <!--Address Display-->  
                     <div id="addresses" class="p-3 profile-section" style="display: none;">
                         <div class="d-flex justify-content-between align-items-center pb-3">
                             <h4 class="pt-3" style="font-size:16px;font-weight:bold;">My Addresses</h4><button class="btn btn-primary" id="addAddressBtn" type="button" style="border-radius:3px;background:#d7ac4b;font-size:14px;border-style:none;" data-bs-toggle="modal" data-bs-target="#addressModal"><i class="fa fa-plus p-2"></i>Add Address</button>
                         </div>
                         <div class="mt-3" style="font-size:14px;">
                             <div class="card-body-address">
-                                <h6 class="fw-bold pb-2">Address</h6>
-                                <div class="pb-3 mb-3 border-bottom address-block" data-fname="Karylle" data-phone="(+63) 903 483 449" data-street="Central 2, Abuyog" data-city="Abuyog, Sorsogon City" data-province="Sorsogon" data-region="South Luzon" data-zip="4700" data-lname="Dolly">
-                                    <h6 class="fw-bold">Karylle Dolly&nbsp;<span class="text-muted">(+63) 903 483 449</span></h6>
-                                    <p class="mb-1">Central 2, Abuyog</p>
-                                    <p class="mb-1">Abuyog, Sorsogon City, Sorsogon, South Luzon,&nbsp;<span>4700</span></p>
-                                    <div class="d-flex justify-content-end align-items-center mt-3"><a class="text-decoration-none action-links edit-address me-2" data-bs-toggle="modal" data-bs-target="#editAddressModal" style="cursor: pointer;">Edit</a><button class="btn btn-outline-secondary btn-custom" type="button">Set as Default</button></div>
-                                </div>
+                            @if($addresses->isEmpty())
+                                    <div class="p-2 mb-2" style="border-bottom: 0.8px solid rgba(33,37,41,0.1);">
+                                        <p class="text-center" style="padding: 20px; font-size: 14px; color: rgba(33,37,41,0.7);">
+                                           No address available. Please add an address.
+                                        </p>
+                                    </div>
+                                @else
+                                @foreach($addresses as $address)
+                                    <h6 class="fw-bold pb-2">Address</h6>
+                                    <div class="pb-3 mb-3 border-bottom address-block" data-phone="{{ $address->phone_number }}" data-barangay="{{ $address->barangay }}"  data-street="{{ $address->street }}" data-city="{{ $address->city }}" data-province="{{ $address->province }}" data-region="{{ $address->region }}" data-zip="{{ $address->zip_code }}">
+                                        <h6 class="fw-bold">{{ $user->fullname }}&nbsp;<span class="text-muted">{{ $address->phone_number }}</span></h6>
+                                        <p class="mb-1">{{ $address->street }}</p>
+                                        <p class="mb-1">{{ $address->barangay }}, {{ $address->city }}, {{ $address->province }}, {{ $address->region }},&nbsp;<span>{{ $address->zip_code }}</span></p>
+                                        <div class="d-flex justify-content-end align-items-center mt-3">
+                                        <a class="text-decoration-none action-links edit-address me-2"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editAddressModal"
+                                            data-id="{{ $address->id }}"
+                                            data-phone="{{ $address->phone_number }}"
+                                            data-street="{{ $address->street }}"
+                                            data-city="{{ $address->city }}"
+                                            data-province="{{ $address->province }}"
+                                            data-region="{{ $address->region }}"
+                                            data-zip="{{ $address->zip_code }}"
+                                            style="cursor: pointer;">
+                                            Edit
+                                        </a>
+
+                                            <form action="{{ route('addresses.setDefault', $address->id) }}" method="POST" class="ms-2">
+                                            @csrf
+                                            <button type="submit" class="btn btn-outline-secondary btn-custom" {{ $address->is_default ? 'disabled' : '' }}>
+                                                {{ $address->is_default ? 'Default' : 'Set as Default' }}
+                                            </button>
+                                        </form>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                @endif
                             </div>
                         </div>
                     </div>
+                    
+                    
                     <div id="notifications" class="p-3 notification-container profile-section" style="display: none;">
-                        <div class="notif-top-bar" style="border-bottom: 0.8px solid rgba(33,37,41,0.1) ;"><a class="text-decoration-none d-flex justify-content-end" href="#" style="padding: 10px;color: #d7ac4b;font-size: 14px;">Mark all as Read</a></div>
-                        <div class="d-flex align-items-center notification mb-2" style="padding:15px;border-top-width:0.8px;border-top-color:rgba(33,37,41,0.1);border-bottom:0.8px solid rgba(33,37,41,0.1); flex-wrap: wrap;"><img class="object-fit-cover" style="width:60px;height:60px;margin-right:15px;" src="assets/img/3.png">
-                            <div class="notification-content">
-                                <p><strong>Order Completed</strong></p>
-                                <p>Order&nbsp;<span style="font-weight:bold;">2502024FYRQUJH</span>&nbsp;is completed. Your feedback matters!</p>
-                                <p style="font-size:12px;color:var(--bs-secondary);">02/14/2025&nbsp;<span>08:30</span></p>
-                            </div><a class="btn mt-2 view-details-btn" role="button" style="background:rgba(215,172,75,0.6);border-radius:3px;color:white;font-size:12px; padding: 8px 12px; cursor: pointer;" href="Notif-View-Details.html">View Details</a>
-                        </div>
+                        @if($completedOrders->isNotEmpty())
+                            <div class="notif-top-bar" style="border-bottom: 0.8px solid rgba(33,37,41,0.1);">
+                                <a id="markAllRead" class="text-decoration-none d-flex justify-content-end" href="#" style="padding: 10px;color: #d7ac4b;font-size: 14px;">Mark all as Read</a>
+                            </div>
+                        @endif
+                        
+                        @forelse ($completedOrders as $order)
+                            @php
+                                $firstItem = $order->orderItems->first();
+                                $firstImage = $firstItem && $firstItem->product && $firstItem->product->image
+                                    ? asset($firstItem->product->image)
+                                    : asset('assets/img/default.png');
+                            @endphp
+                            <div class="d-flex align-items-center notification mb-2 unread"  data-id="{{ $order->id }}" style="padding:15px;border-top:0.8px solid rgba(33,37,41,0.1);border-bottom:0.8px solid rgba(33,37,41,0.1); flex-wrap: wrap;">
+                                <img class="object-fit-cover" style="width:60px;height:60px;margin-right:15px;"  src="{{ $firstImage }}">
+                                <div class="notification-content">
+                                    <p><strong>Order Completed</strong></p>
+                                    <p>Order&nbsp;<span style="font-weight:bold;">{{ $order->id }}</span>&nbsp;is completed. Your feedback matters!</p>
+                                    <p style="font-size:12px;color:var(--bs-secondary);">{{ $order->updated_at->format('m/d/Y') }}&nbsp;<span>{{ $order->updated_at->format('H:i') }}</span></p>
+                                </div>
+                                <a class="btn mt-2 view-details-btn" role="button" style="background:rgba(215,172,75,0.6);border-radius:3px;color:white;font-size:12px; padding: 8px 12px;" href="#">View Details</a>
+                            </div>
+                            @empty
+                            <div class="p-2 mb-2" style="padding:15px;border-top:0.8px solid rgba(33,37,41,0.1);border-bottom:0.8px solid rgba(33,37,41,0.1);">
+                                <p class="text-center" style="padding: 20px; font-size: 14px; color: rgba(33,37,41,0.7);">
+                                    No notifications available.
+                                </p>
+                            </div>
+                        @endforelse
                     </div>
+
+                    
                     <div id="my-purchases" class="p-3 profile-section" style="display: none;">
                         <div class="container mt-4">
                             <ul class="nav nav-tabs" id="purchaseTabs" style="background:var(--bs-white);">
                                 <li class="nav-item"><a class="nav-link active" data-category="all" href="all" style="border-radius:0px;border-style:none;">All</a></li>
-                                <li class="nav-item"><a class="nav-link" data-category="to-deliver" href="to-deliver" style="border-radius:0px;border-style:none;">To Deliver</a></li>
+                                <li class="nav-item"><a class="nav-link" data-category="pending" href="pending" style="border-radius:0px;border-style:none;">Pending</a></li>
                                 <li class="nav-item"><a class="nav-link" data-category="to-receive" href="to-receive" style="border-radius:0px;border-style:none;">To Receive</a></li>
                                 <li class="nav-item"><a class="nav-link" data-category="completed" href="completed" style="border-radius:0px;border-style:none;">Completed</a></li>
                                 <li class="nav-item"><a class="nav-link" data-category="cancelled" href="cancelled" style="border-radius:0px;border-style:none;">Cancelled</a></li>
                             </ul>
                             
+                            <!-- Display for All -->
                             <div id="all" class="tab-content-div" style="display: none;">
+                            @if($completedOrders->isNotEmpty() || $cancelledOrders->isNotEmpty())
+                                <!-- Show Search Bar Only If Orders Exist -->
                                 <div id="search-bar-main" class="search-div m-3" style="font-family: 'Open Sans', sans-serif;">
-                                    <div class="main-search" style="border: 0.8px solid rgba(33,37,41,0.3) ;"><i class="fa fa-search"></i><input type="text" placeholder="Search here..."><button class="btn" type="button">Go</button></div>
-                                </div>
-                                <!--
-                                
-                                <div class="p-2 mb-2" style="border-bottom-width: 0.8px;border-bottom-color: rgba(33,37,41,0.1);">
-                                    <div class="d-flex justify-content-end">
-                                        <h6 style="font-size: 14px;color: #d7ac4b;">Completed</h6>
-                                    </div>
-                                    <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;border-top-width: 0.8px;border-top-color: rgba(33,37,41,0.1);border-bottom: 0.8px none rgba(33,37,41,0.1) ;"><img class="object-fit-cover" style="width: 60px;height: 60px;margin-right: 15px;" src="assets/img/1.png">
-                                        <div class="all-content">
-                                            <p><strong>Rose Jeans Shirt</strong></p>
-                                            <p>Small, Black</p>
-                                            <p class="mb-2" style="text-align: right;">₱50</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;border-top-width: 0.8px;border-top-color: rgba(33,37,41,0.1);border-bottom: 0.8px none rgba(33,37,41,0.1) ;"><img class="object-fit-cover" style="width: 60px;height: 60px;margin-right: 15px;" src="assets/img/5.png">
-                                        <div class="all-content">
-                                            <p><strong>Rose Jeans Shirt</strong></p>
-                                            <p>Small, Black</p>
-                                            <p class="mb-2" style="text-align: right;">₱50</p>
-                                            <p class="d-flex justify-content-end"><span>2&nbsp;</span>Items</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-end align-items-center p-2 order-total" style="border-top: 0.8px solid rgba(33,37,41,0.1);border-bottom: 0.8px dashed rgba(33,37,41,0.1);">
-                                        <p class="p-2 pt-0 pb-0 mb-0" style="font-size: 12px;color: var(--bs-black);">Order Total:&nbsp;<span>₱100</span></p><button class="btn" type="button" style="padding: 8px 16px;width: 80px;height: 40px;border-radius: 3px;background: #d7ac4b;border-style: none;border-top-style: none;color: var(--bs-light);" data-bs-toggle="modal" data-bs-target="#toRateModal">Rate</button>
+                                    <div class="main-search" style="border: 0.8px solid rgba(33,37,41,0.3);">
+                                        <i class="fa fa-search"></i>
+                                        <input type="text" placeholder="Search here...">
+                                        <button class="btn" type="button">Go</button>
                                     </div>
                                 </div>
-                                -->
+                            @endif
 
-                                
-                                <div class="p-2 mb-2" style="border-bottom-width: 0.8px;border-bottom-color: rgba(33,37,41,0.1);">
-                                    <div class="d-flex justify-content-end">
-                                        <h6 style="font-size: 14px;color: #d7ac4b;">Cancelled</h6>
-                                    </div>
-                                    <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;border-top-width: 0.8px;border-top-color: rgba(33,37,41,0.1);border-bottom: 0.8px none rgba(33,37,41,0.1) ;"><img class="object-fit-cover" style="width: 60px;height: 60px;margin-right: 15px;" src="assets/img/1.png">
-                                        <div class="all-content">
-                                            <p><strong>Rose Jeans Shirt</strong></p>
-                                            <p>Small, Black</p>
-                                            <p class="mb-2" style="text-align: right;">₱50</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;border-top-width: 0.8px;border-top-color: rgba(33,37,41,0.1);border-bottom: 0.8px none rgba(33,37,41,0.1) ;"><img class="object-fit-cover" style="width: 60px;height: 60px;margin-right: 15px;" src="assets/img/5.png">
-                                        <div class="all-content">
-                                            <p><strong>Rose Jeans Shirt</strong></p>
-                                            <p>Small, Black</p>
-                                            <p class="mb-2" style="text-align: right;">₱50</p>
-                                            <p class="d-flex justify-content-end"><span>2&nbsp;</span>Items</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-end align-items-center p-2 order-total" style="border-top: 0.8px solid rgba(33,37,41,0.1) ;border-bottom: 0.8px dashed rgba(33,37,41,0.1) ;">
-                                        <p class="p-2 pt-0 pb-0 mb-0" style="font-size: 12px;color: var(--bs-black);">Order Total:&nbsp;<span>₱100</span></p>
-                                    </div>
+                            @if($completedOrders->isEmpty() && $cancelledOrders->isEmpty())
+                                <div class="p-2 mb-2" style="border-bottom: 0.8px solid rgba(33,37,41,0.1);">
+                                    <p class="text-center" style="padding: 20px; font-size: 14px; color: rgba(33,37,41,0.7);">
+                                        No orders to show.
+                                    </p>
                                 </div>
+                            @endif
+                            <!-- Completed Orders -->
+                            @if($completedOrders->isNotEmpty())
+                                @foreach($completedOrders as $order)
+                                    <div class="p-2 mb-2" style="border-bottom: 0.8px solid rgba(33,37,41,0.1);">
+                                        <div class="d-flex justify-content-end p-3">
+                                            <h6 style="font-size: 14px; color: #d7ac4b;">Completed</h6>
+                                        </div>
+                                        @foreach($order->orderItems as $item)
+                                            <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;">
+                                                <img class="object-fit-cover" style="width: 60px; height: 60px; margin-right: 15px;" src="{{ asset($item->product->image ?? 'assets/img/default.png') }}">
+                                                <div class="all-content">
+                                                    <p><strong>{{ $item->product->name ?? 'Product Not Available' }}</strong></p>
+                                                    <p>{{ $item->product->size ?? 'N/A' }}</p>
+                                                    <p class="mb-2 text-end">₱{{ $item->product->price ?? 'N/A' }}</p>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                        <p class="d-flex justify-content-end" style="padding: 0 15px; font-size: 14px;">
+                                            <span>{{ count($order->orderItems) }}</span>&nbsp;{{ count($order->orderItems) === 1 ? 'Item' : 'Items' }}
+                                        </p>
+                                        <!-- Rate Button -->
+                                        <div class="d-flex justify-content-end align-items-center p-2 order-total gap-2"
+                                            style="border-top: 0.8px solid rgba(33,37,41,0.1); border-bottom: 0.8px dashed rgba(33,37,41,0.1);">
+                                            <p class="p-2 pt-0 pb-0 mb-0" style="font-size: 12px; color: var(--bs-black);">
+                                                Order Total:&nbsp;<span>₱{{ $order->total_price ?? 'N/A' }}</span>
+                                            </p>
+                                            <button class="btn" type="button"
+                                                    style="padding: 8px 20px; width: 80px; height: 40px; border-radius: 2px; background: #d7ac4b; border-style: none; color: var(--bs-light);"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#toRateModal-{{ $order->id }}">Rate</button>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+
+                            <!-- Cancelled Orders -->
+                            @if($cancelledOrders->isNotEmpty())
+                                @foreach($cancelledOrders as $order)
+                                    <div class="p-2 mb-2" style="border-bottom: 0.8px solid rgba(33,37,41,0.1);">
+                                        <div class="d-flex justify-content-end p-3">
+                                            <h6 style="font-size: 14px; color: #d7ac4b;">Cancelled</h6>
+                                        </div>
+                                        @foreach($order->orderItems as $item)
+                                            <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;">
+                                                <img class="object-fit-cover" style="width: 60px; height: 60px; margin-right: 15px;" src="{{ asset($item->product->image ?? 'assets/img/default.png') }}">
+                                                <div class="all-content">
+                                                    <p><strong>{{ $item->product->name ?? 'Product Not Available' }}</strong></p>
+                                                    <p>{{ $item->product->size ?? 'N/A' }}, {{ $item->product->color ?? 'N/A' }}</p>
+                                                    <p class="mb-2 text-end">₱{{ $item->price ?? 'N/A' }}</p>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                        <p class="d-flex justify-content-end" style="padding: 0 15px; font-size: 14px;">
+                                            <span>{{ count($order->orderItems) }}</span>&nbsp;{{ count($order->orderItems) === 1 ? 'Item' : 'Items' }}
+                                        </p>
+                                        <div class="d-flex justify-content-end align-items-center p-2 order-total" style="border-top: 0.8px solid rgba(33,37,41,0.1); border-bottom: 0.8px dashed rgba(33,37,41,0.1);">
+                                            <p class="p-2 pt-0 pb-0 mb-0" style="font-size: 12px;">Order Total:&nbsp;<span>₱{{ $order->total_price ?? 'N/A' }}</span></p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        </div>
+
+                            
+                            
+                           <!-- Display for Pending -->
+                            <div id="pending" class="tab-content-div" style="background: var(--bs-light); display: none;">
+                                @if($pendingOrders->isEmpty())
+                                    <div class="p-2 mb-2" style="border-bottom: 0.8px solid rgba(33,37,41,0.1);">
+                                        <p class="text-center" style="padding: 20px; font-size: 14px; color: rgba(33,37,41,0.7);">
+                                            No pending orders.
+                                        </p>
+                                    </div>
+                                @else
+                                    @foreach ($pendingOrders as $order)
+                                        <div class="p-2 mb-2">
+                                            <!-- Move "Pending" here -->
+                                            <div class="d-flex justify-content-end p-3">
+                                                <h6 style="font-size: 14px; color: #d7ac4b;">Pending</h6>
+                                            </div>
+
+                                            @foreach ($order->orderItems as $item)
+                                                <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;">
+                                                    <img class="object-fit-cover" style="width: 60px; height: 60px; margin-right: 15px;" src="assets/img/1.png">
+                                                    <div class="all-content">
+                                                        <p><strong>{{ $item->product->name }}</strong></p>
+                                                        <p>{{ $item->product->size ?? 'N/A' }}, {{ $item->product->color ?? 'N/A' }}</p>
+                                                        <p class="mb-2 text-end">₱{{ $item->price }}</p>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+
+                                            <!-- Continue with rest of the order info -->
+                                            <div class="d-flex justify-content-between" style="color: rgba(33,37,41,0.7); font-size: 12px;">
+                                                <p>Order ID</p>
+                                                <p>{{ $order->id }}</p>
+                                            </div>
+
+                                            <div class="d-flex justify-content-end align-items-center p-2 order-total gap-2" style="border-top: 0.8px solid rgba(33,37,41,0.1); border-bottom: 0.8px dashed rgba(33,37,41,0.1);">
+                                                <a class="btn btn-primary" role="button"
+                                                style="padding: 8px 20px; border-radius: 2px; background: #d7ac4b; border: none; font-size: 14px;"
+                                                onclick="toggleTrackDetails({{ $order->id }})">View Details</a>
+                                                <form action="{{ route('orders.cancel', $order->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this order?')" style="display: inline;">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="btn"
+                                                            style="padding: 8px 20px; border-radius: 2px; font-size: 14px; border: 1px solid #d7ac4b; color: #d7ac4b;">
+                                                        Cancel
+                                                    </button>
+                                                </form>
+                                                <p class="p-2 pt-0 pb-0 mb-0" style="font-size: 12px; color: var(--bs-black);">
+                                                    Order Total: <span style="font-size: 18px;">₱{{ $order->total_price }}</span>
+                                                </p>
+                                            </div>
+
+                                            <div id="details-{{ $order->id }}" class="track-details-abc m-2" style="display: none;">
+                                                <div class="mb-2">
+                                                    <div class="d-flex justify-content-between">
+                                                        <h5 style="color: var(--bs-secondary); font-size: 14px;">Payment Method</h5>
+                                                        <h5 style="font-size: 14px;">{{ $order->paymentMethod->name ?? 'N/A' }}</h5>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between">
+                                                        <h5 style="color: var(--bs-secondary); font-size: 14px;">Delivery Method</h5>
+                                                        <h5 style="font-size: 14px;">{{ $order->deliveryMethod->name ?? 'N/A' }}</h5>
+                                                    </div>
+                                                    <a class="text-decoration-none" href="E-Invoice.html">
+                                                        <h5 class="d-flex justify-content-end" style="cursor: pointer; color: #d7ac4b; font-size: 14px;">See e-invoice</h5>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
-                            <div id="to-deliver" class="tab-content-div" style="background: var(--bs-light); display: none;">
-                                <div class="p-2 mb-2" style="border-bottom-width: 0.8px;border-bottom-color: rgba(33,37,41,0.1);">
-                                    <div class="d-flex justify-content-end p-3" style="display: none;">
-                                        <h6 style="font-size: 14px;color: #d7ac4b;">To deliver</h6>
-                                    </div>
-                                    <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;border-top-width: 0.8px;border-top-color: rgba(33,37,41,0.1);border-bottom: 0.8px none rgba(33,37,41,0.1) ;"><img class="object-fit-cover" style="width: 60px;height: 60px;margin-right: 15px;" src="assets/img/1.png">
-                                        <div class="all-content">
-                                            <p><strong>Rose Jeans Shirt</strong></p>
-                                            <p>Small, Black</p>
-                                            <p class="mb-2" style="text-align: right;">₱50</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;border-top-width: 0.8px;border-top-color: rgba(33,37,41,0.1);border-bottom: 0.8px none rgba(33,37,41,0.1) ;"><img class="object-fit-cover" style="width: 60px;height: 60px;margin-right: 15px;" src="assets/img/5.png">
-                                        <div class="all-content">
-                                            <p><strong>Rose Jeans Shirt</strong></p>
-                                            <p>Small, Black</p>
-                                            <p class="mb-2" style="text-align: right;">₱50</p>
-                                            <p class="d-flex justify-content-end"><span>2&nbsp;</span>Items</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between" style="color: rgba(33,37,41,0.7);font-size: 12px;">
-                                        <p>Order ID</p>
-                                        <p>UKAY23058294</p>
-                                    </div>
-                                    <div class="d-flex justify-content-end align-items-center p-2 order-total gap-2" style="border-top: 0.8px solid rgba(33,37,41,0.1);border-bottom: 0.8px dashed rgba(33,37,41,0.1);"><a class="btn btn-primary" role="button" style="padding: 8px 20px;border-radius: 2px; font-size; 16px;background: #d7ac4b;border-style: none;font-size: 14px;" onclick="toggleTrackDetails()">View Details</a>
-                                        <p class="p-2 pt-0 pb-0 mb-0" style="font-size: 12px;color: var(--bs-black);">Order Total:&nbsp;<span style="font-size: 18px;">₱100</span></p>
-                                    </div>
-                                </div>
-                                <div id="details-abc" class="track-details-abc m-2">
-                                    <div class="mb-2">
-                                        <div class="d-flex justify-content-between">
-                                            <h5 style="color: var(--bs-secondary);font-size: 14px;">Payment Method</h5>
-                                            <h5 style="font-size: 14px;">COD</h5>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <h5 style="color: var(--bs-secondary);font-size: 14px;">Delivery Method</h5>
-                                            <h5 style="font-size: 14px;">Meet-Up</h5>
-                                        </div><a class="text-decoration-none" href="E-Invoice.html">
-                                            <h5 class="d-flex justify-content-end" style="cursor: pointer;color: #d7ac4b;font-size: 14px;">See e-invoice</h5>
-                                        </a>
-                                    </div>
-                                    <h5>Order Tracking</h5>
-                                    <div class="d-flex flex-wrap p-2">
-                                        <div class="d-flex tracking-item active gap-3 p-2">
-                                            <div class="circle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor" style="color:red;">
-                
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-352a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"></path>
-            </svg></div>
-                                            <div class="track-content">
-                                                <p class="track-title" style="margin-bottom:0px;font-weight:bold;">Delivered</p>
-                                                <p class="track-date" style="margin-bottom:0px;color:var(--bs-secondary);">03/15/2025&nbsp;<span>&nbsp;10:00</span></p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex tracking-item active gap-3 p-2">
-                                            <div class="circle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor" style="color:black;">
-                
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-352a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"></path>
-            </svg></div>
-                                            <div class="track-content">
-                                                <p class="track-title" style="margin-bottom:0px;font-weight:bold;">Out for Delivery</p>
-                                                <p class="track-date" style="margin-bottom:0px;color:var(--bs-secondary);">03/15/2025&nbsp;<span>&nbsp;10:00</span></p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex tracking-item active gap-3 p-2">
-                                            <div class="circle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor" style="color:black;">
-                
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-352a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"></path>
-            </svg></div>
-                                            <div class="track-content">
-                                                <p class="track-title" style="margin-bottom:0px;font-weight:bold;">Order Processing</p>
-                                                <p class="track-date" style="margin-bottom:0px;color:var(--bs-secondary);">03/15/2025&nbsp;<span>&nbsp;10:00</span></p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex tracking-item active gap-3 p-2">
-                                            <div class="circle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor" style="color:black;">
-                
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-352a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"></path>
-            </svg></div>
-                                            <div class="track-content">
-                                                <p class="track-title" style="margin-bottom:0px;font-weight:bold;">Order Confirmation</p>
-                                                <p class="track-date" style="margin-bottom:0px;color:var(--bs-secondary);">03/15/2025&nbsp;<span>&nbsp;10:00</span></p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex tracking-item active gap-3 p-2">
-                                            <div class="circle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1em" height="1em" fill="currentColor" style="color:black;">
-                
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-352a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"></path>
-            </svg></div>
-                                            <div class="track-content">
-                                                <p class="track-title" style="margin-bottom:0px;font-weight:bold;">Order Placed</p>
-                                                <p class="track-date" style="margin-bottom:0px;color:var(--bs-secondary);">03/15/2025&nbsp;<span>&nbsp;10:00</span></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+
+                            
+                            <!-- Display for To Receive -->
                             <div id="to-receive" class="tab-content-div" style="background: var(--bs-light); display: none;">
                                 <div class="p-2 mb-2" style="border-bottom-width: 0.8px;border-bottom-color: rgba(33,37,41,0.1);">
-                                    <div class="d-flex justify-content-end p-3">
-                                        <h6 style="font-size: 14px;color: #d7ac4b;">To receive</h6>
-                                    </div>
-                                    <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;border-top-width: 0.8px;border-top-color: rgba(33,37,41,0.1);border-bottom: 0.8px none rgba(33,37,41,0.1) ;"><img class="object-fit-cover" style="width: 60px;height: 60px;margin-right: 15px;" src="assets/img/1.png">
-                                        <div class="all-content">
-                                            <p><strong>Rose Jeans Shirt</strong></p>
-                                            <p>Small, Black</p>
-                                            <p class="mb-2" style="text-align: right;">₱50</p>
+                                    @if($processingOrders->isEmpty())
+                                        <div class="p-2 mb-2" style="border-bottom: 0.8px solid rgba(33,37,41,0.1);">
+                                            <p class="text-center" style="padding: 20px; font-size: 14px; color: rgba(33,37,41,0.7);">
+                                                No orders to receive yet.
+                                            </p>
                                         </div>
-                                    </div>
-                                    <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;border-top-width: 0.8px;border-top-color: rgba(33,37,41,0.1);border-bottom: 0.8px none rgba(33,37,41,0.1) ;"><img class="object-fit-cover" style="width: 60px;height: 60px;margin-right: 15px;" src="assets/img/5.png">
-                                        <div class="all-content">
-                                            <p><strong>Rose Jeans Shirt</strong></p>
-                                            <p>Small, Black</p>
-                                            <p class="mb-2" style="text-align: right;">₱50</p>
-                                            <p class="d-flex justify-content-end"><span>2&nbsp;</span>Items</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between" style="color: rgba(33,37,41,0.7);font-size: 12px;">
-                                        <p>Order ID</p>
-                                        <p>UKAY23058294</p>
-                                    </div>
-                                    <div class="d-flex justify-content-end align-items-center p-2 order-total gap-2" style="border-top: 0.8px solid rgba(33,37,41,0.1) ;border-bottom: 0.8px dashed rgba(33,37,41,0.1) ;"><a class="btn btn-primary" role="button" style="background: #d7ac4b;border-style: none;font-size: 14px;padding: 8px 20px;border-radius: 2px;" href="Notif-View-Details.html">Order Received</a>
-                                        <p class="p-2 pt-0 pb-0 mb-0" style="font-size: 12px;color: var(--bs-black);">Order Total:&nbsp;<span>₱100</span></p>
-                                    </div>
+                                    @else
+                                        @foreach ($processingOrders as $order)
+                                            <!-- Heading moved here inside loop -->
+                                            <div class="d-flex justify-content-end p-3">
+                                                <h6 style="font-size: 14px;color: #d7ac4b;">To receive</h6>
+                                            </div>
+
+                                            @foreach ($order->orderItems as $item)
+                                                <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;">
+                                                    <img class="object-fit-cover" style="width: 60px; height: 60px; margin-right: 15px;"
+                                                        src="{{ asset($item->product->image ?? 'assets/img/default.jpg') }}">
+                                                    <div class="all-content">
+                                                        <p><strong>{{ $item->product->name }}</strong></p>
+                                                        <p>{{ $item->product->size ?? 'N/A' }}, {{ $item->product->color ?? 'N/A' }}</p>
+                                                        <p class="mb-2" style="text-align: right;">₱{{ $item->price }}</p>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+
+                                            <div class="d-flex justify-content-between" style="color: rgba(33,37,41,0.7); font-size: 12px;">
+                                                <p>Order ID</p>
+                                                <p>{{ $order->id }}</p>
+                                            </div>
+
+                                            <div class="d-flex justify-content-end align-items-center p-2 order-total gap-2"
+                                                style="border-top: 0.8px solid rgba(33,37,41,0.1); border-bottom: 0.8px dashed rgba(33,37,41,0.1);">
+                                                <!-- Form to update status -->
+                                                <form action="{{ route('order.complete', ['order' => $order->id]) }}" method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="btn btn-primary"
+                                                            style="background: #d7ac4b; border-style: none; font-size: 14px; padding: 8px 20px; border-radius: 2px;">
+                                                        Order Received
+                                                    </button>
+                                                </form>
+
+                                                <p class="p-2 pt-0 pb-0 mb-0" style="font-size: 12px;color: var(--bs-black);">
+                                                    Order Total:&nbsp;<span>₱{{ $order->total_price }}</span>
+                                                </p>
+                                            </div>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
 
 
-                         <!-- Display for Completed -->
+
+                       <!-- Display for Completed -->
                         <div id="completed" class="tab-content-div" style="display: none;">
                             <div class="p-2 mb-2" style="border-bottom-width: 0.8px; border-bottom-color: rgba(33,37,41,0.1);">
-                                <div class="d-flex justify-content-end p-3">
-                                    <h6 style="font-size: 14px; color: #d7ac4b;">Completed</h6>
-                                </div>
-
                                 @if($completedOrders->isEmpty())
-                                    <p>No completed orders found.</p>
+                                    <div class="p-2 mb-2" style="border-bottom: 0.8px solid rgba(33,37,41,0.1);">
+                                        <p class="text-center" style="padding: 20px; font-size: 14px; color: rgba(33,37,41,0.7);">
+                                            No completed orders found to rate.
+                                        </p>
+                                    </div>
                                 @else
                                     @foreach($completedOrders as $order)
+                                        <!-- Heading moved inside the loop -->
+                                        <div class="d-flex justify-content-end p-3">
+                                            <h6 style="font-size: 14px; color: #d7ac4b;">Completed</h6>
+                                        </div>
+
                                         @foreach($order->orderItems as $orderItem)
-                                            <div class="d-flex align-items-center purchase mb-2" style="padding: 15px; border-top-width: 0.8px; border-top-color: rgba(33,37,41,0.1); border-bottom: 0.8px none rgba(33,37,41,0.1);">
-                                                <img class="object-fit-cover" style="width: 60px; height: 60px; margin-right: 15px;" src="{{ asset($orderItem->product->image ?? 'assets/img/default.png') }}">
+                                            <div class="d-flex align-items-center purchase mb-2"
+                                                style="padding: 15px; border-top-width: 0.8px; border-top-color: rgba(33,37,41,0.1); border-bottom: 0.8px none rgba(33,37,41,0.1);">
+                                                <img class="object-fit-cover" style="width: 60px; height: 60px; margin-right: 15px;"
+                                                    src="{{ asset($orderItem->product->image ?? 'assets/img/default.png') }}">
                                                 <div class="all-content">
                                                     <p><strong>{{ $orderItem->product->name ?? 'Product Not Available' }}</strong></p>
                                                     <p>{{ $orderItem->product->size ?? 'N/A' }}</p>
@@ -463,9 +559,9 @@
                                             {{ count($order->orderItems) === 1 ? 'Item' : 'Items' }}
                                         </p>
 
-
                                         <!-- Rate Button -->
-                                        <div class="d-flex justify-content-end align-items-center p-2 order-total gap-2" style="border-top: 0.8px solid rgba(33,37,41,0.1); border-bottom: 0.8px dashed rgba(33,37,41,0.1);">
+                                        <div class="d-flex justify-content-end align-items-center p-2 order-total gap-2"
+                                            style="border-top: 0.8px solid rgba(33,37,41,0.1); border-bottom: 0.8px dashed rgba(33,37,41,0.1);">
                                             <p class="p-2 pt-0 pb-0 mb-0" style="font-size: 12px; color: var(--bs-black);">
                                                 Order Total:&nbsp;<span>₱{{ $order->total_price ?? 'N/A' }}</span>
                                             </p>
@@ -479,44 +575,56 @@
                             </div>
                         </div>
 
-                       
 
-                            <div id="cancelled" class="tab-content-div" style="display: none;">
-                                <div class="p-2 mb-2" style="border-bottom-width: 0.8px;border-bottom-color: rgba(33,37,41,0.1);">
-                                    <div class="d-flex justify-content-end p-3">
-                                        <h6 style="font-size: 14px;color: #d7ac4b;">Cancelled</h6>
+                       
+                        <!-- Display for Cancelled -->
+                        <div id="cancelled" class="tab-content-div" style="display: none;">
+                                @if ($cancelledOrders->isEmpty())
+                                    <div class="p-2 mb-2" style="border-bottom: 0.8px solid rgba(33,37,41,0.1);">
+                                        <p class="text-center" style="padding: 20px; font-size: 14px; color: rgba(33,37,41,0.7);">
+                                            No cancelled orders found.
+                                        </p>
                                     </div>
-                                    <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;border-top-width: 0.8px;border-top-color: rgba(33,37,41,0.1);border-bottom: 0.8px none rgba(33,37,41,0.1) ;"><img class="object-fit-cover" style="width: 60px;height: 60px;margin-right: 15px;" src="assets/img/1.png">
-                                        <div class="all-content">
-                                            <p><strong>Rose Jeans Shirt</strong></p>
-                                            <p>Small, Black</p>
-                                            <p class="mb-2" style="text-align: right;">₱50</p>
+                                @else
+                                @foreach ($cancelledOrders as $order)
+                                    <div class="p-2 mb-2">
+                                        <div class="d-flex justify-content-end p-3">
+                                            <h6 style="font-size: 14px; color: #d7ac4b;">Cancelled</h6>
+                                        </div>
+                                        @foreach ($order->orderItems as $item)
+                                            <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;">
+                                                <img class="object-fit-cover" style="width: 60px; height: 60px; margin-right: 15px;" src="assets/img/1.png">
+                                                <div class="all-content">
+                                                    <p><strong>{{ $item->product->name }}</strong></p>
+                                                    <p>{{ $item->product->size ?? 'N/A' }}, {{ $item->product->color ?? 'N/A' }}</p>
+                                                    <p class="mb-2 text-end">₱{{ $item->price }}</p>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                        <!-- Total Items Count -->
+                                        <p class="d-flex justify-content-end" style="padding: 0 15px; font-size: 14px;">
+                                            <span>{{ count($order->orderItems) }}</span>&nbsp;
+                                            {{ count($order->orderItems) === 1 ? 'Item' : 'Items' }}
+                                        </p>
+                                        <div class="d-flex justify-content-end align-items-center p-2 order-total" style="border-top: 0.8px solid rgba(33,37,41,0.1); border-bottom: 0.8px dashed rgba(33,37,41,0.1);">
+                                            <p class="p-2 pt-0 pb-0 mb-0" style="font-size: 12px; color: var(--bs-black);">Order Total:&nbsp;<span>₱{{ $order->total_price }}</span></p>
                                         </div>
                                     </div>
-                                    <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;border-top-width: 0.8px;border-top-color: rgba(33,37,41,0.1);border-bottom: 0.8px none rgba(33,37,41,0.1) ;"><img class="object-fit-cover" style="width: 60px;height: 60px;margin-right: 15px;" src="assets/img/5.png">
-                                        <div class="all-content">
-                                            <p><strong>Rose Jeans Shirt</strong></p>
-                                            <p>Small, Black</p>
-                                            <p class="mb-2" style="text-align: right;">₱50</p>
-                                            <p class="d-flex justify-content-end"><span>2&nbsp;</span>Items</p>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-end align-items-center p-2 order-total" style="border-top: 0.8px solid rgba(33,37,41,0.1) ;border-bottom: 0.8px dashed rgba(33,37,41,0.1) ;">
-                                        <p class="p-2 pt-0 pb-0 mb-0" style="font-size: 12px;color: var(--bs-black);">Order Total:&nbsp;<span>₱100</span></p>
-                                    </div>
-                                </div>
-                            </div>
+                                @endforeach
+                            @endif
                         </div>
+
                     </div>
-                    <div id="badges" class="profile-section p-3" style="display: none;">
-                        <div>
-                            <h3 class="d-flex justify-content-center" style="padding: 15px;color: var(--bs-secondary);font-size: 18px;">Coming Soon..</h3>
-                        </div>
+                 </div>
+                <div id="badges" class="profile-section p-3" style="display: none;">
+                    <div>
+                        <h3 class="d-flex justify-content-center" style="padding: 15px;color: var(--bs-secondary);font-size: 18px;">Coming Soon..</h3>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
     
   
     
@@ -709,14 +817,17 @@
             </footer>
         </div>
     </section>
+
+
+    <!-- Modal for saved edit success -->
     <div class="modal fade" role="dialog" tabindex="-1" id="savedEditSucess">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header"><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button></div>
                 <div class="modal-body d-flex flex-column justify-content-center align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" style="width:50px;height:50px;color:#d7ac4b;">
-        <path d="M10.2426 16.3137L6 12.071L7.41421 10.6568L10.2426 13.4853L15.8995 7.8284L17.3137 9.24262L10.2426 16.3137Z" fill="currentColor"></path>
-        <path fill-rule="evenodd" d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21Z" fill="currentColor"></path>
-    </svg>
+                        <path d="M10.2426 16.3137L6 12.071L7.41421 10.6568L10.2426 13.4853L15.8995 7.8284L17.3137 9.24262L10.2426 16.3137Z" fill="currentColor"></path>
+                        <path fill-rule="evenodd" d="M1 12C1 5.92487 5.92487 1 12 1C18.0751 1 23 5.92487 23 12C23 18.0751 18.0751 23 12 23C5.92487 23 1 18.0751 1 12ZM12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21Z" fill="currentColor"></path>
+                    </svg>
                     <p class="mt-3" style="margin: 5px 0;text-align: center;font-size: 16px;">Your updates have been saved successfully.</p>
                     <p style="margin: 5px 0;text-align: center;font-size: 14px;">We appreciate you keeping your information up to date!</p>
                 </div>
@@ -724,50 +835,126 @@
             </div>
         </div>
     </div>
+
+    @if(session('address_updated'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var successModal = new bootstrap.Modal(document.getElementById('savedEditSucess'));
+                successModal.show();
+            });
+        </script>
+    @endif
+    
+    <!-- Add Address Modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="addressModal" aria-labelledby="addressModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content p-3" id="addressForm">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addressModalLabel">Add Address</h5><button class="btn-close" data-bs-dismiss="modal" type="button"></button>
-                </div>
-                <div class="modal-body"><input type="hidden" id="editIndex">
-                    <div class="row g-3">
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">First Name</label><input type="text" id="editFName-1" class="form-control" placeholder="First Name"></div>
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">Last Name</label><input type="text" id="editLName-1" class="form-control" placeholder="Last Name"></div>
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">Phone Number</label><input type="text" id="editPhone-1" class="form-control" placeholder="Phone"></div>
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">Street</label><input type="text" id="editStreet-1" class="form-control" placeholder="Street"></div>
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">City</label><input type="text" id="editCity-1" class="form-control" placeholder="City"></div>
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">Province</label><input type="text" id="editProvince-1" class="form-control" placeholder="Province"></div>
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">Region</label><input type="text" id="editRegion-1" class="form-control" placeholder="Region"></div>
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">Zip Code</label><input type="text" id="editZip-1" class="form-control" placeholder="Zip Code"></div>
-                    </div>
-                </div>
-                <div class="modal-footer"><button class="btn btn-success" type="submit" style="border-radius: 3px;background: #d7ac4b;border-style: none;" data-bs-target="#addAddressSuccess" data-bs-toggle="modal">Add Address</button><button class="btn" data-bs-dismiss="modal" type="button" style="border-radius: 3px;border-style: solid;border-color: #d7ac4b;">Cancel</button></div>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content p-3" id="addressForm">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addressModalLabel">Add Address</h5>
+                <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
-        </div>
-    </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="editAddressModal" aria-labelledby="addressModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content p-3">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Address</h5><button class="btn-close" data-bs-dismiss="modal" type="button"></button>
-                </div>
+
+            <!-- Form starts here -->
+            <form action="{{ route('user.address.store') }}" method="POST">
+                @csrf
                 <div class="modal-body">
                     <div class="row g-3">
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">First Name</label><input type="text" id="editFName" class="form-control" placeholder="First Name"></div>
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">Last Name</label><input type="text" id="editLName" class="form-control" placeholder="Last Name"></div>
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">Phone Number</label><input type="text" id="editPhone" class="form-control" placeholder="Phone"></div>
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">Street</label><input type="text" id="editStreet" class="form-control" placeholder="Street"></div>
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">City</label><input type="text" id="editCity" class="form-control" placeholder="City"></div>
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">Province</label><input type="text" id="editProvince" class="form-control" placeholder="Province"></div>
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">Region</label><input type="text" id="editRegion" class="form-control" placeholder="Region"></div>
-                        <div class="col-6"><label class="form-label" style="font-size: 12px;">Zip Code</label><input type="text" id="editZip" class="form-control" placeholder="Zip Code"></div>
+                        <div class="col-6">
+                            <label class="form-label" style="font-size: 12px;">Phone Number</label>
+                            <input type="number" name="phone_number" class="form-control" placeholder="Phone" required>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" style="font-size: 12px;">Region</label>
+                            <select name="region" id="regionSelect" class="form-control" required>
+                                <option value="">Select Region</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" style="font-size: 12px;">Province</label>
+                            <select name="province" id="provinceSelect" class="form-control" disabled>
+                                <option value="">Select Province</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" style="font-size: 12px;">City</label>
+                            <select name="city" id="citySelect" class="form-control" disabled>
+                                <option value="">Select City</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" style="font-size: 12px;">Street</label>
+                            <input type="text" name="street" class="form-control" placeholder="Street">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" style="font-size: 12px;">Barangay</label>
+                            <input type="text" name="barangay" class="form-control" placeholder="Barangay">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" style="font-size: 12px;">Zip Code</label>
+                            <input type="number" name="zip_code" class="form-control" placeholder="Zip Code">
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer"><button class="btn btn-success" type="submit" style="border-radius: 3px;background: #d7ac4b;border-style: none;" data-bs-target="#savedEditSucess" data-bs-toggle="modal">Save Edit</button><button class="btn" data-bs-dismiss="modal" type="button" style="border-radius: 3px;border-style: solid;border-color: #d7ac4b;">Cancel</button></div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit" style="border-radius: 3px; background: #d7ac4b; border-style: none;">Add Address</button>
+                    <button class="btn" data-bs-dismiss="modal" type="button" style="border-radius: 3px; border-style: solid; border-color: #d7ac4b;">Cancel</button>
+                </div>
+            </form>
+            <!-- Form ends here -->
+
+        </div>
+    </div>
+</div>
+
+    
+    
+<div class="modal fade" role="dialog" tabindex="-1" id="editAddressModal" aria-labelledby="addressModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content p-3">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Address</h5>
+                <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ route('addresses.update', ['id' => $address->id]) }}" id="editAddressForm">
+                    @csrf
+                    @method('PUT')
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="form-label" style="font-size: 12px;">Phone Number</label>
+                            <input type="text" name="phone_number" id="editPhone" class="form-control" placeholder="Phone">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" style="font-size: 12px;">Street</label>
+                            <input type="text" name="street" id="editStreet" class="form-control" placeholder="Street">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" style="font-size: 12px;">City</label>
+                            <input type="text" name="city" id="editCity" class="form-control" placeholder="City">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" style="font-size: 12px;">Province</label>
+                            <input type="text" name="province" id="editProvince" class="form-control" placeholder="Province" readonly  style="background-color: #d6d6d6; cursor: not-allowed;">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" style="font-size: 12px;">Region</label>
+                            <input type="text" name="region" id="editRegion" class="form-control" placeholder="Region" readonly  style="background-color: #d6d6d6; cursor: not-allowed;">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" style="font-size: 12px;">Zip Code</label>
+                            <input type="text" name="zip_code" id="editZip" class="form-control" placeholder="Zip Code">
+                        </div>
+                    </div>
+                    <div class="modal-footer mt-3">
+                        <button class="btn btn-success" type="submit" style="border-radius: 3px;background: #d7ac4b;border-style: none;">Save Edit</button>
+                        <button class="btn" data-bs-dismiss="modal" type="button" style="border-radius: 3px;border-style: solid;border-color: #d7ac4b;">Cancel</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
     
     <div class="modal fade" role="dialog" tabindex="-1" id="review-thank-you" style="text-align: center;">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -795,10 +982,20 @@
                         <p class="p-1" style="text-align: center;font-size: 12px;">If you need to update your address later, you can do so from your account settings.</p>
                     </div>
                 </div>
-                <div class="modal-footer"><a class="btn btn-primary" role="button" style="border-radius: 3px;background: #d7ac4b;border-style: none;" href="UserProfile.html">Okay</a></div>
+                <div class="modal-footer"><a class="btn btn-primary" role="button" style="border-radius: 3px;background: #d7ac4b;border-style: none;" href="{{ route('ShoppingPage') }}">Okay</a></div>
             </div>
         </div>
     </div>
+
+    @if(session('address_added'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var successModal = new bootstrap.Modal(document.getElementById('addAddressSuccess'));
+                successModal.show();
+            });
+        </script>
+    @endif
+
     
     <div class="modal fade" role="dialog" tabindex="-1" id="updatePasswordSucess">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -820,10 +1017,10 @@
         const rateAdded = @json(session('rate_added'));
         if (rateAdded) {
             const modal = new bootstrap.Modal(document.getElementById('review-thank-you'));
-            modal.show();
-        }
-    });
-</script>
+                modal.show();
+            }
+        });
+    </script>
 
 
 
@@ -867,6 +1064,7 @@
         });
     });
 </script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const ratingInputs = document.querySelectorAll('input[type="radio"]');
@@ -888,7 +1086,169 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
-    
+
+
+<script>
+window.phRegionsProvincesCities = {
+    regions: [
+        {
+            name: "Region V (Bicol Region)",
+            provinces: [
+                {
+                    name: "Sorsogon",
+                    cities: [
+                        "Barcelona",
+                        "Bulan",
+                        "Bulusan",
+                        "Castilla",
+                        "Donsol",
+                        "Irosin",
+                        "Juban",
+                        "Magallanes",
+                        "Matnog",
+                        "Pilar",
+                        "Prieto Diaz"
+        
+                    ]
+                }
+            ]
+        }
+    ]
+};
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const regionSelect = document.getElementById('regionSelect');
+    const provinceSelect = document.getElementById('provinceSelect');
+    const citySelect = document.getElementById('citySelect');
+
+    const data = window.phRegionsProvincesCities;
+
+    // Populate region dropdown and set default
+    data.regions.forEach(region => {
+        const option = document.createElement('option');
+        option.value = region.name;
+        option.textContent = region.name;
+        regionSelect.appendChild(option);
+    });
+
+    // Set default region
+    regionSelect.value = "Region V (Bicol Region)";
+    provinceSelect.disabled = false;
+
+    // Populate provinces and set default
+    const selectedRegion = data.regions.find(r => r.name === regionSelect.value);
+    selectedRegion.provinces.forEach(province => {
+        const option = document.createElement('option');
+        option.value = province.name;
+        option.textContent = province.name;
+        provinceSelect.appendChild(option);
+    });
+
+    provinceSelect.value = "Sorsogon";
+    citySelect.disabled = false;
+
+    // Populate cities based on default province
+    const selectedProvince = selectedRegion.provinces.find(p => p.name === provinceSelect.value);
+    selectedProvince.cities.forEach(city => {
+        const option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        citySelect.appendChild(option);
+    });
+
+    // Optional: Re-populate cities when province changes (in case you expand it later)
+    provinceSelect.addEventListener('change', function () {
+        const selectedProvince = selectedRegion.provinces.find(p => p.name === this.value);
+        citySelect.innerHTML = '<option value="">Select City</option>';
+        selectedProvince.cities.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city;
+            option.textContent = city;
+            citySelect.appendChild(option);
+        });
+        citySelect.disabled = false;
+    });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const notifications = document.querySelectorAll('.notification');
+
+    // Load saved read states from localStorage
+    const readNotifs = JSON.parse(localStorage.getItem('readNotifs') || '[]');
+
+    // Apply styles based on saved read states
+    notifications.forEach(function (notif) {
+        const notifId = notif.dataset.id; // You'll need to add data-id
+        if (readNotifs.includes(notifId)) {
+            markAsRead(notif);
+        }
+
+        notif.addEventListener('click', function () {
+            const index = readNotifs.indexOf(notifId);
+            if (index === -1) {
+                readNotifs.push(notifId); // Mark as read
+                markAsRead(notif);
+            } else {
+                readNotifs.splice(index, 1); // Unmark (make unread)
+                markAsUnread(notif);
+            }
+            localStorage.setItem('readNotifs', JSON.stringify(readNotifs));
+        });
+    });
+
+    // Mark all as read
+    document.getElementById('markAllRead')?.addEventListener('click', function (e) {
+        e.preventDefault();
+        const allIds = [];
+        notifications.forEach(function (notif) {
+            const notifId = notif.dataset.id;
+            allIds.push(notifId);
+            markAsRead(notif);
+        });
+        localStorage.setItem('readNotifs', JSON.stringify(allIds));
+    });
+
+    function markAsRead(element) {
+        element.style.backgroundColor = '#fff';
+        element.style.opacity = '0.8';
+    }
+
+    function markAsUnread(element) {
+        element.style.backgroundColor = '';
+        element.style.opacity = '';
+    }
+});
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const editButtons = document.querySelectorAll('.edit-address');
+
+        editButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const modal = document.getElementById('editAddressModal');
+
+                document.getElementById('editPhone').value = this.getAttribute('data-phone') || '';
+                document.getElementById('editStreet').value = this.getAttribute('data-street') || '';
+                document.getElementById('editCity').value = this.getAttribute('data-city') || '';
+                document.getElementById('editProvince').value = this.getAttribute('data-province') || '';
+                document.getElementById('editRegion').value = this.getAttribute('data-region') || '';
+                document.getElementById('editZip').value = this.getAttribute('data-zip') || '';
+
+                // optional: set hidden input for form submission
+                document.getElementById('editAddressForm').action = `/addresses/${this.getAttribute('data-id')}`;
+            });
+        });
+    });
+</script>
+
+
+
+
 
    
 

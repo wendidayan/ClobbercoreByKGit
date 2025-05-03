@@ -61,7 +61,7 @@
                                 </div>
                             </a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('cart.view') }}" style="font-size:13px;padding-right:20px;">
-                                <div class="notification-nav" id="notif-1"><svg fill="none" height="1em" style="width:20px;height:20px;color:var(--bs-dark-text-emphasis);" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M5 4H19C19.5523 4 20 4.44771 20 5V19C20 19.5523 19.5523 20 19 20H5C4.44772 20 4 19.5523 4 19V5C4 4.44772 4.44771 4 5 4ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5ZM12 12C9.23858 12 7 9.31371 7 6H9C9 8.56606 10.6691 10 12 10C13.3309 10 15 8.56606 15 6H17C17 9.31371 14.7614 12 12 12Z" fill="currentColor" fill-rule="evenodd"></path></svg><span class="badge" style="background:rgba(108,117,125,0.6);">12</span>
+                                <div class="notification-nav" id="notif-1"><svg fill="none" height="1em" style="width:20px;height:20px;color:var(--bs-dark-text-emphasis);" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M5 4H19C19.5523 4 20 4.44771 20 5V19C20 19.5523 19.5523 20 19 20H5C4.44772 20 4 19.5523 4 19V5C4 4.44772 4.44771 4 5 4ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5ZM12 12C9.23858 12 7 9.31371 7 6H9C9 8.56606 10.6691 10 12 10C13.3309 10 15 8.56606 15 6H17C17 9.31371 14.7614 12 12 12Z" fill="currentColor" fill-rule="evenodd"></path></svg><span class="badge" id="cart-count" style="background:rgba(108,117,125,0.6);">{{ $cartCount }}</span>
                                     <div class="notif-box" id="notif-content-1">
                                         <h5 style="font-size:18px;margin:0px;padding:15px;border-bottom:1px solid #ddd;background:rgba(215,172,75,0.1);font-weight:bold;">Recently Received Notifications</h5>
                                         <div class="notif-item">
@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                             </a></li>
-                        <li class="nav-item"><a class="nav-link" href="UserProfile.html" style="font-size:13px;">
+                        <li class="nav-item"><a class="nav-link" href="{{ route('ShoppingPage') }}" style="font-size:13px;">
                                 <div class="notification-nav" id="notif-2"><svg fill="none" height="1em" style="width:20px;height:20px;color:var(--bs-dark-text-emphasis);" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 9C16 11.2091 14.2091 13 12 13C9.79086 13 8 11.2091 8 9C8 6.79086 9.79086 5 12 5C14.2091 5 16 6.79086 16 9ZM14 9C14 10.1046 13.1046 11 12 11C10.8954 11 10 10.1046 10 9C10 7.89543 10.8954 7 12 7C13.1046 7 14 7.89543 14 9Z" fill="currentColor" fill-rule="evenodd"></path><path d="M12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1ZM3 12C3 14.0902 3.71255 16.014 4.90798 17.5417C6.55245 15.3889 9.14627 14 12.0645 14C14.9448 14 17.5092 15.3531 19.1565 17.4583C20.313 15.9443 21 14.0524 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12ZM12 21C9.84977 21 7.87565 20.2459 6.32767 18.9878C7.59352 17.1812 9.69106 16 12.0645 16C14.4084 16 16.4833 17.1521 17.7538 18.9209C16.1939 20.2191 14.1881 21 12 21Z" fill="currentColor" fill-rule="evenodd"></path></svg></div>
                             </a></li>
                     </ul>
@@ -108,7 +108,7 @@
                 <div class="row text-center d-flex justify-content-between buy-add-button mt-5">
                     <!--Adding to cart-->
                     <div class="col" style="padding:0px 0px;height:50px;">
-                    <form action="{{ route('cart.add', ['productId' => $product->id]) }}" method="POST">
+                    <form class="add-to-cart-form" action="{{ route('cart.add', ['productId' => $product->id]) }}" method="POST">
                         @csrf
                         <button type="submit"
                             class="btn btn-primary"
@@ -203,43 +203,91 @@
                     </ul>
                 </div>
             </div>
-            <div class="container p-4 p-md-5 mt-3 mb-5" style="background: #ffffff;font-family: 'Open Sans', sans-serif;">
-                <section>
-                    <h2 style="font-size:18px;">Reviews</h2>
-                </section>
-                <div class="review-card mt-4 p-4" style="border-radius:8px;border:1px solid rgba(173,181,189,0.6);">
-                    <div class="review-details">
-                        <div class="d-flex align-items-xxl-center review-info gap-3"><img class="object-fit-cover review-profile" alt="woman standing near blue steel gate" style="border-radius:50%;border-bottom-width:6px;width:50px;height:50px;" src="{{asset('assets/img/photo-1517841905240-472988babdf9.jpg')}}">
-                            <h6 class="username">Username</h6>
-                        </div>
-                        <div class="d-flex mt-3 date-time" style="font-size:smaller;color:rgba(108,117,125,0.76);">
-                            <h6>2025-03-25&nbsp;</h6>
-                            <h6>9:30</h6>
-                        </div>
-                        <div class="text-warning d-flex align-items-center mt-2 rating-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
-                        <div class="comment-card mt-3">
-                            <div>
-                                <p><span style="color:rgba(0, 0, 0, 0.87);">Matagal ko na ginagamit mga to. Will definitely buy again. Thank you seller at kay kuya na nag deliver. Well packed din yung mga item.</span></p>
-                                <div class="d-flex customer-photos gap-2"><img class="object-fit-cover" alt="woman standing near blue steel gate" src="{{asset('assets/img/photo-1606105954396-43576bb5a44d.jpg')}}" style="width:72px;height:72px;"><img class="object-fit-cover" alt="woman standing near blue steel gate" src="{{asset('assets/img/photo-1740564014446-f07ea2da269c.jpg')}}" style="width:72px;height:72px;"><img class="object-fit-cover" alt="woman standing near blue steel gate" src="{{asset('assets/img/photo-1529626455594-4ff0802cfb7e.jpg')}}" style="width:72px;height:72px;"></div>
-                            </div>
-                        </div>
-                    </div>
+            
+            
+            <!-- Reviews Section -->
+            <div class="container p-4 p-md-5 mt-3 mb-5" id="reviews-section" style="background: #ffffff;font-family: 'Open Sans', sans-serif;">
+        <section>
+            <h2 style="font-size:18px;">Reviews</h2>
+        </section>
+
+        @foreach($reviews as $review)
+        <div class="review-card mt-4 p-4" style="border-radius:8px;border:1px solid rgba(173,181,189,0.6);">
+            <div class="review-details">
+                <div class="d-flex align-items-xxl-center review-info gap-3">
+                    <img class="object-fit-cover review-profile" alt="Profile image" style="border-radius:50%;width:50px;height:50px;" src="{{asset('assets/img/photo-1517841905240-472988babdf9.jpg')}}">
+                    @if($review->show_username)
+                        <h6 class="username">{{ $review->user->fullname }}</h6>
+                    @else
+                        <h6 class="username">Anonymous</h6>
+                    @endif
                 </div>
-                <nav class="review-pagination mt-3">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
-                    </ul>
-                </nav>
+                <div class="d-flex mt-3 date-time" style="font-size:smaller;color:rgba(108,117,125,0.76);">
+                    <h6>{{ $review->created_at->format('Y-m-d') }}&nbsp;</h6>
+                    <h6>{{ $review->created_at->format('H:i') }}</h6>
+                </div>
+                <div class="text-warning d-flex align-items-center mt-2 rating-stars">
+                    @for ($i = 1; $i <= 5; $i++)
+                        @if($review->product_quality_rating >= $i)
+                            <i class="fas fa-star"></i>
+                        @elseif($review->product_quality_rating >= $i - 0.5)
+                            <i class="fas fa-star-half-alt"></i>
+                        @else
+                            <i class="far fa-star"></i>
+                        @endif
+                    @endfor
+                </div>
+                <div class="comment-card mt-3">
+                    <p><span style="color:rgba(0, 0, 0, 0.87);">{{ $review->comment }}</span></p>
+                    @if($review->images->count())
+                    <div class="d-flex customer-photos gap-2">
+                        @foreach($review->images as $image)
+                            <img class="object-fit-cover" alt="Review image" src="{{ asset('storage/' . $image->image_path) }}" style="width:72px;height:72px;">
+                        @endforeach
+                    </div>
+                    @endif
+                </div>
             </div>
         </div>
-    </section>
+        @endforeach
+
+        {{-- ✅ Laravel pagination links --}}
+        <div class="review-pagination mt-4">
+            <div class="d-flex justify-content-center">
+            {{-- Pagination Nav --}}
+                @if ($reviews->lastPage() > 1)
+                <nav class="review-pagination mt-3" style="color: black;">
+                    <ul class="pagination justify-content-center">
+
+                        {{-- Previous Page Link --}}
+                        <li class="page-item {{ $reviews->onFirstPage() ? 'disabled' : '' }}">
+                            <a class="page-link" href="{{ $reviews->previousPageUrl() }}" aria-label="Previous">
+                                <span aria-hidden="true">«</span>
+                            </a>
+                        </li>
+
+                        {{-- Page Numbers --}}
+                        @for ($i = 1; $i <= $reviews->lastPage(); $i++)
+                            <li class="page-item {{ $i == $reviews->currentPage() ? 'active' : '' }}">
+                                <a class="page-link" href="{{ $reviews->url($i) }}">{{ $i }}</a>
+                            </li>
+                        @endfor
+
+                        {{-- Next Page Link --}}
+                        <li class="page-item {{ !$reviews->hasMorePages() ? 'disabled' : '' }}">
+                            <a class="page-link" href="{{ $reviews->nextPageUrl() }}" aria-label="Next">
+                                <span aria-hidden="true">»</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                @endif
+
+            </div>
+        </div>
+    </div>
     
+    </section>   
     <section id="all-products">
         <div class="new-arrival-heading" style="font-family: 'Open Sans', sans-serif;">
             <div class="container">
@@ -398,6 +446,72 @@
     <script src="{{ asset('assets/js/steps.js') }}"></script>
     <script src="{{ asset('assets/js/tabDelivery.js') }}"></script>
     <script src="{{ asset('assets/js/tabfunction.js') }}"></script>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Delegate click events from pagination links
+        document.body.addEventListener('click', function (e) {
+            const target = e.target.closest('.pagination a');
+            if (target) {
+                e.preventDefault(); // prevent full reload
+
+                fetch(target.href)
+                    .then(response => response.text())
+                    .then(html => {
+                        // Parse returned HTML and extract only the updated reviews section
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const newContent = doc.querySelector('#reviews-section');
+                        document.querySelector('#reviews-section').innerHTML = newContent.innerHTML;
+
+                        // Optional: update browser address bar
+                        history.pushState(null, '', target.href);
+                    })
+                    .catch(error => {
+                        console.error('AJAX pagination error:', error);
+                    });
+            }
+        });
+    });
+</script>
+
+<script>
+    document.querySelectorAll('.add-to-cart-form').forEach(form => {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent the form from submitting the traditional way
+
+            const formData = new FormData(this);
+            const url = this.action; // The action is the URL for the POST request
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': formData.get('_token'),
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.cart_added) {
+                    // Update the cart count on success
+                    document.getElementById('cart-count').innerText = data.cartCount;
+                    // Show the success modal
+                    new bootstrap.Modal(document.getElementById('addToCartMessage')).show();
+                } else if (data.already_in_cart) {
+                    // Show the "Already in Cart" modal
+                    new bootstrap.Modal(document.getElementById('alreadyInCartModal')).show();
+                } else if (data.error) {
+                    // Handle error if the product is sold out
+                    alert(data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+</script>
+
+
 </body>
 
 </html>

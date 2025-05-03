@@ -10,6 +10,8 @@ use App\Models\Product;
 use App\Models\CartItem;
 use App\Models\Customer;
 use App\Models\DeliveryMethod;
+use App\Models\Address;
+use App\Models\MeetUpLocation;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
@@ -52,6 +54,8 @@ class OrderController extends Controller
     public function toPay()
     {
         $user = auth()->user();
+        // Get updated cart count
+        $cartCount = CartItem::where('user_id', $user->id)->count();
         $orders = Order::where('user_id', $user->id)
             ->where('status', 'Pending')
             ->with('orderItems.product')
@@ -60,70 +64,52 @@ class OrderController extends Controller
         // Retrieve mineItems from session
         $mineItems = session()->get('mine_items', []);
 
-        return view('topay', compact('orders', 'mineItems'));
-    }
+        $defaultAddress = auth()->user()->addresses()->where('is_default', true)->first();
+        $locations = MeetUpLocation::all()->map(function ($loc) {
+            return [
+                'id' => $loc->id,
+                'city' => $loc->city,
+                'landmark' => $loc->landmark,
+            ];
+        })->groupBy('city');
 
-    /*
-    public function placeOrder(Request $request)
-    {
-    $user = auth()->user();
+         // Shipping fee calculation based on city
+        $shippingFees = [
+            'Barcelona' => 50,
+            'Bulan' => 120,
+            'Bulusan' => 80,
+            'Casiguran' => 70,
+            'Castilla' => 60,
+            'Donsol' => 110,
+            'Gubat' => 40,
+            'Irosin' => 90,
+            'Juban' => 55,
+            'Magallanes' => 130,
+            'Matnog' => 100,
+            'Pilar' => 65,
+            'Prieto Diaz' => 50,
+        ];
 
-    $request->validate([
-        'payment_method' => 'required|string'
-    ]);
+    $city = $defaultAddress ? $defaultAddress->city : '';  // Ensure city exists
 
-    $mineItems = session()->get('mine_items', []);
-    if (empty($mineItems)) {
-        return redirect()->back()->with('error', 'No items selected for order.');
-    }
+    // Get shipping fee based on the city
+    $shippingFee = $shippingFees[$city] ?? 0;  // Default to 0 if the city isn't found in the array
 
-    $totalAmount = collect($mineItems)->sum(function ($item) {
-        return $item['price'] * $item['quantity'];
-    });
-
-    if ($request->payment_method === 'cod') {
-        // Handle COD normally
-        $paymentMethod = PaymentMethod::firstOrCreate([
-            'name' => 'cod'
-        ]);
-
-        $order = Order::create([
-            'user_id' => $user->id,
-            'payment_method_id' => $paymentMethod->id,
-            'total_price' => $totalAmount + 36,
-            'status' => 'pending'
-        ]);
-
-        foreach ($mineItems as $item) {
-            OrderItem::create([
-                'order_id' => $order->id,
-                'product_id' => $item['product_id'],
-                'quantity' => $item['quantity'],
-                'price' => $item['price']
-            ]);
-            Product::where('id', $item['product_id'])->update(['is_sold' => true]);
-        }
-
-        session()->forget('mine_items');
-
-        return redirect()->route('orders.pending')->with('success', 'Order placed successfully! (COD)');
-    } else {
-        // For PayMongo — just pass session data
-        $request->merge(['amount' => $totalAmount + 36]);
-        return app(PaymentController::class)->createPaymentIntent($request);
+        return view('topay', compact('orders', 'mineItems', 'defaultAddress', 'locations', 'shippingFee', 'city', 'cartCount'));
     }
 
 
-    }*/
-
-    public function placeOrder(Request $request)
+public function placeOrder(Request $request)
 {
     $user = auth()->user();
+
+    $cartCount = CartItem::where('user_id', $user->id)->count();
 
     // Validate request data
     $request->validate([
         'payment_method' => 'required|string',
-        'delivery_method' => 'required|in:shipping,meetup,pickup'
+        'delivery_method' => 'required|in:shipping,meetup,pickup',
+        'meetup_location_id' => 'nullable|exists:meet_up_locations,id'
     ]);
 
     $mineItems = session()->get('mine_items', []);
@@ -134,6 +120,30 @@ class OrderController extends Controller
     $totalAmount = collect($mineItems)->sum(function ($item) {
         return $item['price'] * $item['quantity'];
     });
+
+    $defaultAddress = $user->addresses()->where('is_default', true)->first();
+
+    // Shipping fee calculation based on city — only apply if delivery method is shipping
+    $shippingFee = 0;
+
+    if ($request->input('delivery_method') === 'shipping') {
+        $shippingFees = [
+            'Barcelona' => 20,
+            'Bulan' => 75,
+            'Bulusan' => 50,
+            'Castilla' => 30,
+            'Donsol' => 60,
+            'Irosin' => 60,
+            'Juban' => 25,
+            'Magallanes' => 80,
+            'Matnog' => 70,
+            'Pilar' => 35,
+            'Prieto Diaz' => 20,
+        ];
+
+        $city = $defaultAddress ? $defaultAddress->city : '';
+        $shippingFee = $shippingFees[$city] ?? 0;
+    }
 
     // Get or create delivery method
     $deliveryMethod = DeliveryMethod::firstOrCreate([
@@ -150,7 +160,9 @@ class OrderController extends Controller
             'user_id' => $user->id,
             'payment_method_id' => $paymentMethod->id,
             'delivery_method_id' => $deliveryMethod->id,
-            'total_price' => $totalAmount + 36,
+            'shipping_address_id' => $request->delivery_method === 'shipping' ? optional($defaultAddress)->id : null,
+            'meetup_location_id' => $request->delivery_method === 'meetup' ? $request->input('meetup_location_id') : null,
+            'total_price' => $totalAmount + $shippingFee,
             'status' => 'pending'
         ]);
 
@@ -171,16 +183,17 @@ class OrderController extends Controller
 
         return redirect()->route('Clothing')->with('order_success', 'Order placed successfully! (COD)');
     } else {
-
         session([
             'delivery_method' => $request->input('delivery_method'),
+            'shipping_address_id' => optional($user->addresses()->where('is_default', true)->first())->id,
+            'meetup_location_id' => $request->input('meetup_location_id')
         ]);
+
         // For PayMongo — just pass session data
-        $request->merge(['amount' => $totalAmount + 36,]);
+        $request->merge(['amount' => $totalAmount]); // No shipping fee for pickup/meetup
         return app(PaymentController::class)->createPaymentIntent($request);
     }
 }
-
 
 
 
@@ -224,14 +237,69 @@ protected function addUserToCustomersTable($user)
 
 public function showCompletedOrders()
 {
+    $user = auth()->user();
+
+    // Fetch pending orders
+    $pendingOrders = Order::where('user_id', $user->id)
+    ->where('status', 'pending')
+    ->with(['orderItems.product', 'paymentMethod', 'deliveryMethod'])
+    ->get();
+
+
+    // Fetch processing orders
+    $processingOrders = Order::where('user_id', $user->id)
+        ->where('status', 'processing')
+        ->with('orderItems.product')
+        ->get();
+    
+    // Fetch completed orders
     $completedOrders = Order::where('user_id', Auth::id())
         ->where('status', 'completed')
         ->whereDoesntHave('review') // Exclude orders that already have reviews
         ->with('orderItems.product') // Eager load order items and their associated products
         ->get();
 
-    return view('UserProfile', compact('completedOrders'));
+    // Fetch cancelled orders
+    $cancelledOrders = Order::where('user_id', $user->id)
+    ->where('status', 'cancelled')
+    ->with(['orderItems.product', 'paymentMethod', 'deliveryMethod'])
+    ->get();
+
+
+    //for address display
+    $addresses = $user->addresses;
+    // Get updated cart count
+    $cartCount = CartItem::where('user_id', $user->id)->count();
+
+    return view('UserProfile', compact('completedOrders', 'addresses', 'user','processingOrders', 'pendingOrders', 'cancelledOrders', 'cartCount'));
 }
+
+
+
+public function markAsCompleted(Order $order)
+{
+    // Optional: Authorization check
+    if ($order->user_id !== auth()->id()) {
+        abort(403, 'Unauthorized action.');
+    }
+
+    // Update status
+    $order->update(['status' => 'completed']);
+
+    return redirect()->back()->with('success', 'Order status updated to completed.');
+}
+
+public function cancel(Order $order)
+{
+    if ($order->user_id !== auth()->id()) {
+        abort(403, 'Unauthorized');
+    }
+
+    $order->update(['status' => 'cancelled']);
+
+    return redirect()->back()->with('success', 'Order cancelled successfully.');
+}
+
 
 
 }

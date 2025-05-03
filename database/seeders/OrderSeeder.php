@@ -23,6 +23,7 @@ class OrderSeeder extends Seeder
         Order::create([
             'user_id' => 2,
             'payment_method_id' => 1,
+            'delivery_method_id' => 1,
             'total_price' => 2450.00,
             'status' => 'completed',
         ]);

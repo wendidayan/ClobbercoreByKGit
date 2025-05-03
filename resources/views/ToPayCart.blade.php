@@ -60,8 +60,8 @@
                                     </div>
                                 </div>
                             </a></li>
-                        <li class="nav-item"><a class="nav-link" href="PlaceOrder.html" style="font-size:13px;padding-right:20px;">
-                                <div class="notification-nav" id="notif-1"><svg fill="none" height="1em" style="width:20px;height:20px;color:var(--bs-dark-text-emphasis);" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M5 4H19C19.5523 4 20 4.44771 20 5V19C20 19.5523 19.5523 20 19 20H5C4.44772 20 4 19.5523 4 19V5C4 4.44772 4.44771 4 5 4ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5ZM12 12C9.23858 12 7 9.31371 7 6H9C9 8.56606 10.6691 10 12 10C13.3309 10 15 8.56606 15 6H17C17 9.31371 14.7614 12 12 12Z" fill="currentColor" fill-rule="evenodd"></path></svg><span class="badge" style="background:rgba(108,117,125,0.6);">12</span>
+                        <li class="nav-item"><a class="nav-link"  href="{{ route('cart.view') }}"  style="font-size:13px;padding-right:20px;">
+                                <div class="notification-nav" id="notif-1"><svg fill="none" height="1em" style="width:20px;height:20px;color:var(--bs-dark-text-emphasis);" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M5 4H19C19.5523 4 20 4.44771 20 5V19C20 19.5523 19.5523 20 19 20H5C4.44772 20 4 19.5523 4 19V5C4 4.44772 4.44771 4 5 4ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5ZM12 12C9.23858 12 7 9.31371 7 6H9C9 8.56606 10.6691 10 12 10C13.3309 10 15 8.56606 15 6H17C17 9.31371 14.7614 12 12 12Z" fill="currentColor" fill-rule="evenodd"></path></svg><span class="badge" style="background:rgba(108,117,125,0.6);">{{ $cartCount }}</span>
                                     <div class="notif-box" id="notif-content-1">
                                         <h5 style="font-size:18px;margin:0px;padding:15px;border-bottom:1px solid #ddd;background:rgba(215,172,75,0.1);font-weight:bold;">Recently Received Notifications</h5>
                                         <div class="notif-item">
@@ -77,7 +77,7 @@
                                     </div>
                                 </div>
                             </a></li>
-                        <li class="nav-item"><a class="nav-link" href="UserProfile.html" style="font-size:13px;">
+                        <li class="nav-item"><a class="nav-link"  href="{{ route('UserProfile') }}" style="font-size:13px;">
                                 <div class="notification-nav" id="notif-2"><svg fill="none" height="1em" style="width:20px;height:20px;color:var(--bs-dark-text-emphasis);" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 9C16 11.2091 14.2091 13 12 13C9.79086 13 8 11.2091 8 9C8 6.79086 9.79086 5 12 5C14.2091 5 16 6.79086 16 9ZM14 9C14 10.1046 13.1046 11 12 11C10.8954 11 10 10.1046 10 9C10 7.89543 10.8954 7 12 7C13.1046 7 14 7.89543 14 9Z" fill="currentColor" fill-rule="evenodd"></path><path d="M12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1ZM3 12C3 14.0902 3.71255 16.014 4.90798 17.5417C6.55245 15.3889 9.14627 14 12.0645 14C14.9448 14 17.5092 15.3531 19.1565 17.4583C20.313 15.9443 21 14.0524 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12ZM12 21C9.84977 21 7.87565 20.2459 6.32767 18.9878C7.59352 17.1812 9.69106 16 12.0645 16C14.4084 16 16.4833 17.1521 17.7538 18.9209C16.1939 20.2191 14.1881 21 12 21Z" fill="currentColor" fill-rule="evenodd"></path></svg></div>
                             </a></li>
                     </ul>
@@ -113,10 +113,10 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-between user-address mb-4 gap-2">
-                    <strong>Max Collins</strong>
-                    <strong>(+63) 9389462709</strong>
-                    <span class="address">510-512 Honorio Lopez Blvd, Barangay 148, Tondo I / II, Metro Manila, Metro Manila 1012</span>
-                    <div class="address-actions"><a class="text-decoration-none" href="#">Change</a></div>
+                    <strong>{{ $defaultAddress->user->fullname ?? 'No Name' }}</strong>
+                    <strong>{{ $defaultAddress->phone_number ?? '' }}</strong>
+                    <span class="address">{{ $defaultAddress->street ?? '' }}, {{ $defaultAddress->barangay ?? '' }}, {{ $defaultAddress->city ?? '' }}, {{ $defaultAddress->province ?? '' }}, {{ $defaultAddress->region ?? '' }} {{ $defaultAddress->zip_code ?? '' }}</span>
+                    <div class="address-actions"><a class="text-decoration-none" href="{{ route('UserProfile') }}">Change</a></div>
                 </div>
 
                 <div id="meetupDIV" style="border-top: 1px dashed #ddd; font-family: 'Open Sans', sans-serif; display: none;">
@@ -128,18 +128,14 @@
                         </div>
                         <div id="selectionStep" class="form-step active">
                             <h5 style="font-size: 18px;">Step 1: Selection</h5>
+                            <input type="hidden" name="meetup_location_id" id="meetup_location_id">
                             <div class="form-group"><select id="city" style="width:100%;padding:8px;border-radius:3px;border-top-left-radius:-3px;border-style:solid;border-color:rgba(108,117,125,0.3);">
                                     <option value="" selected="">Select your city</option>
-                                    <option value="Sorsogon City">Sorsogon City</option>
-                                    <option value="Gubat">Gubat</option>
-                                    <option value="Casiguran">Casiguran</option>
+                                    @foreach($locations as $city => $landmarks)
+                                        <option value="{{ $city }}">{{ $city }}</option>
+                                    @endforeach
                                 </select><select id="landmark" style="width:100%;border-radius:3px;border-style:solid;border-color:rgba(108,117,125,0.3); padding: 8px;">
                                     <option value="" selected="">Select a nearby landmark</option>
-                                    <option value="Pier">Pier</option>
-                                    <option value="Savemore">Savemore</option>
-                                    <option value="Capitol Park">Capitol Park</option>
-                                    <option value="SM Sorsogon">SM</option>
-                                    <option value="Pamana">Pamana</option>
                                 </select>
                                 <div id="errorMessage" style="color: red; font-size: 10px;"></div><button class="btn btn-primary" type="button" style="border-radius: 3px;background: #d7ac4b;border-style: none;padding: 10px;" onclick="validateSelection()">Next</button>
                             </div>
@@ -160,6 +156,8 @@
                         </div>
                     </div>
                 </div>
+
+
                 <div id="pickupDIV" class="p-4" style="border-width: 2px;border-color: var(--bs-secondary);border-top: 1px dashed #ddd ; display: none;">
                     <div>
                         <h4 style="font-size: 22px;">Thank you for choosing "<em>Pick Up</em>"<span>!</span></h4>
@@ -233,21 +231,21 @@
                             </div>
                             <div class="divider"></div>
                             <div class="d-flex justify-content-end shipping">
-                                <p style="color: rgb(51, 51, 51);">Shipping Option: Standard Local - ₱<span>36</span></p>
+                                <p style="color: rgb(51, 51, 51);">Shipping Option: Standard Local - ₱<span class="shipping-fee">36</span></p>
                             </div>
                             <div class="d-flex justify-content-end align-items-center totalamount gap-5">
                                 @php
-                                    $totalAmount = $totalPrice + 36; // Adding the shipping fee
+                                    $totalAmount = $totalPrice + $shippingFee;
                                 @endphp
                                 <h4>Order Total ({{ count($cartItems) }} item{{ count($cartItems) > 1 ? 's' : '' }}):&nbsp;</h4>
-                                <h2>₱ {{ number_format($totalAmount, 2) }}</h2>
+                                <h2 class="total-price">₱ {{ number_format($totalAmount, 2) }}</h2>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="final-placeorder">
                             @php
-                                $totalAmount = $cartItems ? collect($cartItems)->sum('price') + 36 : 36;
+                                $totalAmount = $cartItems ? collect($cartItems)->sum('price') + $shippingFee : $shippingFee;
                             @endphp
                             <input type="hidden" name="amount" value="{{ $totalAmount }}">
                             <!-- Payment Method Card -->
@@ -272,7 +270,7 @@
                                     </div>
                                     <div class="d-flex justify-content-end align-items-center gap-5">
                                         <h6 style="font-size: 14px; color: rgb(108,117,125);">Total Payment:&nbsp;</h6>
-                                        <h6 style="font-size: 24px; font-weight: bold; color: red;">₱{{ number_format($totalAmount, 2) }}</h6>
+                                        <h6 id="summary-total-amount" style="font-size: 24px; font-weight: bold; color: red;" id="summary-shipping-fee">₱{{ number_format($totalAmount, 2) }}</h6>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end">
@@ -342,6 +340,114 @@
     document.head.appendChild(style);
 
 </script>
+
+<script>
+    const locationData = @json($locations);
+
+    document.getElementById('city').addEventListener('change', function () {
+        const selectedCity = this.value;
+        const landmarkSelect = document.getElementById('landmark');
+        landmarkSelect.innerHTML = '<option value="">Select a nearby landmark</option>';
+
+        if (locationData[selectedCity]) {
+            locationData[selectedCity].forEach(location => {
+                const option = document.createElement('option');
+                option.value = location.landmark;
+                option.text = location.landmark;
+                landmarkSelect.appendChild(option);
+            });
+        }
+    });
+
+    function confirmLocation() {
+        const selectedCity = document.getElementById('city').value;
+        const selectedLandmark = document.getElementById('landmark').value;
+        const locationIdInput = document.getElementById('meetup_location_id');
+
+        let found = null;
+
+        if (locationData[selectedCity]) {
+            found = locationData[selectedCity].find(loc => loc.landmark === selectedLandmark);
+        }
+
+        if (found) {
+            locationIdInput.value = found.id;
+
+            // Show success message
+            document.getElementById('confirmationStep').classList.remove('active');
+            document.getElementById('successStep').classList.add('active');
+            document.getElementById('successMessage').textContent =
+                `Your meet-up location has been set to ${selectedLandmark}, ${selectedCity}. You’ll receive further instructions via email/SMS.`;
+
+            // Optional: highlight progress bar
+            document.getElementById('step3').classList.add('active');
+
+        } else {
+            document.getElementById('errorMessage').innerText = "Please select a valid landmark.";
+        }
+    }
+</script>
+
+<script>
+    // Initial values from Blade
+    const baseTotalPrice = {{ collect($cartItems)->sum('price') }};
+    const defaultShippingFee = {{ $shippingFee ?? 0 }};
+
+    // DOM elements
+    const shippingFeeDisplay = document.querySelector('.shipping-fee');         // Updated
+    const totalPaymentDisplay = document.querySelector('.total-price');          // Updated
+    const summaryShippingFee = document.getElementById('summary-shipping-fee'); // Updated
+    const summaryTotalAmount = document.getElementById('summary-total-amount'); // Updated
+    const shippingFeeInput = document.querySelector('input[name="amount"]');
+
+    // Update UI with calculated values
+    function updateTotals(shippingFee = 0) {
+        const totalPriceWithShipping = baseTotalPrice + shippingFee;
+
+        if (shippingFeeDisplay) shippingFeeDisplay.textContent = shippingFee.toFixed(2);
+        if (totalPaymentDisplay) totalPaymentDisplay.textContent = '₱ ' + totalPriceWithShipping.toFixed(2);
+        if (summaryShippingFee) summaryShippingFee.textContent = '₱ ' + shippingFee.toFixed(2);
+        if (summaryTotalAmount) summaryTotalAmount.textContent = '₱ ' + totalPriceWithShipping.toFixed(2);
+        if (shippingFeeInput) shippingFeeInput.value = totalPriceWithShipping.toFixed(2);
+    }
+
+    // Listen for delivery method change
+    window.setDeliveryMethod = function(option) {
+        // Set hidden input value
+        document.getElementById('delivery_method').value = option;
+
+        // Highlight active button
+        ['shippingBTN', 'meetupBTN', 'pickupBTN'].forEach(id => {
+            const btn = document.getElementById(id);
+            if (btn) btn.classList.remove('active');
+        });
+
+        const selectedBtn = document.getElementById(option + 'BTN');
+        if (selectedBtn) selectedBtn.classList.add('active');
+
+        // Show/hide sections
+        document.getElementById('meetupDIV').style.display = option === 'meetup' ? 'block' : 'none';
+        document.getElementById('pickupDIV').style.display = option === 'pickup' ? 'block' : 'none';
+
+        // Update shipping fee based on selected method
+        let shippingFee = 0;
+        if (option === 'shipping') {
+            shippingFee = defaultShippingFee; // Use precomputed PHP value
+        } else {
+            shippingFee = 0;
+        }
+
+        updateTotals(shippingFee);
+    }
+
+    // Initialize with default delivery method
+    window.addEventListener("DOMContentLoaded", () => {
+        const defaultMethod = "{{ old('delivery_method', '') }}" || "shipping";
+        setDeliveryMethod(defaultMethod);
+    });
+</script>
+
+
 
 </body>
 
