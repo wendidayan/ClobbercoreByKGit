@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Ecommerce-Server-Side</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('admin/assets/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Great+Vibes&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700,800&amp;display=swap">
@@ -36,11 +37,24 @@
     <div class="main-content full-width">
         <header class="heading-top"><button class="btn" id="menu-toggle" type="button" style="color:#d7ac4b;"><i class="fa fa-bars"></i></button>
             <div style="display: flex; align-items: center; margin-left: auto;">
-                <div id="message-icon" class="message-icon" style="cursor: pointer;"><i class="fa fa-envelope"></i><span class="message-count">5</span></div>
+                <div id="message-icon" class="message-icon" style="cursor: pointer;"><i class="fa fa-envelope">
+                </i><span class="message-count">{{ $uniqueMessageSenders }}</span></div>
             </div>
-            <div class="search-bar" style="border: 0.8px solid #d7ac4b;"><i class="fa fa-search" style="color: #d7ac4b;"></i><input type="text" placeholder="Search here.."><button class="btn" type="button" style="color: var(--bs-secondary);">Go</button></div>
+            <!-- Search Bar -->
+            <div class="search-bar" style="border: 0.8px solid #d7ac4b;">
+                <form action="search-form-abc">
+                    <i class="fa fa-search" style="color: #d7ac4b;"></i>
+                    <input type="text" id="search-input-abc" placeholder="Search here..">
+                    <button class="btn" type="submit" style="color: var(--bs-secondary);">Go</button>
+                </form>
+            </div>
         </header>
         <section id="dashboard" class="dashboard-section active-section pt-3" style="padding: 0px;">
+            <!-- Payment Alert Message -->
+            <div id="alert-message" class="alert alert-success" style="display: none; position: relative; z-index: 1000; text-align: center; font-size: 12px;">
+                Payment Confirmed!
+            </div>
+
             <div>
                 <h3 class="mb-2" style="font-size: 18px;">Dashboard</h3>
             </div>
@@ -54,19 +68,19 @@
                 </div>
                 <div class="col-md-3">
                     <div class="card p-4" style="border-style: solid;border-color: #d7ac4b;background: rgba(215,172,75,0.3);box-shadow: 2px 5px 5px 0px rgba(0,0,0,0.1);">
-                        <h3 style="font-weight: bold;">₱&nbsp;<span>5, 500</span></h3>
+                        <h3 style="font-weight: bold;">₱&nbsp;<span>{{ $totalEarnings }}</span></h3>
                         <h5 style="font-size: 12px;color: var(--bs-secondary);">Total Earnings</h5>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="card p-4" style="border-color: #d7ac4b;background: rgba(215,172,75,0.4);box-shadow: 2px 5px 5px rgba(0,0,0,0.1);">
-                        <h3 style="font-weight: bold;">65</h3>
+                        <h3 style="font-weight: bold;">{{ $orders->count() }}</h3>
                         <h5 style="font-size: 12px;color: var(--bs-secondary);">Total Orders</h5>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="card p-4" style="border-color: #d7ac4b;background: rgba(215,172,75,0.6);box-shadow: 2px 5px 5px rgba(0,0,0,0.1);">
-                        <h3 style="font-weight: bold;">45</h3>
+                        <h3 style="font-weight: bold;">{{ $userCount }}</h3>
                         <h5 style="font-size: 12px;color: var(--bs-secondary);">Total Users</h5>
                     </div>
                 </div>
@@ -74,16 +88,24 @@
             <div class="mb-3 p-3" style="background: var(--bs-light);box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);border-radius: 10px;">
                 <div class="container">
                     <div class="row">
+                        <!--Monthy Revenue Bar Chart-->
                         <div class="col-md-6">
-                            <div class="d-flex align-items-center p-2 gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none">
+                            <div class="d-flex align-items-center p-2 gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M15 8H19V20H5V10H9V4H15V8ZM13 6H11V18H13V6ZM15 10V18H17V10H15ZM9 12V18H7V12H9Z" fill="currentColor"></path>
                                 </svg>
-                                <h4 class="m-0" style="font-size: 16px;color: var(--bs-gray-dark);">Monthly Revenue</h4>
+                                <h4 class="m-0" style="font-size: 16px;color: var(--bs-gray-dark);">Monthly Revenue {{ date('Y') }}</h4>
                             </div>
-                            <div><canvas data-bss-chart="{&quot;type&quot;:&quot;bar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;,&quot;July&quot;,&quot;August&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;rgba(215,172,75,0.5)&quot;,&quot;borderColor&quot;:&quot;&quot;,&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;,&quot;4500&quot;,&quot;5000&quot;,&quot;&quot;]},{&quot;label&quot;:&quot;&quot;,&quot;data&quot;:[]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontFamily&quot;:&quot;'Open Sans', sans-serif&quot;}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;bold&quot;,&quot;fontFamily&quot;:&quot;'Open Sans', sans-serif&quot;},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}}],&quot;yAxes&quot;:[{&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}}]}}}"></canvas></div>
+                            <div>
+                                <!--<canvas data-bss-chart="{&quot;type&quot;:&quot;bar&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;January&quot;,&quot;February&quot;,&quot;March&quot;,&quot;April&quot;,&quot;May&quot;,&quot;June&quot;,&quot;July&quot;,&quot;August&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;Revenue&quot;,&quot;backgroundColor&quot;:&quot;rgba(215,172,75,0.5)&quot;,&quot;borderColor&quot;:&quot;&quot;,&quot;data&quot;:[&quot;4500&quot;,&quot;5300&quot;,&quot;6250&quot;,&quot;7800&quot;,&quot;9800&quot;,&quot;15000&quot;,&quot;4500&quot;,&quot;5000&quot;,&quot;&quot;]},{&quot;label&quot;:&quot;&quot;,&quot;data&quot;:[]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:true,&quot;legend&quot;:{&quot;display&quot;:false,&quot;labels&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;,&quot;fontFamily&quot;:&quot;'Open Sans', sans-serif&quot;}},&quot;title&quot;:{&quot;fontStyle&quot;:&quot;bold&quot;,&quot;fontFamily&quot;:&quot;'Open Sans', sans-serif&quot;},&quot;scales&quot;:{&quot;xAxes&quot;:[{&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}}],&quot;yAxes&quot;:[{&quot;ticks&quot;:{&quot;fontStyle&quot;:&quot;normal&quot;}}]}}}"></canvas>-->
+                                <canvas id="monthlyRevenueChart"></canvas>
+                            </div>
                         </div>
+
+                        <!-- Ukay-Ukay Sales Breakdown by Category Pie Chart -->
                         <div class="col-md-6">
-                            <div class="d-flex align-items-center gap-2 p-2"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none">
+                            <div class="d-flex align-items-center gap-2 p-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none">
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M22.775 8C22.9242 8.65461 23 9.32542 23 10H14V1C14.6746 1 15.3454 1.07584 16 1.22504C16.4923 1.33724 16.9754 1.49094 17.4442 1.68508C18.5361 2.13738 19.5282 2.80031 20.364 3.63604C21.1997 4.47177 21.8626 5.46392 22.3149 6.55585C22.5091 7.02455 22.6628 7.5077 22.775 8ZM20.7082 8C20.6397 7.77018 20.5593 7.54361 20.4672 7.32122C20.1154 6.47194 19.5998 5.70026 18.9497 5.05025C18.2997 4.40024 17.5281 3.88463 16.6788 3.53284C16.4564 3.44073 16.2298 3.36031 16 3.2918V8H20.7082Z" fill="currentColor"></path>
                                     <path fill-rule="evenodd" clip-rule="evenodd" d="M1 14C1 9.02944 5.02944 5 10 5C10.6746 5 11.3454 5.07584 12 5.22504V12H18.775C18.9242 12.6546 19 13.3254 19 14C19 18.9706 14.9706 23 10 23C5.02944 23 1 18.9706 1 14ZM16.8035 14H10V7.19648C6.24252 7.19648 3.19648 10.2425 3.19648 14C3.19648 17.7575 6.24252 20.8035 10 20.8035C13.7575 20.8035 16.8035 17.7575 16.8035 14Z" fill="currentColor"></path>
                                 </svg>
@@ -95,26 +117,50 @@
                 </div>
             </div>
             <div class="dashboard-2">
+                <!-- Recent Orders Box -->
                 <div class="shadow-sm recent-orders" style="border-radius: 10px; overflow: hidden; background-color: #fff;">
                     <div class="d-flex align-items-center gap-2" style="background-color: rgba(215,172,75,0.14); padding: 20px 20px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none">
-            <path d="M13 7H7V5H13V7Z" fill="currentColor"></path>
-            <path d="M13 11H7V9H13V11Z" fill="currentColor"></path>
-            <path d="M7 15H13V13H7V15Z" fill="currentColor"></path>
-            <path fill-rule="evenodd" d="M3 19V1H17V5H21V23H7V19H3ZM15 17V3H5V17H15ZM17 7V19H9V21H19V7H17Z" fill="currentColor"></path>
-        </svg>
+                            <path d="M13 7H7V5H13V7Z" fill="currentColor"></path>
+                            <path d="M13 11H7V9H13V11Z" fill="currentColor"></path>
+                            <path d="M7 15H13V13H7V15Z" fill="currentColor"></path>
+                            <path fill-rule="evenodd" d="M3 19V1H17V5H21V23H7V19H3ZM15 17V3H5V17H15ZM17 7V19H9V21H19V7H17Z" fill="currentColor"></path>
+                        </svg>
                         <h4 class="m-0" style="font-size:16px;">Recent Orders</h4>
                     </div>
+                    <!-- Display Recent Orders -->
                     <div class="m-3 recent-orders-wrapper" style="max-height:300px;overflow-y:auto; background-color: white; padding: 15px;">
-                        <div class="order-item mb-2">
-                            <div class="order-details">
-                                <p class="mb-0" style="font-size:14px;">CustomerID:&nbsp;<span style="font-weight:bold;">123348</span></p>
-                                <p class="mb-0" style="font-size:14px;">OrderID:&nbsp;<span style="font-weight:bold;">123348</span></p>
-                                <div class="d-flex justify-content-end view-details-btn"><button class="btn" type="button" style="font-size: 14px;color: #d7ac4b;text-align: right;border-radius: 3px;" onclick="document.getElementById(&#39;invoiceModal&#39;).style.display=&#39;flex&#39;">View Details</button></div>
+                        @forelse ($recentOrders as $order)
+                            <div class="order-item mb-2">
+                                <div class="order-details">
+                                    <p class="mb-0" style="font-size:14px;">Customer Name:&nbsp;<span style="font-weight:bold;"> {{ $order->user->fullname }} </span></p>
+                                    <p class="mb-0" style="font-size:14px;">OrderID:&nbsp;<span style="font-weight:bold;"> {{ $order->id }} </span></p>
+                                    <div class="d-flex justify-content-end view-details-btn"><button class="btn view-order-btn" data-order-id="{{ $order->id }}" type="button" style="font-size: 14px;color: #d7ac4b;text-align: right;border-radius: 3px;" onclick="document.getElementById(&#39;invoiceModal&#39;).style.display=&#39;flex&#39;">View Details</button></div>
+                                </div>
                             </div>
-                        </div>
+                        @empty
+                            <p class="text-muted" style="text-align: center; font-size: 16px; font-weight: normal; margin-top: 20px; color: #6c757d; opacity: 0.7;">No recent orders available.</p>
+                        @endforelse
                     </div>
+                    <!--<div class="recent-orders-wrapper" style="max-height:300px;overflow-y:auto; background-color: white; padding: 15px;">
+                        <h3>Recent Orders</h3>
+                        @forelse ($recentOrders as $order)
+                            <div class="order-item mb-2">
+                                <div class="order-details">
+                                    <p class="mb-0" style="font-size:14px;">Customer Name:&nbsp;<span style="font-weight:bold;">{{ $order->user->fullname }}</span></p>
+                                    <p class="mb-0" style="font-size:14px;">Order ID:&nbsp;<span style="font-weight:bold;">{{ $order->id }}</span></p>
+                                    <div class="d-flex justify-content-end view-details-btn">
+                                        <a href="{{ route('generate.invoice', ['order_id' => $order->id]) }}" class="btn btn-primary btn-sm">Generate Invoice</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <p>No recent orders available.</p>
+                        @endforelse
+                    </div>-->
                 </div>
-                <div class="shadow-sm notifications" style="border-radius: 10px; overflow: hidden; background-color: #fff;">
+
+                <!-- Notifications Box -->
+                <!--<div class="shadow-sm notifications" style="border-radius: 10px; overflow: hidden; background-color: #fff;">
                     <div class="d-flex align-items-center gap-2" style="background-color: rgba(215,172,75,0.14); padding: 20px 20px;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" style="width: 16px;height: 16px;">
                             <path fill-rule="evenodd" clip-rule="evenodd" d="M14 3V3.28988C16.8915 4.15043 19 6.82898 19 10V17H20V19H4V17H5V10C5 6.82898 7.10851 4.15043 10 3.28988V3C10 1.89543 10.8954 1 12 1C13.1046 1 14 1.89543 14 3ZM7 17H17V10C17 7.23858 14.7614 5 12 5C9.23858 5 7 7.23858 7 10V17ZM14 21V20H10V21C10 22.1046 10.8954 23 12 23C13.1046 23 14 22.1046 14 21Z" fill="currentColor"></path>
                         </svg>
@@ -157,6 +203,39 @@
                             </div>
                         </div>
                     </div>
+                </div>-->
+                <div class="shadow-sm notifications" style="border-radius: 10px; overflow: hidden; background-color: #fff;">
+                    <div class="d-flex align-items-center gap-2" style="background-color: rgba(215,172,75,0.14); padding: 20px 20px;">
+                        <h4 class="m-0" style="font-size:16px;">Payment Notifications</h4>
+                    </div>
+                    <div class="p-3" style="max-height: 300px; overflow-y: auto;">
+                        @forelse (Auth::user()->unreadNotifications as $notification)
+                            <div class="notification-item mb-3 p-2" style="border-bottom: 1px solid #eee;">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="mb-1" style="font-size: 14px; font-weight: bold; color: #333;">
+                                            Payment Notification
+                                        </p>
+                                        <p class="mb-0" style="font-size: 12px; color: #555;">
+                                            Order #{{ $notification->data['order_id'] }} 
+                                            ({{ $notification->data['payment_method'] }}) - 
+                                            ₱{{ number_format($notification->data['amount'], 2) }}
+                                        </p>
+                                    </div>
+                                    <button class="btn btn-sm" 
+                                            style="font-size: 12px; padding: 5px 10px; background-color: #d7ac4b; color: #fff; border-radius: 3px;"
+                                            onclick="confirmPayment('{{ $notification->data['transaction_id'] }}')">
+                                        Confirm Payment
+                                    </button>
+                                </div>
+                            </div>
+                        @empty
+                            <p class="text-muted text-center" style="font-size: 16px; font-weight: normal; margin-top: 20px; opacity: 0.7;">
+                                No notifications.
+                            </p>
+                        @endforelse
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -223,15 +302,21 @@
                                     <div class="col item">
                                         <div class="card card-prod" style="transition:transform 0.3s ease;">
                                             <div class="card-body">
-                                                <i class="fa fa-pencil edit-pencil" data-bs-toggle="modal" data-bs-target="#editProduct"></i>
+                                                <i class="fa fa-pencil edit-pencil" data-id="{{ $product->id }}" data-bs-toggle="modal" data-bs-target="#editProduct"></i>
                                                 <a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
                                                     <img class="img-fluid" alt="gray and white adidas backpack" src="{{ asset($product->image) }}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 3px;">
                                                 </a>
-                                                <h4 id="product-name" class="card-title mt-2 p-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: block; font-size: 16.5px;">
+                                                <!--<h4 id="product-name" class="card-title mt-2 p-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: block; font-size: 16.5px;">
                                                     {{ $product->name }}
                                                 </h4>
                                                 <p class="card-text p-1" style="font-weight: bold; color: #d7ac4b;">
                                                     ₱<span id="product-price-span">{{ $product->price }}</span>
+                                                </p>-->
+                                                <h4 class="card-title mt-2 p-1 product-name" data-id="{{ $product->id }}" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: block; font-size: 16.5px;">
+                                                    {{ $product->name }}
+                                                </h4>
+                                                <p class="card-text p-1" style="font-weight: bold; color: #d7ac4b;">
+                                                    ₱<span class="product-price-span" data-id="{{ $product->id }}">{{ $product->price }}</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -244,7 +329,7 @@
             </section>
         </section>
         
-        <!--For Thrift Deals -->
+        <!--For Thrift Deals/Bagsak Presyo -->
         <section id="bagsak-presyo-sec" class="dashboard-section mt-2">
             <!--Working on #addprodModal2 -->
             <div class="d-flex justify-content-end add-product"><button class="btn" type="button" style="background:#d7ac4b;color:var(--bs-light);border-radius:3px;font-size:14px;" data-bs-toggle="modal" data-bs-target="#addprodModal2"><i class="fa fa-plus" style="margin-right:10px;"></i>Add Product</button></div>
@@ -294,29 +379,35 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Display Thrift Deals -->
+                    <!-- Display Thrift Deals/Bagsak Presyo -->
                     <div class="container mt-0 pt-0">
                         <section class="photo-gallery py-4 py-xl-5 mt-0 pt-4" style="padding:50px 0px;">
                             <div class="container" style="font-family:'Open Sans', sans-serif;padding:0px;">
                                 <div class="row gx-2 gy-2 row-cols-1 row-cols-md-2 row-cols-xl-5 photos" data-bss-baguettebox="">
-                                @foreach ($thriftDeals as $product)  
-                                    <div class="col item">
-                                        <div class="card card-prod" style="transition:transform 0.3s ease;">
-                                            <div class="card-body">
-                                                <i class="fa fa-pencil edit-pencil" data-bs-toggle="modal" data-bs-target="#editProduct"></i>
-                                                <a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                                                    <img class="img-fluid" alt="gray and white adidas backpack" src="{{ asset($product->image) }}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 3px;">
-                                                </a>
-                                                <h4 id="product-name" class="card-title mt-2 p-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: block; font-size: 16.5px;">
-                                                    {{ $product->name }}
-                                                </h4>
-                                                <p class="card-text p-1" style="font-weight: bold; color: #d7ac4b;">
-                                                    ₱<span id="product-price-span">{{ $product->price }}</span>
-                                                </p>
+                                    @foreach ($thriftDeals as $product)  
+                                        <div class="col item">
+                                            <div class="card card-prod" style="transition:transform 0.3s ease;">
+                                                <div class="card-body">
+                                                    <i class="fa fa-pencil edit-pencil" data-id="{{ $product->id }}" data-bs-toggle="modal" data-bs-target="#editProduct"></i>
+                                                    <a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                                        <img class="img-fluid" alt="gray and white adidas backpack" src="{{ asset($product->image) }}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 3px;">
+                                                    </a>
+                                                    <!--<h4 id="product-name" class="card-title mt-2 p-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: block; font-size: 16.5px;">
+                                                        {{ $product->name }}
+                                                    </h4>
+                                                    <p class="card-text p-1" style="font-weight: bold; color: #d7ac4b;">
+                                                        ₱<span id="product-price-span">{{ $product->price }}</span>
+                                                    </p>-->
+                                                    <h4 class="card-title mt-2 p-1 product-name" data-id="{{ $product->id }}" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: block; font-size: 16.5px;">
+                                                        {{ $product->name }}
+                                                    </h4>
+                                                    <p class="card-text p-1" style="font-weight: bold; color: #d7ac4b;">
+                                                        ₱<span class="product-price-span" data-id="{{ $product->id }}">{{ $product->price }}</span>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
                                 </div>
                             </div>
                         </section>
@@ -380,24 +471,30 @@
                         <section class="photo-gallery py-4 py-xl-5 mt-0 pt-4" style="padding:50px 0px;">
                             <div class="container" style="font-family:'Open Sans', sans-serif;padding:0px;">
                                 <div class="row gx-2 gy-2 row-cols-1 row-cols-md-2 row-cols-xl-5 photos" data-bss-baguettebox="">
-                                @foreach ( $allProducts as $product)  
-                                    <div class="col item">
-                                        <div class="card card-prod" style="transition:transform 0.3s ease;">
-                                            <div class="card-body">
-                                                <i class="fa fa-pencil edit-pencil" data-bs-toggle="modal" data-bs-target="#editProduct"></i>
-                                                <a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
-                                                    <img class="img-fluid" alt="gray and white adidas backpack" src="{{ asset($product->image) }}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 3px;">
-                                                </a>
-                                                <h4 id="product-name" class="card-title mt-2 p-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: block; font-size: 16.5px;">
-                                                    {{ $product->name }}
-                                                </h4>
-                                                <p class="card-text p-1" style="font-weight: bold; color: #d7ac4b;">
-                                                    ₱<span id="product-price-span">{{ $product->price }}</span>
-                                                </p>
+                                    @foreach ($allProducts as $product)  
+                                        <div class="col item">
+                                            <div class="card card-prod" style="transition:transform 0.3s ease;">
+                                                <div class="card-body">
+                                                    <i class="fa fa-pencil edit-pencil" data-id="{{ $product->id }}" data-bs-toggle="modal" data-bs-target="#editProduct"></i>
+                                                    <a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png">
+                                                        <img class="img-fluid" alt="gray and white adidas backpack" src="{{ asset($product->image) }}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 3px;">
+                                                    </a>
+                                                    <!--<h4 id="product-name" class="card-title mt-2 p-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: block; font-size: 16.5px;">
+                                                        {{ $product->name }}
+                                                    </h4>
+                                                    <p class="card-text p-1" style="font-weight: bold; color: #d7ac4b;">
+                                                        ₱<span id="product-price-span">{{ $product->price }}</span>
+                                                    </p>-->
+                                                    <h4 class="card-title mt-2 p-1 product-name" data-id="{{ $product->id }}" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: block; font-size: 16.5px;">
+                                                        {{ $product->name }}
+                                                    </h4>
+                                                    <p class="card-text p-1" style="font-weight: bold; color: #d7ac4b;">
+                                                        ₱<span class="product-price-span" data-id="{{ $product->id }}">{{ $product->price }}</span>
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endforeach
+                                    @endforeach
                                 </div>
                             </div>
                         </section>
@@ -434,28 +531,30 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach ($orders as $order)
-                                <tr>
-                                    <td> {{ $order->user->fullname }}</td>
-                                    <td> #{{ $order->id }}</td>
-                                    <td> {{ $order->orderItems->count() }}</td>
-                                    <td> Meet Up</td> 
-                                    <td> {{ $order->paymentMethod->name ?? 'N/A' }}</td>
-                                    <td id="status-1"><span id="order-status" class="status pending"> {{ $order->status }}</span></td>
-                                    <td><span class="toggle-btn" onclick="toggleDropdown({{ $loop->index }})" style="font-size: 14px;">View&nbsp;</span><span class="complete-btn" onclick="updateStatus(&#39;completed&#39;)" style="font-size: 14px;">&nbsp;Completed</span><span class="cancelled-btn" onclick="updateStatus(&#39;cancelled&#39;)" style="font-size: 14px;">&nbsp;Cancelled</span></td>
-                                </tr>
-                                <tr id="dropdown-{{ $loop->index }}" class="dropdown">
-                                    <td colspan="8">
-                                        <div style="max-height: 200px; overflow-y: auto;"><strong class="p-3">Product Ordered:</strong>
-                                            <ul class="list-unstyled d-flex flex-column gap-2">
-                                            @foreach ($order->orderItems as $item)
-                                                <li class="d-flex align-items-center p-3"><img class="object-fit-cover" style="width: 50px;height: 50px;margin-right: 15px;"  src="{{ asset($item->product->image ?? 'assets/img/default.png') }}" alt="Product Image">
-                                                {{ $item->product->name ?? 'Unnamed Product' }}</li>
-                                            @endforeach
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
+                                @foreach ($orders as $order)
+                                    <tr>
+                                        <td> {{ $order->user->fullname }}</td>
+                                        <td> #{{ $order->id }}</td>
+                                        <td> {{ $order->orderItems->count() }}</td>
+                                        <td> {{ $order->deliveryMethod-> name ?? 'N/A' }}</td> 
+                                        <td> {{ $order->paymentMethod->name ?? 'N/A' }}</td>
+                                        <td id="status-1-{{ $order->id }}"><span id="order-status" class="status {{ strtolower($order->status) }}">{{ strtoupper($order->status) }}</span></td>
+                                        <td>
+                                            <span class="toggle-btn" onclick="toggleDropdown({{ $loop->index }})" style="font-size: 14px;">View&nbsp;</span>
+                                        </td>
+                                    </tr>
+                                    <tr id="dropdown-{{ $loop->index }}" class="dropdown">
+                                        <td colspan="8">
+                                            <div style="max-height: 200px; overflow-y: auto;"><strong class="p-3">Product Ordered:</strong>
+                                                <ul class="list-unstyled d-flex flex-column gap-2">
+                                                @foreach ($order->orderItems as $item)
+                                                    <li class="d-flex align-items-center p-3"><img class="object-fit-cover" style="width: 50px;height: 50px;margin-right: 15px;"  src="{{ asset($item->product->image ?? 'assets/img/default.png') }}" alt="Product Image">
+                                                    {{ $item->product->name ?? 'Unnamed Product' }}</li>
+                                                @endforeach
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -466,6 +565,8 @@
                 </div>
             </div>
         </section>
+
+        <!-- For Payment History -->
         <section id="paymentHistory" class="dashboard-section pt-3" style="padding: 0px;">
             <div class="shadow-sm orders-container" style="border-radius: 10px; overflow: hidden; background-color: #fff;">
                 <div style="background-color: rgba(215,172,75,0.14);padding: 20px 20px;">
@@ -483,21 +584,29 @@
                                 <tr>
                                     <th>TransactionID</th>
                                     <th>OrderId</th>
-                                    <th>Customer Name</th>
                                     <th>Payment Method</th>
+                                    <th>Total Amount</th>
+                                    <th>Transaction Date</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>#UKAY123</td>
-                                    <td>Mary Jane</td>
-                                    <td>3</td>
-                                    <td>COD</td>
-                                    <td id="status-4"><span id="order-status-3" class="status pending">PAID</span></td>
-                                    <td><span class="toggle-btn" onclick="toggleDropdown(1)" style="font-size: 14px;"></span><span class="complete-btn" onclick="updateStatus(&#39;completed&#39;)" style="font-size: 14px;">&nbsp;PAID</span><span class="cancelled-btn" onclick="updateStatus(&#39;cancelled&#39;)" style="font-size: 14px;">&nbsp;PENDING</span></td>
-                                </tr>
+                                @foreach ($transactions as $transaction)
+                                    <tr>
+                                        <td>{{ $transaction->transaction_id }}</td>
+                                        <td>#{{ $transaction->order_id }}</td>
+                                        <td>{{ $transaction->payment_method }}</td>
+                                        <td>₱{{ number_format($transaction->amount, 2) }}</td>
+                                        <td>{{ $transaction->created_at->format('F d, Y') }}</td>
+                                        <td><span class="status {{ strtolower($transaction->status) }}">{{ strtoupper($transaction->status) }}</span></td>
+                                        <!--<td>{{ ucfirst($transaction->status) }}</td>-->
+                                        <td>
+                                            <!--<span class="paid-btn" onclick="updateStatus(&#39;paid&#39;)" style="font-size: 14px;">&nbsp;Paid</span>-->
+                                            <span class="unpaid-btn" onclick="updateStatus(&#39;unpaid&#39;)" style="font-size: 14px;">&nbsp;Failed</span>
+                                        </td>
+                                    </tr>
+                                @endforeach
                                 <tr id="dropdown-3" class="dropdown">
                                     <td colspan="8">
                                         <div style="max-height: 200px; overflow-y: auto;"><strong class="p-3">Product Ordered:</strong>
@@ -514,11 +623,13 @@
                         </table>
                     </div>
                     <div class="p-3" style="margin-top: 20px;       text-align: right;       font-size: 16px;       font-weight: bold;">
-                        <h3 style="font-size: 16px;font-weight: bold;color: var(--bs-secondary);">Grand total:&nbsp;<span>7, 000</span></h3>
+                        <h3 style="font-size: 16px;font-weight: bold;color: var(--bs-secondary);">Grand total:&nbsp;<span>{{ $totalEarnings }}</span></h3>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- For My Account -->
         <section id="my-account" class="dashboard-section" style="padding:0px;">
             <div class="my-account-container">
                 <h2 class="pt-4 pb-2" style="font-size:18px;font-weight:bold;">My Profile</h2>
@@ -620,8 +731,7 @@
                                     <option value="LEVI'S">LEVI'S</option>
                                     <option value="GAP">GAP</option>
                                     <option value="ADIDAS">ADIDAS</option>
-                                    <option value="CHANEL">CHANEL</option>
-                                    <option value="HM">H&M</option>
+                                    <option value="CHANNEL">CHANNEL</option>
                                     <option value="Local-Brand">Local Brand</option>
                                     <option value="Not-Specified">Not Specified</option>
                                 </select></div>
@@ -678,7 +788,7 @@
 
 
     <!---Adding Modal-->
-    <!---This is for THRIFT DEALS-->
+    <!---This is for THRIFT DEALS/Bagsak Presyo-->
     <div id="addprodModal2" class="modal fade custom-modal" tabindex="-1" aria-labelledby="addprodLabel" aria-hidden="true" data-success-modal="add2">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -710,8 +820,7 @@
                                     <option value="LEVI'S">LEVI'S</option>
                                     <option value="GAP">GAP</option>
                                     <option value="ADIDAS">ADIDAS</option>
-                                    <option value="CHANEL">CHANEL</option>
-                                    <option value="HM">H&M</option>
+                                    <option value="CHANNEL">CHANNEL</option>
                                     <option value="Local-Brand">Local Brand</option>
                                     <option value="Not-Specified">Not Specified</option>
                                 </select></div>
@@ -799,8 +908,7 @@
                                     <option value="LEVI'S">LEVI'S</option>
                                     <option value="GAP">GAP</option>
                                     <option value="ADIDAS">ADIDAS</option>
-                                    <option value="CHANEL">CHANEL</option>
-                                    <option value="HM">H&M</option>
+                                    <option value="CHANNEL">CHANNEL</option>
                                     <option value="Local-Brand">Local Brand</option>
                                     <option value="Not-Specified">Not Specified</option>
                                 </select></div>
@@ -899,18 +1007,29 @@
         </div>
     </div>
 
-
+    <!--Edit Product Modal-->
     <div id="editProduct" class="modal fade" tabindex="-1" aria-labelledby="addLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header p-4">
-                    <h4 class="modal-title" style="color:#d7ac4b;">Edit Product Details</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body p-4"><label class="form-label" id="edit-prodName">Product Name</label><input type="text" class="form-control mb-2" style="font-size: 14px;"><label class="form-label" id="edit-prodName-1">Price</label><input type="number" id="edit-prodPrice" class="form-control mb-2" style="font-size: 14px;"></div>
-                <div class="modal-footer p-4"><button class="btn btn-light" type="button" data-bs-dismiss="modal" style="background: #d7ac4b;color: var(--bs-light);" data-bs-toggle="modal" data-bs-target="#saveChanges">Save</button></div>
+                <form method="POST" action="" id="editProductForm">
+                    @csrf
+                    <div class="modal-header p-4">
+                        <h4 class="modal-title" style="color:#d7ac4b;">Edit Product Details</h4><button class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <label for="edit-prodName" class="form-label">Product Name</label>
+                        <input type="text" id="edit-prodName" class="form-control mb-2" style="font-size: 14px;">
+                        
+                        <label for="edit-prodPrice" class="form-label">Price</label>
+                        <input type="number" id="edit-prodPrice" class="form-control mb-2" style="font-size: 14px;">
+                    </div>
+                    <div class="modal-footer p-4"><button class="btn btn-light" type="button" id= "save-changes-btn" data-bs-dismiss="modal" style="background: #d7ac4b;color: var(--bs-light);" data-bs-toggle="modal" data-bs-target="#saveChanges">Save</button></div>
+                </form>
             </div>
         </div>
     </div>
+
+    <!--Save Changes Edit Product Modal-->
     <div id="saveChanges" class="modal fade" tabindex="-1" aria-labelledby="addLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered p-4">
             <div class="modal-content">
@@ -924,10 +1043,12 @@
             </div>
         </div>
     </div>
-    <div id="invoiceModal" class="modal-abc"><span class="close-btn close-btn-mno" onclick="document.getElementById(&#39;invoiceModal&#39;).style.display=&#39;none&#39;">×</span>
+
+    <!---Confirm Order Modal-->
+   <div id="invoiceModal" class="modal-abc"><span class="close-btn close-btn-mno" onclick="document.getElementById(&#39;invoiceModal&#39;).style.display=&#39;none&#39;">×</span>
         <div class="container modal-content-abc">
             <div class="d-flex justify-content-center align-items-center" style="flex-direction: column;text-align: center;">
-                <h3 class="mb-3" style="font-size: 16px;font-weight: bold;">OrderID#&nbsp;<span>UKAY1234</span></h3>
+                <h3 class="mb-3" style="font-size: 16px;font-weight: bold;">OrderID#&nbsp;<span id="modal-order-id"></span></h3>
             </div>
             <div class="row p-3">
                 <div class="col-md-6">
@@ -935,46 +1056,56 @@
                         <div class="row">
                             <div class="col">
                                 <div class="info-abc" style="background: rgba(215,172,75,0.1);">
-                                    <div class="section-label"><span>Customer ID</span></div><span style="font-weight: bold;">Customer12345</span>
+                                    <div class="section-label"><span>Customer Name</span></div><span id="modal-customer-name" style="font-weight: bold;">{{ $order->user->fullname }}</span>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="info-abc">
-                                    <div class="section-label"><span>Order Date</span></div><span style="font-weight: bold;"> 16/04/2025</span>
+                                    <div class="section-label"><span>Order Date</span></div><span id="modal-order-date" style="font-weight: bold;"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <!--Display Order Items-->
                     <div class="order-list-wrapper-abc">
-                        <div class="order-list-abc">
-                            <div class="order-item-abc"><img alt="gray and white adidas backpack" src="assets/img/photo-1613130061126-fae9b27545f9-1.jpg">
-                                <div class="order-details-abc">
-                                    <p>Floral Maxi Dress</p>
-                                    <p>₱<span>50</span></p>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="order-list-abc"></div>
                     </div>
+
                 </div>
                 <div class="col-md-6">
                     <div class="auto-fill">
-                        <div class="section-label"><span>Payment Method</span></div><span style="color: var(--bs-dark);"> Cash on Delivery</span>
+                        <div class="section-label"><span>Payment Method</span></div><span id="modal-payment-method" style="color: var(--bs-dark);"></span>
                     </div>
                     <div class="auto-fill">
-                        <div class="section-label"><span>Delivery Method</span></div><span style="color: var(--bs-dark);">Meet-Up</span>
+                        <div class="section-label"><span>Delivery Method</span></div><span id="modal-delivery-method" style="color: var(--bs-dark);"></span>
                     </div>
-                    <div class="auto-fill">
-                        <div class="section-label"><span>Delivery Location</span></div><span style="color: var(--bs-dark);">SM Sorsogon, Sorsogon City</span>
+                    <div id="delivery-location-section" class="auto-fill">
+                        <div class="section-label"><span>Transaction Location</span></div><span id="modal-delivery-location" style="color: var(--bs-dark);"></span>
                     </div>
+                    <!-- Pick Up Address (Initially Hidden) -->
+                    <!--<div id="pickup-address-section" class="auto-fill" style="display: none;">
+                        <div class="section-label"><span>Pick Up Address</span></div>
+                        <span id="modal-delivery-location" style="color: var(--bs-dark);"></span>
+                    </div>-->
                     <div class="summary-abc">
-                        <p style="font-size: 14px;"><span style="font-size: 14px;">Subtotal</span><span style="font-size: 14px;">₱600</span></p>
-                        <p style="font-size: 14px;"><span>Delivery Fee</span><span>₱10</span></p>
-                        <p class="bold" style="color: var(--bs-black);font-size: 18px;"><span style="font-size: 18px;font-weight: bold;">Total Amount</span><span style="font-weight: bold;">₱630</span></p>
-                    </div><a class="btn confirm-order-btn" role="button" style="border-radius: 3px;background: #d7ac4b; color: #fff;" href="GenerateInvoice.html">Confirm Order &amp; Generate E-Invoice</a>
+                        <p style="font-size: 14px;">
+                            <span style="font-size: 14px;">Subtotal</span>
+                            <span style="font-size: 14px;">₱{{ $order->orderItems->sum(fn($item) => $item->product->price) }}</span></p>
+                        <p style="font-size: 14px;">
+                            <span>Delivery Fee</span>
+                            <span>₱10</span></p>
+                        <p class="bold" style="color: var(--bs-black);font-size: 18px;">
+                            <span style="font-size: 18px;font-weight: bold;">Total Amount</span>
+                            <span style="font-weight: bold;">₱630</span></p>
+                    </div>
+                        <a id="confirm-order-btn" class="btn confirm-order-btn" role="button" style="border-radius: 3px;background: #d7ac4b; color: #fff;" href="#">Confirm Order &amp; Generate E-Invoice</a>
                 </div>
             </div>
         </div>
     </div>
+
+    <!---Chat Box-->
     <div id="chat-container-abc" class="chat-container-abc">
         <div class="chat-box-def">
             <div id="message-box" class="message-box">
@@ -1009,9 +1140,17 @@
                         <div class="message-text"><span>Hi there!</span></div>
                     </div>
                 </div>
-                <div class="conversation-footer"><textarea id="message-input-abc" placeholder="Type your message..." required="" style="font-size: 12px;"></textarea>
+                <div class="conversation-footer">
+                    <textarea id="message-input-abc" placeholder="Type your message..." required="" style="font-size: 12px;"></textarea>
+                    <div id="chat-image-preview" class="chat-image-preview" style="display: none; margin-top: 5px;"></div>
                     <div class="chatBOX-controls">
-                        <div class="file-upload-wrapper"><input type="file" id="file-input" class="d-none" accept="images/*"><button class="btn" id="file-upload" type="button"><i class="fas fa-paperclip" style="color:#d7ac4b;font-size:12px;"></i></button></div><button class="btn" id="send-message-abc" type="button"><i class="fas fa-paper-plane"></i></button>
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="file-input" class="d-none" accept="images/*">
+                            <button class="btn" id="file-upload" type="button">
+                                <i class="fas fa-paperclip" style="color:#d7ac4b;font-size:12px;"></i>
+                            </button>
+                        </div>
+                        <button class="btn" id="send-message-abc" type="button"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
             </div>
@@ -1025,9 +1164,9 @@
     <script src="{{ asset('admin/assets/js/notif-tab.js') }}"></script>
     <script src="{{ asset('admin/assets/js/tabfunction.js') }}"></script>
 
-        <!-- Script For Adding Products by Section -->
-
-        <script>
+    
+    <!-- Script For Adding Products by Section -->
+    <!--<script>
         document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll(".addprod-form").forEach(form => {
                 form.addEventListener("submit", function (e) {
@@ -1036,6 +1175,18 @@
                     let formData = new FormData(this);
                     let modalElement = this.closest(".modal"); // Get the parent modal dynamically
                     let successModalId = modalElement.dataset.successModal; // Get success modal ID from data attribute
+
+                     // Determine the target section based on the modal
+                    //let targetSection = modalElement.id === "addprodModal" ? "#new-arrival .photos" : "#bagsak-presyo-sec .photos";
+                    // Determine the target section based on the modal
+                    let targetSection;
+                    if (modalElement.id === "addprodModal") {
+                        targetSection = "#new-arrival .photos";
+                    } else if (modalElement.id === "addprodModal2") {
+                        targetSection = "#bagsak-presyo-1 .photos";
+                    } else if (modalElement.id === "addprodModal3") {
+                        targetSection = "#all-products-2 .photos";
+                    }
 
                     // AJAX request using Fetch API
                     fetch(this.action, {
@@ -1062,6 +1213,27 @@
 
                             // Reset the form after a short delay
                             setTimeout(() => this.reset(), 500);
+
+                            // Dynamically add the new product to the "New Arrivals" section
+                            let newProductHTML = `
+                                <div class="col item">
+                                    <div class="card card-prod" style="transition:transform 0.3s ease;">
+                                        <div class="card-body">
+                                            <i class="fa fa-pencil edit-pencil" data-bs-toggle="modal" data-bs-target="#editProduct"></i>
+                                            <a href="${data.product.image}">
+                                                <img class="img-fluid" alt="${data.product.name}" src="${data.product.image}" style="width: 100%; height: 180px; object-fit: cover; border-radius: 3px;">
+                                            </a>
+                                            <h4 id="product-name" class="card-title mt-2 p-1" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; display: block; font-size: 16.5px;">
+                                                ${data.product.name}
+                                            </h4>
+                                            <p class="card-text p-1" style="font-weight: bold; color: #d7ac4b;">
+                                                ₱<span id="product-price-span">${data.product.price}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            document.querySelector(targetSection).insertAdjacentHTML("beforeend", newProductHTML);
                         } else {
                             alert("Failed to add product. Please try again.");
                         }
@@ -1070,8 +1242,69 @@
                 });
             });
         });
-</script>
+    </script>-->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('monthlyRevenueChart').getContext('2d');
+
+            // Pass PHP data to JavaScript
+            const chartData = @json($chartData);
+
+            // Create the chart
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: chartData.labels, // Months
+                    datasets: [{
+                        label: 'Revenue',
+                        backgroundColor: 'rgba(215,172,75,0.5)',
+                        borderColor: 'rgba(215,172,75,1)',
+                        data: chartData.revenue, // Revenue values
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: true,
+                    legend: {
+                        display: false,
+                        labels: {
+                            fontStyle: 'normal',
+                            fontFamily: "'Open Sans', sans-serif"
+                        }
+                    },
+                    scales: {
+                        xAxes: [{
+                            ticks: {
+                                fontStyle: 'normal'
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                fontStyle: 'normal',
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        });
+    </script>
+
+    <!-- Add these hidden inputs in the chat container -->
+    <div id="chat-container-abc" class="chat-container-abc">
+        <input type="hidden" id="current-user-id" value="{{ Auth::guard('admin')->user()->id }}">
+        <input type="hidden" id="current-user-type" value="admin">
+        <input type="hidden" id="receiver-id" value="">
+        <input type="hidden" id="receiver-type" value="">
+        <!-- ... rest of the chat container code ... -->
+    </div>
+
+    <!-- Add these scripts before closing body tag -->
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="{{ asset('admin/assets/js/chat.js') }}"></script>
 
 </body>
 
 </html>
+

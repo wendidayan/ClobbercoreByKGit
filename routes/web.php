@@ -9,6 +9,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\ChatController;
 
 
 //Client-Side
@@ -86,6 +87,37 @@ Route::get('/Clothing', [ProductController::class, 'Clothing'])->name('Clothing'
 Route::get('/clothing/filter', [ProductController::class, 'ClothingFiltering'])->name('clothing.filter');
 
 
+//Invoice Client Side
+Route::get('/E-Invoice/{id}', [OrderController::class, 'clientInvoice'])->name('invoice.show');
+
+//User Profile
+Route::get('/UserProfile', [OrderController::class, 'showCompletedOrders'])->name('UserProfile');
+Route::post('order/{orderId}/rate', [ReviewController::class, 'rateOrder'])->name('order.rate');
+Route::post('/user/address', [AuthController::class, 'storeAddress'])->name('user.address.store');
+Route::put('/addresses/{id}', [AuthController::class, 'updateAddress'])->name('addresses.update');
+Route::post('/addresses/{id}/set-default', [AuthController::class, 'setDefault'])->name('addresses.setDefault');
+Route::patch('/order/{order}/complete', [OrderController::class, 'markAsCompleted'])->name('order.complete');
+Route::patch('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+Route::post('/update-profile', [OrderController::class, 'updateProfile'])->name('user.updateProfile');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Server-side
 //Admin Login
 Route::prefix('admin')->group(function() {
@@ -102,6 +134,31 @@ Route::prefix('admin')->group(function() {
 // Product Management
 Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
 
+//Added By Karilaaa
+//Route::get('/product/{id}', [ProductController::class, 'edit'])->name('product.edit'); //route to fetch the data
+Route::get('/product/{id}/edit', [ProductController::class, 'edit'])->name('product.edit');
+Route::put('/product/update/{id}', [ProductController::class, 'update'])->name('product.update'); //route to update the data
+Route::post('/admin/update-order-status/{id}', [ProductController::class, 'updateOrderStatus'])->middleware('auth:admin')->name('order.updateStatus');//route for updating the status of the order for admin side
+
+//Fetch Data to Confirm Order-Modal
+Route::get('/order-details/{id}', [OrderController::class, 'getOrderDetails']);
+
+//Fetch Data and Redirect to Generate Invoice
+Route::get('/generate-invoice', [OrderController::class, 'generateInvoice'])->name('generate.invoice');
+
+//Fetch notification data and mark as read
+Route::post('/admin/transactions/confirm/{transactionId}', [OrderController::class, 'confirmPayment'])->name('admin.transactions.confirm');
+
+
+//Generate Invoice
+//Route::post('/store-invoice', [OrderController::class, 'storeInvoice'])->name('store.invoice');
+
+Route::post('/store-invoice', [OrderController::class, 'storeInvoice'])->name('store.invoice');
+Route::get('/view-invoice/{id}', [OrderController::class, 'showInvoice'])->name('show.invoice');
+Route::post('/send-invoice/{order}', [AdminController::class, 'send'])->name('invoice.send');
+
+
+
 
 
 
@@ -114,15 +171,6 @@ Route::post('/products/store', [ProductController::class, 'store'])->name('produ
 
 // To be finalized............
 
-
-
-Route::get('/UserProfile', [OrderController::class, 'showCompletedOrders'])->name('UserProfile');
-Route::post('order/{orderId}/rate', [ReviewController::class, 'rateOrder'])->name('order.rate');
-Route::post('/user/address', [AuthController::class, 'storeAddress'])->name('user.address.store');
-Route::put('/addresses/{id}', [AuthController::class, 'updateAddress'])->name('addresses.update');
-Route::post('/addresses/{id}/set-default', [AuthController::class, 'setDefault'])->name('addresses.setDefault');
-Route::patch('/order/{order}/complete', [OrderController::class, 'markAsCompleted'])->name('order.complete');
-Route::patch('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
 
 
 
@@ -139,3 +187,21 @@ Route::get('/forgot-password', function () {
 Route::post('/forgot-password/send-code', [AuthController::class, 'sendResetCode']);
 Route::post('/forgot-password/verify-code', [AuthController::class, 'verifyResetCode']);
 Route::post('/forgot-password/reset', [AuthController::class, 'resetPassword']);
+
+
+//Chat Support Routes
+// Chat Routes
+/*Route::middleware(['auth:admin'])->group(function () {
+    Route::get('/chat/messages', [ChatController::class, 'getMessages']);
+    Route::post('/chat/send', [ChatController::class, 'sendMessage']);
+    Route::get('/chat/users', [ChatController::class, 'getUsers']);
+    Route::post('/chat/mark-read', [ChatController::class, 'markAsRead']);
+});*/
+
+// Chat routes accessible to both clients and admins
+Route::middleware(['auth:admin,web'])->group(function () {
+    Route::get('/chat/messages', [ChatController::class, 'getMessages']);
+    Route::post('/chat/send', [ChatController::class, 'sendMessage']);
+    Route::get('/chat/users', [ChatController::class, 'getUsers']);
+    Route::post('/chat/mark-read', [ChatController::class, 'markAsRead']);
+});

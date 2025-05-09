@@ -164,10 +164,11 @@ const navItems = document.querySelectorAll('.nav-item-abc');
     });
 
 //Notification Item Redirect to Invoice Page
+/*
 function redirectToInvoicePage() {
     window.location.href = 'E-invoice.html'; // or full path if needed
   }
-
+*/
 function redirectToViewDetailsPage() {
     window.location.href = 'Notif-View-Details.html'; // or full path if needed
   }
@@ -186,55 +187,59 @@ const data = {
     }
   };
 
+  
   function toggleEdit(event, type) {
     event.preventDefault();
-    const content = data[type].element;
-    const toggleBtn = data[type].toggle;
+
+    const content = document.getElementById(type + 'Content');
+    const input = document.getElementById(type + 'Input');
+    const toggleBtn = document.querySelector(`[onclick="toggleEdit(event, '${type}')"]`);
 
     if (toggleBtn.textContent === "Change") {
-      toggleBtn.textContent = "Save";
-      content.contentEditable = true;
-      content.textContent = data[type].full;
-      content.focus();
-    } else {
-      const updated = content.textContent.trim();
-
-      if (type === "email" && validateEmail(updated)) {
-        data[type].full = updated;
-        content.textContent = maskEmail(updated);
-      } else if (type === "phone" && validatePhone(updated)) {
-        data[type].full = updated;
-        content.textContent = maskPhone(updated);
-      } else {
-        alert("Please enter a valid " + type + ".");
-        content.textContent = data[type].full;
+        toggleBtn.textContent = "Save";
+        content.contentEditable = true;
         content.focus();
-        return;
-      }
+        content.textContent = input.value;
+    } else {
+        const updated = content.textContent.trim();
 
-      content.contentEditable = false;
-      toggleBtn.textContent = "Change";
+        // Validate and update
+        if (type === "email" && validateEmail(updated)) {
+            input.value = updated;
+            content.textContent = maskEmail(updated);
+        } else if (type === "phone" && validatePhone(updated)) {
+            input.value = updated;
+            content.textContent = maskPhone(updated);
+        } else {
+            alert("Please enter a valid " + type + ".");
+            content.textContent = type === "email" ? maskEmail(input.value) : maskPhone(input.value);
+            content.focus();
+            return;
+        }
+
+        content.contentEditable = false;
+        toggleBtn.textContent = "Change";
     }
-  }
+}
 
-  function validateEmail(email) {
+function validateEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
-  }
+}
 
-  function validatePhone(phone) {
-    return /^[0-9]{11}$/.test(phone); // Philippine 11-digit format
-  }
+function validatePhone(phone) {
+    return /^[0-9]{10,15}$/.test(phone); // Adjust based on your country format
+}
 
-  function maskEmail(email) {
-    const [user, domain] = email.split('@');
-    const masked = user.slice(0, 2) + '*'.repeat(user.length - 2);
-    return `${masked}@${domain}`;
-  }
+function maskEmail(email) {
+    return email.replace(/(?<=.).(?=[^@]*?@)/g, '*');
+}
 
-  function maskPhone(phone) {
-    return '*'.repeat(phone.length - 2) + phone.slice(-2);
-  }
+function maskPhone(phone) {
+    return phone.length > 2
+        ? '*'.repeat(phone.length - 2) + phone.slice(-2)
+        : phone;
+}
 
 //Edit Button in Profile-Address Section
 document.addEventListener("DOMContentLoaded", () => {

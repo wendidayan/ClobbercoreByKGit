@@ -14,6 +14,7 @@ use App\Models\Subcategory;
 use App\Models\Customer;
 use App\Models\Address;
 use App\Models\MeetUpLocation;
+use App\Models\InvoiceNotification;
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -71,7 +72,14 @@ class CartController extends Controller
             ->with('product')
             ->get();
 
-        return view('PlaceOrder', compact('cartItems','cartCount', 'user'));
+        $notifications = InvoiceNotification::where('user_id', $user->id)
+        ->latest()
+        ->take(5)
+        ->get();
+
+        $notifCount = InvoiceNotification::where('user_id', $user->id)->count();
+
+        return view('PlaceOrder', compact('cartItems','cartCount', 'user', 'notifications', 'notifCount'));
     }
 
     public function removeFromCart($cartItemId)
@@ -162,28 +170,33 @@ class CartController extends Controller
 
          // Shipping fee calculation based on city
          $shippingFees = [
-            'Barcelona' => 50,
-            'Bulan' => 120,
-            'Bulusan' => 80,
-            'Casiguran' => 70,
-            'Castilla' => 60,
-            'Donsol' => 110,
-            'Gubat' => 40,
-            'Irosin' => 90,
-            'Juban' => 55,
-            'Magallanes' => 130,
-            'Matnog' => 100,
-            'Pilar' => 65,
-            'Prieto Diaz' => 50,
+            'Barcelona' => 20,
+            'Bulan' => 75,
+            'Bulusan' => 50,
+            'Castilla' => 30,
+            'Donsol' => 60,
+            'Irosin' => 60,
+            'Juban' => 25,
+            'Magallanes' => 80,
+            'Matnog' => 70,
+            'Pilar' => 35,
+            'Prieto Diaz' => 20,
         ];
 
         $city = $defaultAddress ? $defaultAddress->city : '';  // Ensure city exists
 
         // Get shipping fee based on the city
         $shippingFee = $shippingFees[$city] ?? 0;  // Default to 0 if the city isn't found in the array
+        
+        $notifications = InvoiceNotification::where('user_id', $user->id)
+                        ->latest()
+                        ->take(5)
+                        ->get();
+
+        $notifCount = InvoiceNotification::where('user_id', $user->id)->count();
 
 
-        return view('ToPayCart', compact('orders', 'cartItems', 'defaultAddress', 'locations','city', 'shippingFee','cartCount'));
+        return view('ToPayCart', compact('orders', 'cartItems', 'defaultAddress', 'locations','city', 'shippingFee','cartCount', 'notifications', 'notifCount'));
     }
 
     
@@ -272,6 +285,12 @@ class CartController extends Controller
     
             return redirect()->route('Clothing')->with('order_success', 'Order placed successfully! (COD)');
         }
+
+
+        // Include shipping fee in amount if delivery method is shipping
+        if ($request->input('delivery_method') === 'shipping') {
+            $totalAmount += $shippingFee;
+        }
     
         // For online payment: save cart and payment data in session only
         session([
@@ -285,8 +304,7 @@ class CartController extends Controller
             ]
         ]);
 
-        $request->merge(['amount' => $totalAmount]); // No shipping fee for pickup/meetup
-    
+        $request->merge(['amount' => $totalAmount]); // ← this won't affect PayMongo logic
         // Redirect to PaymentController to handle PayMongo payment flow
         return app(PaymentController::class)->createcartPaymentIntent($request);
 }

@@ -10,7 +10,11 @@ use App\Models\Order;
 use App\Models\Review;
 use App\Models\CartItem;
 use App\Models\User;
+use App\Models\Transaction;
+use App\Models\InvoiceNotification;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Messages;
+
 
 class ProductController extends Controller
 {
@@ -26,9 +30,16 @@ class ProductController extends Controller
         $reviews = Review::with(['user', 'images'])->latest()->paginate(1); // You can change 5 to any number per page
         // Get updated cart count
         $cartCount = CartItem::where('user_id', $user->id)->count();
+
+        $notifications = InvoiceNotification::where('user_id', $user->id)
+                        ->latest()
+                        ->take(5)
+                        ->get();
+
+        $notifCount = InvoiceNotification::where('user_id', $user->id)->count();
  
 
-        return view('ShoppingPage', compact('thriftDeals', 'newArrivals', 'allProducts','reviews', 'cartCount','user'));
+        return view('ShoppingPage', compact('thriftDeals', 'newArrivals', 'allProducts','reviews', 'cartCount','user', 'notifications', 'notifCount'));
     }
 
     //Displaying in Homepage
@@ -48,10 +59,63 @@ class ProductController extends Controller
         // Get products based on filters
         $thriftDeals = Product::where('is_thrift_deal', true)->where('is_sold', false) ->get();
         $newArrivals = Product::where('is_new_arrival', true)->where('is_sold', false) ->get();
-        $allProducts = Product::where('is_sold', false) ->take(10)->get();
+        $allProducts = Product::where('is_sold', false) ->get();
         $orders = Order::with(['user', 'paymentMethod', 'orderItems.product'])->get();
 
-        return view('admin.Dashboard', compact('thriftDeals', 'newArrivals', 'allProducts', 'orders'));
+        //filtering recent orders, when there is no transaction
+        $recentOrders = Order::whereDoesntHave('transaction')
+            ->where('status', 'pending')
+            ->with('user')
+            ->get();
+        $notifications = Auth::user()->unreadNotifications;
+
+        // Fetch transactions with related orders and users
+        $transactions = Transaction::with('order.user')->get();
+
+        $orderCount = Order::count(); // Count the total number of orders to be displayed in the dashboard
+        $userCount = User::count(); // Count the total number of users who signed up
+
+        // Calculate monthly revenue
+        $monthlyRevenue = Transaction::selectRaw('MONTH(created_at) as month, SUM(amount) as revenue')
+            ->where('status', 'paid') // Assuming you want to filter by completed transactions
+            ->whereYear('created_at', now()->year) // Filter by the current year
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get();
+
+        // Format the data for the chart
+        $chartData = [
+            'labels' => $monthlyRevenue->pluck('month')->map(function ($month) {
+                return \Carbon\Carbon::create()->month($month)->format('F'); // Convert month number to name
+            }),
+            'revenue' => $monthlyRevenue->pluck('revenue'),
+        ];
+
+        // Calculate total earnings and display it in the dashboard
+        $totalEarnings = Transaction::where('status', 'paid')->sum('amount');
+
+        $adminId = Auth::id();
+
+        // Count unique users who messaged the admin
+        $uniqueMessageSenders = Messages::where('receiver_id', $adminId)
+            ->where('receiver_type', 'admin')
+            ->distinct('sender_id')
+            ->count('sender_id');
+
+        return view('admin.Dashboard', compact(
+            'thriftDeals', 
+            'newArrivals', 
+            'allProducts', 
+            'orders', 
+            'orderCount', 
+            'userCount', 
+            'transactions', 
+            'recentOrders', 
+            'chartData',
+            'notifications',
+            'totalEarnings',
+            'uniqueMessageSenders'
+        ));
     }
 
     //Displaying Individual Items in Product View
@@ -62,16 +126,22 @@ class ProductController extends Controller
 
         // Find similar products based on category_id (or another attribute)
         $similarProducts = Product::where('style', $product->style)
-                              ->where('id', '!=', $product->id)
-                              ->take(10) // Limit results
-                              ->get();
+                        ->where('id', '!=', $product->id)
+                        ->paginate(5);
 
         $reviews = Review::with(['user', 'images'])->latest()->paginate(1);
 
         // Get updated cart count
         $cartCount = CartItem::where('user_id', $user->id)->count();
 
-        return view('ProductView', compact('product', 'similarProducts','reviews', 'cartCount'));
+        $notifications = InvoiceNotification::where('user_id', $user->id)
+                        ->latest()
+                        ->take(5)
+                        ->get();
+
+        $notifCount = InvoiceNotification::where('user_id', $user->id)->count();
+
+        return view('ProductView', compact('product', 'similarProducts','reviews', 'cartCount', 'user', 'notifications', 'notifCount'));
     }
 
     //Adding Products by Section
@@ -112,7 +182,7 @@ class ProductController extends Controller
         ]);
 
         // Create Product
-        Product::create([
+        $product = Product::create([
             'name' => $request->name,
             'brand' => $request->brand,
             'image' => $imagePath,
@@ -130,61 +200,112 @@ class ProductController extends Controller
 
         ]);
 
+        /*Product::create([
+            'name' => $request->name,
+            'brand' => $request->brand,
+            'image' => $imagePath,
+            'price' => $request->price,
+            'category_id' => $category->id,
+            'subcategory_id' => $subcategory->id,
+            'size' => $request->size,
+            'color' => $request->color,
+            'style' => $request->style,
+            'material' => $request->material,
+            'condition' => $request->condition,
+            'description' => $request->description,
+            'is_new_arrival' => $request->is_new_arrival ? 1 : 0,
+            'is_thrift_deal' => $request->is_thrift_deal ? 1 : 0,
+
+        ]);*/
+
         return response()->json([
             'success' => true,
-            'message' => 'Product added successfully!'
+            //'message' => 'Product added successfully!'
+            'product' => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->price,
+                //'image' => asset('storage/' . $product->image),
+                'image' => asset($product->image), // Use asset() to get the full URL, store the path of the image in the database
+            ],
         ]);
         
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
     //Displaying By Brand
     public function showByBrand(Request $request, $brand)
-{
-    // Base query
-    $query = Product::where('brand', $brand)->where('is_sold', false);
+    {
+        $user = Auth::user();
+        // Base query
+        $query = Product::where('brand', $brand)->where('is_sold', false);
 
-    // Get all possible filter options for the current brand
-    $availableColors = Product::where('brand', $brand)->where('is_sold', false)->distinct()->pluck('color');
-    $availableSizes = Product::where('brand', $brand)->where('is_sold', false)->distinct()->pluck('size');
+        // Get all possible filter options for the current brand
+        $availableColors = Product::where('brand', $brand)->where('is_sold', false)->distinct()->pluck('color');
+        $availableSizes = Product::where('brand', $brand)->where('is_sold', false)->distinct()->pluck('size');
 
-    // Min and max price for range
-    $priceRange = Product::where('brand', $brand)->where('is_sold', false)
-        ->selectRaw('MIN(price) as min_price, MAX(price) as max_price')
-        ->first();
+        // Min and max price for range
+        $priceRange = Product::where('brand', $brand)->where('is_sold', false)
+            ->selectRaw('MIN(price) as min_price, MAX(price) as max_price')
+            ->first();
 
-    // Apply filters if present
-    if ($request->filled('color')) {
-        $query->where('color', $request->input('color'));
-    }
-
-    if ($request->filled('size')) {
-        $query->where('size', $request->input('size'));
-    }
-
-    if ($request->filled('min_price') || $request->filled('max_price')) {
-        $min = $request->input('min_price');
-        $max = $request->input('max_price');
-
-        if ($min && $max) {
-            $query->whereBetween('price', [$min, $max]);
-        } elseif ($min) {
-            $query->where('price', '>=', $min);
-        } elseif ($max) {
-            $query->where('price', '<=', $max);
+        // Apply filters if present
+        if ($request->filled('color')) {
+            $query->where('color', $request->input('color'));
         }
+
+        if ($request->filled('size')) {
+            $query->where('size', $request->input('size'));
+        }
+
+        if ($request->filled('min_price') || $request->filled('max_price')) {
+            $min = $request->input('min_price');
+            $max = $request->input('max_price');
+
+            if ($min && $max) {
+                $query->whereBetween('price', [$min, $max]);
+            } elseif ($min) {
+                $query->where('price', '>=', $min);
+            } elseif ($max) {
+                $query->where('price', '<=', $max);
+            }
+        }
+
+        $products = $query->get();
+        $notifications = InvoiceNotification::where('user_id', $user->id)
+        ->latest()
+        ->take(5)
+        ->get();
+        $notifCount = InvoiceNotification::where('user_id', $user->id)->count();
+        $cartCount = CartItem::where('user_id', $user->id)->count();
+
+
+        return view('BrandsPage', compact(
+            'products',
+            'brand',
+            'availableColors',
+            'availableSizes',
+            'priceRange',
+            'notifCount',
+            'user',
+            'notifications',
+            'cartCount'
+        ));
     }
-
-    $products = $query->get();
-
-    return view('BrandsPage', compact(
-        'products',
-        'brand',
-        'availableColors',
-        'availableSizes',
-        'priceRange'
-    ));
-}
 
     public function Clothing()
     {
@@ -257,9 +378,16 @@ class ProductController extends Controller
             ->where('is_sold', false) // Add condition for products not sold
             ->pluck('color');
 
+            $notifications = InvoiceNotification::where('user_id', $user->id)
+                        ->latest()
+                        ->take(5)
+                        ->get();
+
+        $notifCount = InvoiceNotification::where('user_id', $user->id)->count();
 
 
-        return view('Clothing', compact('thriftDeals', 'newArrivals', 'allProducts', 'categories', 'sizes', 'colors','categories1', 'sizes1', 'colors1','categories2', 'sizes2', 'colors2','cartCount','user'));
+
+        return view('Clothing', compact('thriftDeals', 'newArrivals', 'allProducts', 'categories', 'sizes', 'colors','categories1', 'sizes1', 'colors1','categories2', 'sizes2', 'colors2','cartCount','user','notifications','notifCount'));
     }
 
    

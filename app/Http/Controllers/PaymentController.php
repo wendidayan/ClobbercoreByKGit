@@ -71,7 +71,7 @@ public function success(Request $request)
    // Shipping fee calculation based on city — only apply if delivery method is shipping
    $shippingFee = 0;
 
-   if ($request->input('delivery_method') === 'shipping') {
+   if (session('delivery_method') === 'shipping') {
        $shippingFees = [
         'Barcelona' => 20,
         'Bulan' => 75,
@@ -90,8 +90,10 @@ public function success(Request $request)
        $shippingFee = $shippingFees[$city] ?? 0;
    }
 
-    $paymentMethod = PaymentMethod::firstOrCreate([
-        'name' => 'gcash' // or 'paymaya' depending on preference
+   $paymentMethodName = session('payment_method', 'gcash');
+    
+   $paymentMethod = PaymentMethod::firstOrCreate([
+    'name' => $paymentMethodName
     ]);
 
     // Get or create delivery method
@@ -123,6 +125,8 @@ public function success(Request $request)
     $this->addUserToCustomersTable($user);
 
     session()->forget('mine_items');
+    session()->forget('payment_method');
+
 
     return redirect()->route('Clothing')->with('order_success', 'Payment successful! Order has been placed.');
 }
@@ -210,9 +214,10 @@ public function successCartPayment(Request $request)
     $user = auth()->user();
 
     // Shipping fee calculation based on city — only apply if delivery method is shipping
-   $shippingFee = 0;
+    $defaultAddress = $user->addresses()->where('is_default', true)->first();
+    $shippingFee = 0;
 
-   if ($request->input('delivery_method') === 'shipping') {
+   if (session('delivery_method') === 'shipping') {
        $shippingFees = [
            'Barcelona' => 20,
            'Bulan' => 75,
@@ -231,8 +236,10 @@ public function successCartPayment(Request $request)
        $shippingFee = $shippingFees[$city] ?? 0;
    }
 
-    $paymentMethod = PaymentMethod::firstOrCreate([
-        'name' => $paymentData['payment_method'] ?? 'gcash'
+   $paymentMethodName = $paymentData['payment_method'] ?? 'gcash'; // ✅ Correct!
+    
+   $paymentMethod = PaymentMethod::firstOrCreate([
+    'name' => $paymentMethodName
     ]);
 
     $deliveryMethod = DeliveryMethod::firstOrCreate([
@@ -264,6 +271,7 @@ public function successCartPayment(Request $request)
     $this->addUserToCustomersTable($user);
 
     session()->forget('payment_data');
+    session()->forget('payment_method');
 
     return redirect()->route('Clothing')->with('order_success', 'Payment successful! Order has been placed.');
 }

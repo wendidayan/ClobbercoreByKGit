@@ -17,6 +17,6 @@ class DeliveryMethod extends Model
 
     public function orders(): HasMany
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class, foreignKey: 'delivery_method_id');
     }
 }

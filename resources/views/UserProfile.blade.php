@@ -44,16 +44,20 @@
                     
                     <ul class="navbar-nav ms-auto nav-right" style="font-family:'Open Sans', sans-serif;">
                         <li class="nav-item"><a class="nav-link" href="#" style="font-size:13px;padding-right:20px;color:var(--bs-dark-text-emphasis);">
-                                <div class="notification-nav" id="notif"><svg fill="none" height="1em" style="width:20px;height:20px;" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M14 3V3.28988C16.8915 4.15043 19 6.82898 19 10V17H20V19H4V17H5V10C5 6.82898 7.10851 4.15043 10 3.28988V3C10 1.89543 10.8954 1 12 1C13.1046 1 14 1.89543 14 3ZM7 17H17V10C17 7.23858 14.7614 5 12 5C9.23858 5 7 7.23858 7 10V17ZM14 21V20H10V21C10 22.1046 10.8954 23 12 23C13.1046 23 14 22.1046 14 21Z" fill="currentColor" fill-rule="evenodd"></path></svg><span class="badge" style="background:rgba(108,117,125,0.6);">12</span>
+                                <div class="notification-nav" id="notif"><svg fill="none" height="1em" style="width:20px;height:20px;" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M14 3V3.28988C16.8915 4.15043 19 6.82898 19 10V17H20V19H4V17H5V10C5 6.82898 7.10851 4.15043 10 3.28988V3C10 1.89543 10.8954 1 12 1C13.1046 1 14 1.89543 14 3ZM7 17H17V10C17 7.23858 14.7614 5 12 5C9.23858 5 7 7.23858 7 10V17ZM14 21V20H10V21C10 22.1046 10.8954 23 12 23C13.1046 23 14 22.1046 14 21Z" fill="currentColor" fill-rule="evenodd"></path></svg><span class="badge" id="notif-badge" style="background:rgba(108,117,125,0.6);"> {{ $notifCount }}</span>
                                     <div id="notif-content" class="notif-box" style="margin:0px;margin-left:-360px;">
                                         <h5 style="font-size: 16px;margin: 0px;padding: 16px;border-bottom: 1px solid #ddd;background: rgba(215,172,75,0.1);">Recently Received Notifications</h5>
-                                        <div class="notif-xyz" style="overflow-y:auto;scroll-behavior:smooth;height:250px;">
-                                            <div class="notif-item p-4" style="border-bottom: 1px solid #ddd;" onclick="redirectToInvoicePage()">
-                                                <h4 class="m-0 pb-2" style="font-size: 14px;color: var(--bs-secondary);">Your e-invoce is ready!</h4>
-                                                <p class="m-0 pb-1" style="font-size: 12px;"><strong>OrderID: 250318U2QJ5N1J</strong></p>
-                                                <h6 style="font-size: 10px;color: var(--bs-secondary);">10/03/2025 10:30 PM</h6>
-                                            </div>
-                                            <div class="notif-item p-4" style="border-bottom: 1px solid #ddd;">
+                                        <div class="notif-xyz"   id="notif-list" style="overflow-y:auto;scroll-behavior:smooth;height:250px;">
+                                            @forelse ($notifications as $notif)
+                                                <div class="notif-item p-4" style="border-bottom: 1px solid #ddd;" onclick="redirectToInvoicePage({{ $notif->id }})">
+                                                    <h4 class="m-0 pb-2" style="font-size: 14px;color: var(--bs-secondary);">Invoice Sent</h4>
+                                                    <p class="m-0 pb-1" style="font-size: 12px;">Your <strong>OrderID: {{ $notif->order_id }}</strong> has an e-invoice ready.</p>
+                                                    <h6 style="font-size: 10px;color: var(--bs-secondary);">{{ \Carbon\Carbon::parse($notif->created_at)->format('m/d/Y h:i A') }}</h6>
+                                                </div>
+                                            @empty
+                                                <div class="p-4">No new notifications.</div>
+                                            @endforelse
+                                      <!--      <div class="notif-item p-4" style="border-bottom: 1px solid #ddd;">
                                                 <h4 class="m-0 pb-2" style="font-size: 14px;color: var(--bs-secondary);">Order Confirmed</h4>
                                                 <p class="m-0 pb-1" style="font-size: 12px;">Your <strong>OrderID: 250318U2QJ5N1J</strong> has been confirmed.</p>
                                                 <h6 style="font-size: 10px;color: var(--bs-secondary);">10/03/2025 10:30 PM</h6>
@@ -63,12 +67,15 @@
                                                 <p class="m-0 pb-1" style="font-size: 12px;">Your <strong>OrderID: 250318U2QJ5N1J</strong> has been delivered.</p>
                                                 <p class="m-0 pb-1" style="font-size: 12px;">Your feedback matters to us and helps us improve. Please take a moment to rate your experience and leave a review.</p>
                                                 <h6 style="font-size: 10px;color: var(--bs-secondary);">10/03/2025 10:30 PM</h6>
-                                            </div>
+                                            </div>-->
                                         </div>
-                                        <div id="viewAll" class="end-box p-3" style="background:rgba(215,172,75,0.1);  color: #d7ac4b;       font-weight: bold;" href="UserProfile.html#notifications"><span>View All Notifications</span></div>
+                                        @if(count($notifications) > 5)
+                                        <div id="viewAll" class="end-box p-3" style="background:rgba(215,172,75,0.1);  color: #d7ac4b;       font-weight: bold;" href="UserProfile.html#notifications"><span>View All Notifications</span></div>@endif
                                     </div>
                                 </div>
                             </a></li>
+
+                            
                         <li class="nav-item"><a class="nav-link" href="{{ route('cart.view') }}" style="font-size:13px;padding-right:20px;">
                                 <div class="notification-nav" id="notif-1"><svg fill="none" height="1em" style="width:20px;height:20px;color:var(--bs-dark-text-emphasis);" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M5 4H19C19.5523 4 20 4.44771 20 5V19C20 19.5523 19.5523 20 19 20H5C4.44772 20 4 19.5523 4 19V5C4 4.44772 4.44771 4 5 4ZM2 5C2 3.34315 3.34315 2 5 2H19C20.6569 2 22 3.34315 22 5V19C22 20.6569 20.6569 22 19 22H5C3.34315 22 2 20.6569 2 19V5ZM12 12C9.23858 12 7 9.31371 7 6H9C9 8.56606 10.6691 10 12 10C13.3309 10 15 8.56606 15 6H17C17 9.31371 14.7614 12 12 12Z" fill="currentColor" fill-rule="evenodd"></path></svg><span class="badge" style="background:rgba(108,117,125,0.6);">{{ $cartCount }}</span>
                                     <div class="notif-box" id="notif-content-1">
@@ -86,7 +93,7 @@
                                     </div>
                                 </div>
                             </a></li>
-                        <li class="nav-item"><a class="nav-link" href="UserProfile.html" style="font-size:13px;">
+                        <li class="nav-item"><a class="nav-link" href="{{ route('UserProfile') }}" style="font-size:13px;">
                                 <div class="notification-nav" id="notif-2"><svg fill="none" height="1em" style="width:20px;height:20px;color:var(--bs-dark-text-emphasis);" viewbox="0 0 24 24" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 9C16 11.2091 14.2091 13 12 13C9.79086 13 8 11.2091 8 9C8 6.79086 9.79086 5 12 5C14.2091 5 16 6.79086 16 9ZM14 9C14 10.1046 13.1046 11 12 11C10.8954 11 10 10.1046 10 9C10 7.89543 10.8954 7 12 7C13.1046 7 14 7.89543 14 9Z" fill="currentColor" fill-rule="evenodd"></path><path d="M12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1ZM3 12C3 14.0902 3.71255 16.014 4.90798 17.5417C6.55245 15.3889 9.14627 14 12.0645 14C14.9448 14 17.5092 15.3531 19.1565 17.4583C20.313 15.9443 21 14.0524 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12ZM12 21C9.84977 21 7.87565 20.2459 6.32767 18.9878C7.59352 17.1812 9.69106 16 12.0645 16C14.4084 16 16.4833 17.1521 17.7538 18.9209C16.1939 20.2191 14.1881 21 12 21Z" fill="currentColor" fill-rule="evenodd"></path></svg></div>
                             </a></li>
                     </ul>
@@ -107,107 +114,105 @@
                     </div>
                     <div class="other-lists pb-3"><a class="list-group-item list-group-item-action" href="#my-purchases" onclick="showSection(event, &#39;my-purchases&#39;)" style="border-top: 0.5px solid rgba(33,37,41,0.1) ;border-bottom: 0.5px solid rgba(33,37,41,0.1) ;"><i class="fa fa-cart-arrow-down p-3" style="font-size: 18px;color: rgb(215,172,75);"></i>My Purchase</a><a class="list-group-item list-group-item-action" href="#notifications" onclick="showSection(event, &#39;notifications&#39;)" style="border-bottom: 0.5px solid rgba(33,37,41,0.1) ;"><i class="fa fa-bell p-3" style="font-size: 18px;color: rgb(215,172,75);"></i>Notifications</a><a class="list-group-item list-group-item-action" href="#badges" onclick="showSection(event, &#39;badges&#39;)" style="border-bottom: 0.5px none rgba(33,37,41,0.1) ;"><i class="fa fa-star p-3" style="font-size: 18px;color: rgb(215,172,75);"></i>Earned Badges</a></div>
                 </div>
+                
+                <!--Profile Section-->
                 <div class="col offset-xxl-0 cold-md-9" style="background: var(--bs-light);">
-                    <div id="profile" class="p-3 profile-section">
+                <div id="profile" class="p-3 profile-section">
                         <h4 class="pt-3" style="font-size: 16px;font-weight: bold;">My Profile</h4>
                         <p style="font-size: 14px;color: rgba(33,37,41,0.7);">Manage and Protect your account</p>
-                        <form class="ps-1 pt-2" style="font-size: 14px;">
-                            <div class="d-flex justify-content-between mb-3 gap-3"><label class="form-label">Username</label>
-                                <p>karylle_031</p>
+                        <form class="ps-1 pt-2" style="font-size: 14px;" method="POST" action="{{ route('user.updateProfile') }}">
+                        @csrf
+                            
+                            <!-- Username -->
+                            <div class="d-flex justify-content-between mb-3 gap-3">
+                                <label class="form-label">Username</label>
+                                <p>{{ $user->username ?? 'N/A' }}</p>
                             </div>
-                            <div class="d-flex justify-content-between mb-3 gap-3"><label class="form-label">Name</label><input class="form-control" type="text" value="karylle" style="width: 50%;"></div>
-                            <div class="d-flex justify-content-between mb-3 gap-3"><label class="form-label">Email</label>
-                                <p class="d-flex gap-3"><span id="emailContent" class="email-editable">do***********@gmail.com</span><a class="text-decoration-none" id="emailToggle" href="#" onclick="toggleEdit(event, &#39;email&#39;)" style="font-size: 12px;">Change</a></p>
+                            
+                            <!-- Full Name -->
+                            <div class="d-flex justify-content-between mb-3 gap-3">
+                                <label for="fullname" class="form-label">Name</label>
+                                <input name="fullname" class="form-control" type="text" value="{{ old('fullname', $user->fullname ?? '') }}" style="width: 50%;">
                             </div>
-                            <div class="d-flex justify-content-between mb-3 gap-3"><label class="form-label">Phone Number</label>
-                                <p class="d-flex gap-3"><span id="phoneContent" class="email-editable">********09</span><a class="text-decoration-none" id="phoneToggle" href="#" onclick="toggleEdit(event, &#39;phone&#39;)" style="font-size: 12px;">Change</a></p>
+                            
+                            <!-- Email -->
+                            <div class="d-flex justify-content-between mb-3 gap-3">
+                                <label class="form-label">Email</label>
+                                @php
+                                    $maskedEmail = preg_replace('/(?<=.).(?=[^@]*?@)/', '*', $user->email ?? 'N/A');
+                                @endphp
+                                <p class="d-flex gap-3">
+                                    <span id="emailContent" class="email-editable">{{ $maskedEmail }}</span>
+                                    <a class="text-decoration-none" href="#" onclick="toggleEdit(event, 'email')" style="font-size: 12px;">Change</a>
+                                </p>
+                                <input type="hidden" name="email" id="emailInput" value="{{ old('email', $user->email ?? '') }}">
                             </div>
-                            <div class="d-flex justify-content-between mb-3 gap-3"><label class="form-label">Gender</label>
+                            
+                            <!-- Phone Number -->
+                            <div class="d-flex justify-content-between mb-3 gap-3">
+                                <label class="form-label">Phone Number</label>
+                                @php
+                                    $phoneNumber = $user->defaultAddress?->phone_number ?? 'N/A';
+                                    $maskedPhone = ($phoneNumber != 'N/A') ? str_repeat('*', strlen($phoneNumber) - 2) . substr($phoneNumber, -2) : 'N/A';
+                                    $isPhoneAvailable = $phoneNumber != 'N/A';
+                                @endphp
+                                <p class="d-flex gap-3">
+                                    <span id="phoneContent" class="email-editable">{{ $maskedPhone }}</span>
+                                    @if ($isPhoneAvailable)
+                                        <a href="#" onclick="toggleEdit(event, 'phone')" style="font-size: 12px; text-decoration: none;">Change</a>
+                                    @else
+                                        <a href="#" onclick="event.preventDefault(); alert('You have to add your address first.');" style="font-size: 12px; color: gray; text-decoration: none; cursor: not-allowed;">Change</a>
+                                    @endif
+                                </p>
+                                <input type="hidden" name="phone_number" id="phoneInput" value="{{ old('phone_number', $phoneNumber) }}">
+                            </div>
+                            
+                            <!-- Gender -->
+                            <div class="d-flex justify-content-between mb-3 gap-3">
+                                <label class="form-label">Gender</label>
                                 <div class="d-flex gap-2">
-                                    <div class="form-check d-flex gap-2" id="male" name="gender"><input class="form-check-input" type="radio" id="formCheck-1"><label class="form-check-label" for="formCheck-1">Male</label></div>
-                                    <div class="form-check d-flex gap-2" id="female" name="gender"><input class="form-check-input d-flex gap-2" type="radio" id="formCheck-2"><label class="form-check-label" for="formCheck-2">Female</label></div>
-                                    <div class="form-check d-flex gap-2" id="Other" name="gender"><input class="form-check-input" type="radio" id="formCheck-3"><label class="form-check-label" for="formCheck-3">Other</label></div>
+                                    <div class="form-check d-flex gap-2">
+                                        <input class="form-check-input" type="radio" id="male" name="gender" value="Male" {{ $user->gender === 'male' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="male">Male</label>
+                                    </div>
+                                    <div class="form-check d-flex gap-2">
+                                        <input class="form-check-input" type="radio" id="female" name="gender" value="Female" {{ $user->gender === 'female' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="female">Female</label>
+                                    </div>
+                                    <div class="form-check d-flex gap-2">
+                                        <input class="form-check-input" type="radio" id="other" name="gender" value="Other" {{ $user->gender === 'other' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="other">Other</label>
+                                    </div>
                                 </div>
                             </div>
+
+
                             <div class="d-flex justify-content-between mb-3"><label class="form-label">Date of Birth</label>
-                                <div class="d-flex"><select class="form-select me-2" style="border-radius: 3px;font-size: 12px;">
-                                        <option value="Date" selected="">Date</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="5">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                        <option value="11">11</option>
-                                        <option value="12">12</option>
-                                        <option value="13">13</option>
-                                        <option value="14">14</option>
-                                        <option value="15">15</option>
-                                        <option value="16">16</option>
-                                        <option value="17">17</option>
-                                        <option value="19">18</option>
-                                        <option value="20">20</option>
-                                        <option value="21">21</option>
-                                        <option value="22">22</option>
-                                        <option value="23">23</option>
-                                        <option value="24">24</option>
-                                        <option value="25">25</option>
-                                        <option value="26">26</option>
-                                        <option value="27">27</option>
-                                        <option value="28">28</option>
-                                        <option value="29">29</option>
-                                        <option value="30">30</option>
-                                        <option value="31">31</option>
-                                        <option value="Date">Date</option>
-                                    </select><select class="form-select me-2" style="border-radius: 3px;font-size: 12px;">
-                                        <option value="Date" selected="">Month</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="5">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                        <option value="11">11</option>
-                                        <option value="12">12</option>
-                                    </select><select class="form-select me-2" style="border-radius: 3px;font-size: 12px;">
-                                        <option value="Year" selected="">Year</option>
-                                        <option value="2025">2025</option>
-                                        <option value="2024">2024</option>
-                                        <option value="2023">2023</option>
-                                        <option value="2022">2022</option>
-                                        <option value="2021">2021</option>
-                                        <option value="2020">2020</option>
-                                        <option value="1999">1999</option>
-                                        <option value="1998">1998</option>
-                                        <option value="1997">1997</option>
-                                        <option value="1994">1996</option>
-                                        <option value="1995">1995</option>
-                                        <option value="1994">1994</option>
-                                        <option value="1993">1993</option>
-                                        <option value="1992">1992</option>
-                                        <option value="1991">1991</option>
-                                        <option value="1990">1990</option>
-                                        <option value="1989">1989</option>
-                                        <option value="1987">1987</option>
-                                        <option value="1986">1986</option>
-                                        <option value="1985">1985</option>
-                                        <option value="1984">1984</option>
-                                        <option value="1983">1983</option>
-                                        <option value="1982">1982</option>
-                                        <option value="1981">1981</option>
-                                        <option value="1980">1980</option>
-                                    </select></div>
-                            </div><a class="btn checkout-btn float-end mb-3" role="button" style="border-radius: 3px;font-size: 14px;padding: 10px 30px;" data-bs-toggle="modal" data-bs-target="#savedEditSucess">Save</a>
+                                <div class="d-flex">
+                                    <select class="form-select me-2" name="day" style="border-radius: 3px;font-size: 12px;">
+                                        <option value="" selected="">Day</option>
+                                        @for ($i = 1; $i <= 31; $i++)
+                                            <option value="{{ $i }}" {{ old('day', optional($user->birthdate)->format('j')) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                    <select class="form-select me-2" name="month" style="border-radius: 3px;font-size: 12px;">
+                                        <option value="" selected="">Month</option>
+                                        @for ($i = 1; $i <= 12; $i++)
+                                            <option value="{{ $i }}" {{ old('month', optional($user->birthdate)->format('n')) == $i ? 'selected' : '' }}>{{ date('F', mktime(0, 0, 0, $i, 1)) }}</option>
+                                        @endfor
+                                    </select>
+                                    <select class="form-select me-2" name="year" style="border-radius: 3px;font-size: 12px;">
+                                        <option value="" selected="">Year</option>
+                                        @for ($i = date('Y'); $i >= 1900; $i--)
+                                            <option value="{{ $i }}" {{ old('year', optional($user->birthdate)->format('Y')) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn checkout-btn float-end mb-3" style="border-radius: 3px;font-size: 14px;padding: 10px 30px;">Save</button>
                         </form>
                     </div>
+                    
                     <div id="passwords" class="p-3 profile-section" style="display: none;">
                         <h4 class="pt-3" style="font-size: 16px;font-weight: bold;">Change Password</h4>
                         <p style="font-size: 14px;color: rgba(33,37,41,0.7);">Update your account security</p>
@@ -289,7 +294,7 @@
                                     <p>Order&nbsp;<span style="font-weight:bold;">{{ $order->id }}</span>&nbsp;is completed. Your feedback matters!</p>
                                     <p style="font-size:12px;color:var(--bs-secondary);">{{ $order->updated_at->format('m/d/Y') }}&nbsp;<span>{{ $order->updated_at->format('H:i') }}</span></p>
                                 </div>
-                                <a class="btn mt-2 view-details-btn" role="button" style="background:rgba(215,172,75,0.6);border-radius:3px;color:white;font-size:12px; padding: 8px 12px;" href="#">View Details</a>
+                                <!--<a class="btn mt-2 view-details-btn" role="button" style="background:rgba(215,172,75,0.6);border-radius:3px;color:white;font-size:12px; padding: 8px 12px;" href="#">View Details</a>-->
                             </div>
                             @empty
                             <div class="p-2 mb-2" style="padding:15px;border-top:0.8px solid rgba(33,37,41,0.1);border-bottom:0.8px solid rgba(33,37,41,0.1);">
@@ -313,8 +318,8 @@
                             
                             <!-- Display for All -->
                             <div id="all" class="tab-content-div" style="display: none;">
-                            @if($completedOrders->isNotEmpty() || $cancelledOrders->isNotEmpty())
-                                <!-- Show Search Bar Only If Orders Exist -->
+                         <!--   @if($completedOrders->isNotEmpty() || $cancelledOrders->isNotEmpty())
+                                Show Search Bar Only If Orders Exist
                                 <div id="search-bar-main" class="search-div m-3" style="font-family: 'Open Sans', sans-serif;">
                                     <div class="main-search" style="border: 0.8px solid rgba(33,37,41,0.3);">
                                         <i class="fa fa-search"></i>
@@ -322,7 +327,7 @@
                                         <button class="btn" type="button">Go</button>
                                     </div>
                                 </div>
-                            @endif
+                            @endif -->
 
                             @if($completedOrders->isEmpty() && $cancelledOrders->isEmpty())
                                 <div class="p-2 mb-2" style="border-bottom: 0.8px solid rgba(33,37,41,0.1);">
@@ -414,7 +419,8 @@
 
                                             @foreach ($order->orderItems as $item)
                                                 <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;">
-                                                    <img class="object-fit-cover" style="width: 60px; height: 60px; margin-right: 15px;" src="assets/img/1.png">
+                                                    <!-- to edti-->
+                                                    <img class="object-fit-cover" style="width: 60px; height: 60px; margin-right: 15px;" src="{{ asset($item->product->image ?? 'assets/img/default.jpg') }}">
                                                     <div class="all-content">
                                                         <p><strong>{{ $item->product->name }}</strong></p>
                                                         <p>{{ $item->product->size ?? 'N/A' }}, {{ $item->product->color ?? 'N/A' }}</p>
@@ -593,7 +599,7 @@
                                         </div>
                                         @foreach ($order->orderItems as $item)
                                             <div class="d-flex align-items-center purchase mb-2" style="padding: 15px;">
-                                                <img class="object-fit-cover" style="width: 60px; height: 60px; margin-right: 15px;" src="assets/img/1.png">
+                                                <img class="object-fit-cover" style="width: 60px; height: 60px; margin-right: 15px;" src="{{ asset($item->product->image ?? 'assets/img/default.jpg') }}">
                                                 <div class="all-content">
                                                     <p><strong>{{ $item->product->name }}</strong></p>
                                                     <p>{{ $item->product->size ?? 'N/A' }}, {{ $item->product->color ?? 'N/A' }}</p>
@@ -670,7 +676,7 @@
                                             </label>
                                         </div>
                                         @endfor
-                                        <span style="margin-left: 5px; color: #d7ac4b; min-width: 100px; font-size: 14px;">&nbsp;Amazing</span>
+                                        <span style="margin-left: 5px; color: #d7ac4b; min-width: 100px; font-size: 14px;">&nbsp;<!--Amazing--></span>
                                     </div>
                                 </div>
                             </div>
@@ -729,7 +735,7 @@
                                             </label>
                                         </div>
                                         @endfor
-                                        <span style="margin-left: 5px; color: #d7ac4b; min-width: 100px; font-size: 14px;">&nbsp;Amazing</span>
+                                        <span style="margin-left: 5px; color: #d7ac4b; min-width: 100px; font-size: 14px;">&nbsp;<!--Amazing--></span>
                                     </div>
                                 </div>
 
@@ -748,7 +754,7 @@
                                             </label>
                                         </div>
                                         @endfor
-                                        <span style="margin-left: 5px; color: #d7ac4b; min-width: 100px; font-size: 14px;">&nbsp;Amazing</span>
+                                        <span style="margin-left: 5px; color: #d7ac4b; min-width: 100px; font-size: 14px;">&nbsp;<!--Amazing--></span>
                                     </div>
                                 </div>
                             </div>
@@ -844,6 +850,15 @@
             });
         </script>
     @endif
+
+    @if(session('updated_profile'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var successModal = new bootstrap.Modal(document.getElementById('savedEditSucess'));
+                successModal.show();
+            });
+        </script>
+    @endif
     
     <!-- Add Address Modal -->
     <div class="modal fade" role="dialog" tabindex="-1" id="addressModal" aria-labelledby="addressModalLabel" aria-hidden="true">
@@ -916,9 +931,12 @@
                 <button class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('addresses.update', ['id' => $address->id]) }}" id="editAddressForm">
+                <form method="POST"  action="{{ isset($address) ? route('addresses.update', ['id' => $address->id]) : '#' }}" 
+                id="editAddressForm">
                     @csrf
-                    @method('PUT')
+                    @if(isset($address))
+                        @method('PUT')
+                    @endif
                     <div class="row g-3">
                         <div class="col-6">
                             <label class="form-label" style="font-size: 12px;">Phone Number</label>
@@ -1247,6 +1265,13 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 
+<script>
+    function redirectToInvoicePage(notificationId) {
+        var url = '{{ route("invoice.show", ":id") }}'; // Use notification ID if that’s what your route expects
+        url = url.replace(':id', notificationId);
+        window.location.href = url;
+    }
+</script>
 
 
 

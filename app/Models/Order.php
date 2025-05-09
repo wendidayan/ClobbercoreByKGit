@@ -37,18 +37,33 @@ class Order extends Model
 
     public function shippingAddress(): BelongsTo
     {
-        return $this->belongsTo(Address::class, 'shipping_address_id');
+        return $this->belongsTo(Address::class, foreignKey: 'shipping_address_id');
     }
 
     public function meetupLocation(): BelongsTo
     {
-        return $this->belongsTo(MeetUpLocation::class);
+        return $this->belongsTo(MeetUpLocation::class, foreignKey: 'meetup_location_id');
     }
 
     public function deliveryMethod(): BelongsTo
     {
         return $this->belongsTo(DeliveryMethod::class);
     }
+
+    public function calculateSubtotal(): float
+    {
+        return $this->orderItems->sum(fn($item) => $item->product->price);
+    }
+
+    public function transaction()
+    {
+        return $this->hasOne(Transaction::class, 'order_id');
+    }
+
+    public function invoice()
+{
+    return $this->hasOne(Invoice::class);
+}
 
 
 }
